@@ -1,7 +1,8 @@
 import React from 'react';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { shallow, mount } from 'enzyme';
-import BasePages, { Page } from './pages.component';
+import BasePages from './pages.component';
+import Page from './page/page.component';
 import { rootTagTest } from '../../utils/helpers/tags/tags-specs/tags-specs';
 import classicTheme from '../../style/themes/classic';
 
