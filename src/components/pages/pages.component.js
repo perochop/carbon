@@ -150,4 +150,4 @@ const PagesWithHOC = withTheme(Pages);
 
 export default Pages;
 
-export { PagesWithHOC as Pages, Page };
+export { PagesWithHOC as Pages };
