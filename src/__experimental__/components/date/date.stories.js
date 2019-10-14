@@ -8,7 +8,7 @@ import {
 } from '@storybook/addon-knobs';
 import { dlsThemeSelector, classicThemeSelector } from '../../../../.storybook/theme-selectors';
 import DateInput from './date.component';
-import { OriginalTextbox } from '../textbox';
+import Textbox, { OriginalTextbox } from '../textbox';
 import getCommonTextboxStoryProps from '../textbox/textbox.stories';
 import { notes, info, infoValidations } from './documentation';
 import getDocGenInfo from '../../../utils/helpers/docgen-info';
@@ -34,6 +34,37 @@ const setValue = (ev) => {
   store.set({ value: ev.target.value });
 };
 
+
+class MyClass extends React.Component {
+  state = { text: '2018-12-31' };
+
+  render() {
+    return (
+      <div className='myClass'>
+        <h2>Counter</h2>
+        <div>
+          <Textbox
+            value={ this.state.text }
+            label='Text:'
+            id='NAME'
+            name='text'
+            onChange={ this.onChange }
+          />
+          <DateInput
+            id='DATE'
+            value={ this.state.text }
+            name='date'
+          />
+        </div>
+      </div>
+    );
+  }
+
+  onChange = (e) => {
+    this.setState({ text: e.target.value });
+  };
+}
+
 function makeStory(name, themeSelector) {
   const component = () => {
     const autoFocus = boolean('autoFocus', true);
@@ -41,15 +72,7 @@ function makeStory(name, themeSelector) {
     const maxDate = text('maxDate', '');
 
     return (
-      <DateInput
-        { ...getCommonTextboxStoryProps({ inputWidthEnabled: false }) }
-        name='dateinput'
-        autoFocus={ autoFocus }
-        minDate={ minDate }
-        maxDate={ maxDate }
-        value={ store.get('value') }
-        onChange={ setValue }
-      />
+      <MyClass />
     );
   };
 
