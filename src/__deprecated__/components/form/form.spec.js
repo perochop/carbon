@@ -224,6 +224,11 @@ describe('Form', () => {
   });
 
   describe('getChildContext', () => {
+    beforeEach(() => {
+      wrapper = mount(<FormWithValidations />).find(Form);
+      instance = wrapper.find(Form).instance();
+    });
+
     it('returns an object that exposes public functions', () => {
       expect(instance.getChildContext()).toEqual(
         {
@@ -251,6 +256,28 @@ describe('Form', () => {
       const activeInput = 'my input';
       instance.setActiveInput(activeInput);
       expect(instance.getActiveInput()).toEqual(activeInput);
+    });
+  });
+
+  describe('attachToForm', () => {
+    it('triggers the addInput method in the Validation Context', () => {
+      wrapper = mount(<FormWithValidations />).find(Form);
+      instance = wrapper.find(Form).instance();
+      const addInputFn = spyOn(wrapper.props().validationsContext, 'addInput');
+
+      instance.attachToForm({ _guid: 123456 });
+      expect(addInputFn).toHaveBeenCalled();
+    });
+  });
+
+  describe('detachFromForm', () => {
+    it('triggers the removeInput method in the Validation Context', () => {
+      wrapper = mount(<FormWithValidations />).find(Form);
+      instance = wrapper.find(Form).instance();
+      const removeInputFn = spyOn(wrapper.props().validationsContext, 'removeInput');
+
+      instance.detachFromForm({ _guid: 123456 });
+      expect(removeInputFn).toHaveBeenCalled();
     });
   });
 

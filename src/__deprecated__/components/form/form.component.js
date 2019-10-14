@@ -8,7 +8,7 @@ import FormButton from './form-button';
 import { validProps, generateKeysForChildren } from '../../../utils/ether/ether';
 import tagComponent from '../../../utils/helpers/tags/tags';
 import Browser from '../../../utils/helpers/browser/browser';
-import { withValidations } from '../../../components/validations';
+import { ValidationsContext, withValidations } from '../../../components/validations';
 import ElementResize from '../../../utils/helpers/element-resize/element-resize';
 import StyledForm,
 {
@@ -351,9 +351,19 @@ class BaseForm extends React.Component {
         getActiveInput: this.getActiveInput,
         setIsDirty: this.setIsDirty,
         resetIsDirty: this.resetIsDirty,
-        setActiveInput: this.setActiveInput
+        setActiveInput: this.setActiveInput,
+        detachFromForm: this.detachFromForm,
+        attachToForm: this.attachToForm
       }
     };
+  }
+
+  attachToForm = (component) => {
+    this.props.validationsContext.addInput(component._guid, component);
+  }
+
+  detachFromForm = (component) => {
+    this.props.validationsContext.removeInput(component._guid);
   }
 
   // catches instances where child is a string of text
@@ -523,7 +533,9 @@ BaseForm.propTypes = {
   isLabelRightAligned: PropTypes.bool,
 
   /** A ref function to pass to the form */
-  innerRef: PropTypes.func
+  innerRef: PropTypes.func,
+
+  validationsContext: PropTypes.object
 };
 
 BaseForm.defaultProps = {
@@ -537,5 +549,17 @@ BaseForm.defaultProps = {
   showSummary: true
 };
 
+/**
+ * HOC to enable access to the validation context methods in the Form component
+ * Added to ensure backward compatibility with already existing code
+ */
+const withValidationsContext = Component => (
+  props => (
+    <ValidationsContext.Consumer>
+      { context => <Component validationsContext={ context } { ...props } />}
+    </ValidationsContext.Consumer>
+  )
+);
+
 export { BaseForm }; // export version without hoc if required
-export default withValidations(BaseForm);
+export default withValidations(withValidationsContext(BaseForm));

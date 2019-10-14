@@ -4,7 +4,6 @@ import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { compact, assign } from 'lodash';
 import { withTheme } from 'styled-components';
 import tagComponent from '../../utils/helpers/tags';
-import Page from './page/page.component';
 import {
   PagesWrapperStyle,
   PagesContent
