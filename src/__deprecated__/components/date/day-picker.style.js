@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import baseTheme from '../../../style/themes/base';
+import classicTheme from '../../../style/themes/classic';
 import dayPickerClassicStyle from './day-picker-classic.style';
 
 const StyledDayPicker = styled.div`
@@ -109,7 +109,7 @@ const StyledDayPicker = styled.div`
 `;
 
 StyledDayPicker.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 export default StyledDayPicker;

@@ -2,6 +2,7 @@ import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import 'jest-styled-components';
 import classicTheme from '../../../../style/themes/classic';
+import baseTheme from '../../../../style/themes/base';
 import Weekday from './weekday.component';
 
 describe('Weekday', () => {
@@ -10,7 +11,7 @@ describe('Weekday', () => {
   };
 
   it('renders presentational div and context provider for its children', () => {
-    expect(render({ title: 'tile' })).toMatchSnapshot();
+    expect(render({ theme: baseTheme, title: 'tile' })).toMatchSnapshot();
   });
 
   describe('classic theme', () => {

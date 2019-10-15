@@ -13,6 +13,7 @@ import Date from './date.component';
 import Events from '../../../utils/helpers/events';
 import { elementsTagTest, rootTagTest } from '../../../utils/helpers/tags/tags-specs';
 import classicTheme from '../../../style/themes/classic';
+import baseTheme from '../../../style/themes/base';
 
 describe('Date', () => {
   let instance;
@@ -745,7 +746,7 @@ describe('StyledDayPicker', () => {
   });
 
   it('renders presentational div and context provider for its children', () => {
-    expect(renderStyledDayPicker({ value: '2019-04-01' })).toMatchSnapshot();
+    expect(renderStyledDayPicker({ theme: baseTheme, value: '2019-04-01' })).toMatchSnapshot();
   });
 
   describe('classic theme', () => {
