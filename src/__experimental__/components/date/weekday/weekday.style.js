@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import baseTheme from '../../../../style/themes/base';
+import classicTheme from '../../../../style/themes/classic';
 import weekdayClassicStyle from './weekday-classic.style';
 
 const StyledWeekday = styled.div`
@@ -17,7 +17,7 @@ const StyledWeekday = styled.div`
 }`;
 
 StyledWeekday.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 export default StyledWeekday;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import baseTheme from '../../../../style/themes/base';
+import classicTheme from '../../../../style/themes/classic';
 
 const StyledNavbar = styled.div`
 &.DayPicker-NavBar {
@@ -12,7 +12,7 @@ const StyledNavbar = styled.div`
 `;
 
 StyledNavbar.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 export default StyledNavbar;

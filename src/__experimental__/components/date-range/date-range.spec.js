@@ -10,6 +10,7 @@ import DateRangeValidator from '../../../utils/validations/date-range';
 import { elementsTagTest, rootTagTest } from '../../../utils/helpers/tags/tags-specs';
 import StyledDateRange from './date-range.style';
 import StyledDateInput from '../date/date.style';
+import { THEMES } from '../../../style/themes';
 
 describe('DateRange', () => {
   let wrapper, startInput, endInput, customOnChange, wrapperInstance;
@@ -326,12 +327,22 @@ describe('DateRange', () => {
 
 describe('StyledDateRange', () => {
   it('renders Date inputs correctly when the labels are inline', () => {
-    const wrapper = TestRenderer.create(<StyledDateRange labelsInline><StyledDateInput /></StyledDateRange>);
+    const mockTheme = {
+      name: THEMES.base
+    };
+    const wrapper = TestRenderer.create(
+      <StyledDateRange theme={ mockTheme } labelsInline><StyledDateInput theme={ mockTheme } /></StyledDateRange>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 
   it('renders Date inputs correctly when the labels are not inline', () => {
-    const wrapper = TestRenderer.create(<StyledDateRange><StyledDateInput /></StyledDateRange>);
+    const mockTheme = {
+      name: THEMES.base
+    };
+    const wrapper = TestRenderer.create(
+      <StyledDateRange theme={ mockTheme }><StyledDateInput theme={ mockTheme } /></StyledDateRange>
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });

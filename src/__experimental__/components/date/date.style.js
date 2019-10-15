@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import baseTheme from '../../../style/themes/base';
+import classicTheme from '../../../style/themes/classic';
 import InputPresentationStyle from '../input/input-presentation.style';
 import dateClassicStyle from './date-classic.style';
 import OptionsHelper from '../../../utils/helpers/options-helper';
@@ -26,7 +26,7 @@ StyledDateInput.propTypes = {
 };
 
 StyledDateInput.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 export default StyledDateInput;

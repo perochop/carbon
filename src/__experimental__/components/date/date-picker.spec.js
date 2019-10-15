@@ -9,6 +9,7 @@ import Portal from '../../../components/portal/portal';
 import DatePicker from './date-picker.component';
 import StyledDayPicker from './day-picker.style';
 import classicTheme from '../../../style/themes/classic';
+import baseTheme from '../../../style/themes/base';
 
 const inputElement = { value: '12-12-2012', getBoundingClientRect: () => ({ left: 0, bottom: 0 }) };
 const firstDate = '2019-02-02';
@@ -119,7 +120,7 @@ describe('StyledDayPicker', () => {
   });
 
   it('renders presentational div and context provider for its children', () => {
-    expect(renderStyledDayPicker({ value: '2019-04-01' })).toMatchSnapshot();
+    expect(renderStyledDayPicker({ theme: baseTheme, value: '2019-04-01' })).toMatchSnapshot();
   });
 
   describe('classic theme', () => {
