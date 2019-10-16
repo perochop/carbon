@@ -244,6 +244,24 @@ describe('SplitButton', () => {
         borderLeft: '1px solid #1e499f'
       }, wrapper.find(StyledSplitButtonToggle));
     });
+
+    it('applies the expecred styles to the toggle when disabled is false and the displayed prop is true', () => {
+      wrapper = TestRenderer.create(
+        <ThemeProvider theme={ ClassicTheme }>
+          <StyledSplitButtonToggle displayed />
+        </ThemeProvider>
+      );
+
+      assertStyleMatch({
+        backgroundColor: '#1963f6',
+        borderColor: '#1963f6'
+      }, wrapper.toJSON(), { modifier: '&:active' });
+
+      assertStyleMatch({
+        backgroundColor: '#1e499f',
+        borderColor: '#1e499f'
+      }, wrapper.toJSON(), { modifier: '&&' });
+    });
   });
 
   describe.each(sizes)(
@@ -543,28 +561,43 @@ describe('SplitButton', () => {
     });
 
     describe('when "up" key is pressed', () => {
-      it('then the last additional button should be active', () => {
+      it('the additonal buttons should be stepped through in sequence', () => {
         const additionalButtons = wrapper.find(additionalButtonsSelector).find(ButtonWithForwardRef);
 
         keyboard.pressUpArrow();
         expect(additionalButtons.at(additionalButtons.length - 1).getDOMNode()).toBe(document.activeElement);
+        keyboard.pressUpArrow();
+        expect(additionalButtons.at(additionalButtons.length - 2).getDOMNode()).toBe(document.activeElement);
+        keyboard.pressUpArrow();
+        expect(additionalButtons.at(0).getDOMNode()).toBe(document.activeElement);
       });
     });
 
     describe('when "down" key is pressed', () => {
-      it('then the first additional button should be active', () => {
+      it('the additonal buttons should be stepped through in sequence', () => {
         const additionalButtons = wrapper.find(additionalButtonsSelector).find(ButtonWithForwardRef);
 
+        keyboard.pressDownArrow();
+        expect(additionalButtons.at(0).getDOMNode()).toBe(document.activeElement);
+        keyboard.pressDownArrow();
+        expect(additionalButtons.at(additionalButtons.length - 2).getDOMNode()).toBe(document.activeElement);
+        keyboard.pressDownArrow();
+        expect(additionalButtons.at(additionalButtons.length - 1).getDOMNode()).toBe(document.activeElement);
         keyboard.pressDownArrow();
         expect(additionalButtons.at(0).getDOMNode()).toBe(document.activeElement);
       });
     });
 
     describe('the tab key is pressed', () => {
-      const tabKeyCode = 9;
+      it('it calls the expected timeout function', () => {
+        const timeoutSpy = spyOn(window, 'setTimeout');
+        keyboard.pressTab();
 
-      it('then the first additional button should not be active', () => {
-        toggle.simulate('keydown', { which: tabKeyCode });
+        expect(timeoutSpy).toHaveBeenCalled();
+      });
+
+      it('it does not pass focus to the first additonal button', () => {
+        toggle.simulate('keydown', { which: 9 });
         const firstButton = wrapper.find(additionalButtonsSelector).find('button').at(0);
 
         expect(firstButton.instance()).not.toBe(document.activeElement);
