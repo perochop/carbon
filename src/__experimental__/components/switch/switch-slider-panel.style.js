@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import baseTheme from '../../../style/themes/base';
+import classicTheme from '../../../style/themes/classic';
 import ClassicSwitchSliderPanelStyles from './switch-slider-panel-classic.style';
 import StyledLoader from '../../../components/loader/loader.style';
 import StyledLoaderSquare from '../../../components/loader/loader-square.style';
@@ -52,7 +52,7 @@ SwitchSliderPanel.propTypes = {
 };
 
 SwitchSliderPanel.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 

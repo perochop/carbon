@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import baseTheme from '../../../style/themes/base';
+import classicTheme from '../../../style/themes/classic';
 import FieldHelpStyle from '../field-help/field-help.style';
 import HiddenCheckableInputStyle from '../checkable-input/hidden-checkable-input.style';
 import LabelStyle from '../label/label.style';
@@ -139,7 +139,7 @@ StyledSwitch.propTypes = {
 };
 
 StyledSwitch.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 export default StyledSwitch;

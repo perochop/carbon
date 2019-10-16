@@ -1,6 +1,5 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import 'jest-styled-components';
 import { css } from 'styled-components';
 import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
 import Icon from '../../../components/icon';
@@ -19,13 +18,9 @@ function render(props) {
 
 describe('SwitchSlider', () => {
   describe('base theme', () => {
-    it('renders as expected', () => {
-      expect(render()).toMatchSnapshot();
-    });
-
     describe('Panel content', () => {
       describe('default', () => {
-        const panels = render().root.findAllByType(SwitchSliderPanel);
+        const panels = render({ theme: baseTheme }).root.findAllByType(SwitchSliderPanel);
 
         it('renders the text "OFF" in the panel', () => {
           expect(panels[0].props.children).toBe('OFF');
@@ -37,7 +32,7 @@ describe('SwitchSlider', () => {
       });
 
       describe('when checked=true', () => {
-        const panels = render({ checked: true }).root.findAllByType(SwitchSliderPanel);
+        const panels = render({ checked: true, theme: baseTheme }).root.findAllByType(SwitchSliderPanel);
 
         it('renders the text "ON" in the panel', () => {
           expect(panels[0].props.children).toBe('ON');
@@ -62,7 +57,7 @@ describe('SwitchSlider', () => {
     });
 
     describe('when checked=true', () => {
-      const wrapper = render({ checked: true }).toJSON();
+      const wrapper = render({ checked: true, theme: baseTheme }).toJSON();
 
       it('applies the correct base styles', () => {
         assertStyleMatch({
@@ -78,7 +73,7 @@ describe('SwitchSlider', () => {
     });
 
     describe('when disabled=true', () => {
-      const wrapper = render({ disabled: true }).toJSON();
+      const wrapper = render({ disabled: true, theme: baseTheme }).toJSON();
 
       it('applies the correct base styles', () => {
         assertStyleMatch({
@@ -111,7 +106,7 @@ describe('SwitchSlider', () => {
 
     describe('when size=large', () => {
       describe('default', () => {
-        const wrapper = render({ size: 'large' }).toJSON();
+        const wrapper = render({ size: 'large', theme: baseTheme }).toJSON();
 
         it('applies the correct ::before styles', () => {
           assertStyleMatch({
@@ -122,7 +117,7 @@ describe('SwitchSlider', () => {
       });
 
       describe('and checked=true', () => {
-        const wrapper = render({ checked: true, size: 'large' }).toJSON();
+        const wrapper = render({ checked: true, size: 'large', theme: baseTheme }).toJSON();
 
         it('applies the correct ::before styles', () => {
           assertStyleMatch({

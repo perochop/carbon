@@ -1,6 +1,5 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import 'jest-styled-components';
 import { css } from 'styled-components';
 import { mount } from 'enzyme';
 import text from '../../../utils/helpers/text/text';
@@ -34,10 +33,6 @@ function render(props, renderer = TestRenderer.create) {
 
 describe('Switch', () => {
   describe('base theme', () => {
-    it('renders as expected', () => {
-      expect(render()).toMatchSnapshot();
-    });
-
     describe('when reverse=true', () => {
       describe('default', () => {
         const wrapper = render({ reverse: true }).toJSON();
@@ -60,7 +55,9 @@ describe('Switch', () => {
       });
 
       describe('and labelInline=true, fieldHelpInline=false', () => {
-        const wrapper = render({ fieldHelpInline: false, labelInline: true, reverse: true }).toJSON();
+        const wrapper = render({
+          fieldHelpInline: false, labelInline: true, reverse: true, theme: baseTheme
+        }).toJSON();
 
         it('applies the correct FieldHelp styles', () => {
           assertStyleMatch({
@@ -79,7 +76,7 @@ describe('Switch', () => {
     });
 
     describe('when labelInline=true', () => {
-      const wrapper = render({ labelInline: true }).toJSON();
+      const wrapper = render({ labelInline: true, theme: baseTheme }).toJSON();
 
       it('applies the correct Label styles', () => {
         assertStyleMatch({
@@ -125,7 +122,7 @@ describe('Switch', () => {
 
     describe('when size=large', () => {
       describe('default', () => {
-        const wrapper = render({ size: 'large' }).toJSON();
+        const wrapper = render({ size: 'large', theme: baseTheme }).toJSON();
 
         const largeSizes = {
           height: '40px',
@@ -146,7 +143,7 @@ describe('Switch', () => {
       });
 
       describe('and fieldHelpInline=true', () => {
-        const wrapper = render({ size: 'large', fieldHelpInline: true }).toJSON();
+        const wrapper = render({ size: 'large', fieldHelpInline: true, theme: baseTheme }).toJSON();
 
         it('applies the correct FieldHelp styles', () => {
           assertStyleMatch({
@@ -158,7 +155,7 @@ describe('Switch', () => {
 
       describe('and labelInline=true', () => {
         it('applies the correct Label styles', () => {
-          const wrapper = render({ size: 'large', labelInline: true }).toJSON();
+          const wrapper = render({ size: 'large', labelInline: true, theme: baseTheme }).toJSON();
 
           assertStyleMatch({
             marginTop: '1px',
@@ -167,7 +164,9 @@ describe('Switch', () => {
         });
 
         describe('and reverse=true', () => {
-          const wrapper = render({ size: 'large', labelInline: true, reverse: true }).toJSON();
+          const wrapper = render({
+            size: 'large', labelInline: true, reverse: true, theme: baseTheme
+          }).toJSON();
 
           it('applies the correct FieldHelp styles', () => {
             assertStyleMatch({

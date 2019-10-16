@@ -1,6 +1,5 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import 'jest-styled-components';
 import { css } from 'styled-components';
 import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
 import StyledLoader from '../../../components/loader/loader.style';
@@ -20,7 +19,7 @@ function render(props) {
 describe('SwitchSliderPanel', () => {
   describe('base theme', () => {
     it('renders as expected', () => {
-      expect(render()).toMatchSnapshot();
+      expect(render({ theme: baseTheme })).toMatchSnapshot();
     });
 
     describe('when loading === true', () => {
@@ -42,7 +41,7 @@ describe('SwitchSliderPanel', () => {
             marginBottom: '2px',
             marginRight: '2px'
           },
-          render({ loading: true }).toJSON(),
+          render({ loading: true, theme: baseTheme }).toJSON(),
           { modifier: css`${`${StyledLoader} ${StyledLoaderSquare}`}` }
         );
       });

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import baseTheme from '../../../style/themes/base';
+import classicTheme from '../../../style/themes/classic';
 import SwitchSliderPanel from './switch-slider-panel.style';
 import ClassicSwitchSliderStyles from './switch-slider-classic.style';
 
@@ -80,7 +80,7 @@ StyledSwitchSlider.propTypes = {
 };
 
 StyledSwitchSlider.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 export default StyledSwitchSlider;
