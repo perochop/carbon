@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import baseTheme from '../../../../style/themes/base';
+import classicTheme from '../../../../style/themes/classic';
 import StyledIcon from '../../../../components/icon/icon.style';
 
 const StyledFormSummary = styled.div`
@@ -40,7 +40,7 @@ export const StyledSummaryText = styled.span`
 `;
 
 StyledFormSummary.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 StyledFormSummary.propTypes = {
@@ -49,7 +49,7 @@ StyledFormSummary.propTypes = {
 };
 
 StyledInternalSummary.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 StyledInternalSummary.propTypes = {
@@ -58,7 +58,7 @@ StyledInternalSummary.propTypes = {
 };
 
 StyledSummaryText.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 StyledSummaryText.propTypes = {

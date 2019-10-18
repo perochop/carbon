@@ -4,7 +4,7 @@ import StyledFormField from '../../../__experimental__/components/form-field/for
 import StyledButton from '../../../components/button/button.style';
 import StyledFormSummary from './form-summary/form-summary.style';
 import { isClassic } from '../../../utils/helpers/style-helper';
-import baseTheme from '../../../style/themes/base';
+import classicTheme from '../../../style/themes/classic';
 import OptionsHelper from '../../../utils/helpers/options-helper';
 
 const applyButtonLeftMargin = ({ theme }) => ((isClassic(theme)) ? 'margin-left: 15px;' : 'margin-left: 16px;');
@@ -137,7 +137,7 @@ const StyledForm = styled.form`
 `;
 
 StyledForm.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 StyledForm.propTypes = {
@@ -147,7 +147,7 @@ StyledForm.propTypes = {
 };
 
 StyledFormFooter.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 StyledFormFooter.propTypes = {
@@ -157,7 +157,7 @@ StyledFormFooter.propTypes = {
 };
 
 StyledAdditionalFormAction.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 StyledAdditionalFormAction.propTypes = {
@@ -174,7 +174,7 @@ StyledResponsiveFooterWrapper.propTypes = {
 };
 
 StyledResponsiveFooterWrapper.defaultProps = {
-  theme: baseTheme
+  theme: classicTheme
 };
 
 export default StyledForm;

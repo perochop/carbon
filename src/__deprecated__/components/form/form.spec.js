@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import I18n from 'i18n-js';
 import TestRenderer from 'react-test-renderer';
-import 'jest-styled-components';
+import { ThemeProvider } from 'styled-components';
 import PropTypes from 'prop-types';
 import { mount, shallow } from 'enzyme';
 import FormWithValidations, { BaseForm as Form } from './form.component';
@@ -15,6 +15,7 @@ import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
 import Button from '../../../components/button';
 import ElementResize from '../../../utils/helpers/element-resize';
 import { rootTagTest } from '../../../utils/helpers/tags/tags-specs';
+import baseTheme from '../../../style/themes/base';
 
 /* global jest */
 
@@ -35,12 +36,18 @@ describe('Form', () => {
 
   describe('When child is an html element', () => {
     it('it renders the child', () => {
-      wrapper = TestRenderer.create(
-        <Form validate={ () => true } formAction='foo'>
-          <div>Foo</div>
-        </Form>
+      wrapper = mount(
+        <ThemeProvider theme={ baseTheme }>
+          <Form
+            validate={ () => true }
+            formAction='foo'
+          >
+            <div className='foo'>Foo</div>
+          </Form>
+        </ThemeProvider>
       );
-      expect(wrapper).toMatchSnapshot();
+      const child = wrapper.find('.foo');
+      expect(child.exists).toBeTruthy();
     });
   });
 

@@ -4,7 +4,7 @@ import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import { mount, shallow } from 'enzyme';
 import TestRenderer from 'react-test-renderer';
-import 'jest-styled-components';
+import { ThemeProvider } from 'styled-components';
 import {
   StyledAdditionalFormAction, StyledFormFooter, StyledResponsiveFooterWrapper
 } from '../../../__deprecated__/components/form/form.style';
@@ -22,6 +22,7 @@ import { isClassic } from '../../../utils/helpers/style-helper';
 import StyledButton from '../../../components/button/button.style';
 import Classic from '../../../style/themes/classic';
 import Small from '../../../style/themes/small';
+import baseTheme from '../../../style/themes/base'; 
 
 /* global jest */
 jest.mock('../../../utils/service');
@@ -969,12 +970,15 @@ describe('Form', () => {
 
   describe('When child is an html element', () => {
     it('it renders the child', () => {
-      wrapper = TestRenderer.create(
-        <Form validate={ () => true } formAction='foo'>
-          <div>Foo</div>
-        </Form>
+      wrapper = mount(
+        <ThemeProvider theme={ baseTheme }>
+          <Form validate={ () => true } formAction='foo'>
+            <div className='foo'>Foo</div>
+          </Form>
+        </ThemeProvider>
       );
-      expect(wrapper).toMatchSnapshot();
+      const child = wrapper.find('.foo');
+      expect(child.exists).toBeTruthy();
     });
   });
 
