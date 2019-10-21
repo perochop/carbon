@@ -14,7 +14,8 @@ const ValidationIcon = ({
   size,
   iconId,
   isPartOfInput,
-  tooltipMessage
+  tooltipMessage,
+  isFocused
 }) => {
   let modernTooltipProps = {};
 
@@ -43,10 +44,9 @@ const ValidationIcon = ({
               key={ `${type}-icon` }
               tooltipType={ type }
               tooltipMessage={ tooltipMessage }
-              tooltipVisible={ context && (context.hasFocus || context.hasMouseOver) }
+              tooltipVisible={ isFocused || (context && (context.hasFocus || context.hasMouseOver)) }
               type={ type }
               size={ size }
-              tabIndex='0'
               { ...modernTooltipProps }
             />
           </ValidationIconStyle>
@@ -68,7 +68,9 @@ ValidationIcon.propTypes = {
   /** Properties related to the theme */
   theme: PropTypes.object,
   /** A boolean to indicate if the icon is part of an input */
-  isPartOfInput: PropTypes.bool
+  isPartOfInput: PropTypes.bool,
+  /** A boolean recived from IconWrapper */
+  isFocused: PropTypes.bool
 };
 
 ValidationIcon.defaultProps = {

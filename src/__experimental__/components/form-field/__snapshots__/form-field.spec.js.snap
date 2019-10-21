@@ -70,6 +70,7 @@ Array [
     help="Help me!"
     inline={true}
     inputSize="small"
+    tabIndex={0}
     useValidationIcon={false}
     width={20}
   >

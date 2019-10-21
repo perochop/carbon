@@ -46,7 +46,7 @@ const RadioButtonGroup = (props) => {
       role='radiogroup'
       { ...tagComponent('radiogroup', props) }
     >
-      <Label id={ groupLabelId }>
+      <Label tabIndex={ -1 } id={ groupLabelId }>
         {label}
       </Label>
       {buttons}
