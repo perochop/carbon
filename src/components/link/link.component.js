@@ -6,6 +6,7 @@ import Event from '../../utils/helpers/events';
 import LinkStyle from './link.style';
 import OptionsHelper from '../../utils/helpers/options-helper';
 import tagComponent from '../../utils/helpers/tags';
+import LinkStyleWrapper from './link.style';
 
 class Link extends React.Component {
   static safeProps = ['onClick'];
@@ -55,16 +56,9 @@ class Link extends React.Component {
       disabled: this.props.disabled,
       iconAlign: this.props.iconAlign,
       onKeyDown: this.onKeyDown,
-      tabIndex: this.tabIndex,
+      // tabIndex: this.tabIndex,
       onMouseDown: this.props.onMouseDown
     };
-
-    if (this.props.to) {
-      props.as = RouterLink;
-      props.to = this.props.to;
-    } else {
-      props.href = this.props.href;
-    }
 
     return props;
   }
@@ -81,11 +75,21 @@ class Link extends React.Component {
    * className `@carbon-link__content` is related to `ShowEditPod` component
    * */
   renderLinkContent() {
+    const {
+      to, children, href, tabIndex
+    } = this.props;
+
+    if (to) {
+      return <RouterLink tabIndex={ tabIndex } to={ to }>{children}</RouterLink>;
+    }
+
     return (
       <span>
         {this.renderLinkIcon()}
 
-        <span className='carbon-link__content'>{this.props.children}</span>
+        <span className='carbon-link__content' tabIndex={ tabIndex }>
+          <a href={ href }>{children}</a>
+        </span>
 
         {this.renderLinkIcon('right')}
       </span>
@@ -95,7 +99,7 @@ class Link extends React.Component {
   render() {
     const { disabled, className } = this.props;
     return (
-      <LinkStyle
+      <LinkStyleWrapper
         disabled={ disabled }
         className={ className }
         onClick={ this.handleClick }
@@ -103,7 +107,7 @@ class Link extends React.Component {
         { ...this.componentProps }
       >
         {this.renderLinkContent()}
-      </LinkStyle>
+      </LinkStyleWrapper>
     );
   }
 }
