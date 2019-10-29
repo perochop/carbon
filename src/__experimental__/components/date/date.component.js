@@ -1,5 +1,4 @@
 import React from 'react';
-import I18n from 'i18n-js';
 import PropTypes from 'prop-types';
 import Events from '../../../utils/helpers/events';
 import DateHelper from '../../../utils/helpers/date';
@@ -30,10 +29,10 @@ class BaseDateInput extends React.Component {
     /** Date object to pass to the DatePicker */
     selectedDate: DateHelper.stringToDate(isoFormattedValueString(this.initialVisibleValue)),
     /** Displayed value, format dependent on a region */
-    visibleValue: formatDateToCurrentLocale(this.initialVisibleValue),
+    visibleValue: DateHelper.formatDateToCurrentLocale(this.initialVisibleValue),
     /** Stores last valid values to be emitted onBlur if current input is invalid */
     lastValidEventValues: {
-      formattedValue: formatDateToCurrentLocale(this.initialVisibleValue),
+      formattedValue: DateHelper.formatDateToCurrentLocale(this.initialVisibleValue),
       rawValue: isoFormattedValueString(this.initialVisibleValue)
     }
   };
@@ -112,9 +111,9 @@ class BaseDateInput extends React.Component {
 
   updateValidEventValues = (value) => {
     this.setState({
-      visibleValue: formatDateToCurrentLocale(value),
+      visibleValue: DateHelper.formatDateToCurrentLocale(value),
       lastValidEventValues: {
-        formattedValue: formatDateToCurrentLocale(value),
+        formattedValue: DateHelper.formatDateToCurrentLocale(value),
         rawValue: isoFormattedValueString(value)
       }
     });
@@ -149,7 +148,7 @@ class BaseDateInput extends React.Component {
   };
 
   updateVisibleValue = (date, pickerUsed) => {
-    const visibleValue = formatDateToCurrentLocale(date);
+    const visibleValue = DateHelper.formatDateToCurrentLocale(date);
     const newDate = this.getDateObject(date);
 
     this.setState({
@@ -222,7 +221,7 @@ class BaseDateInput extends React.Component {
       ...(id && { id }),
       value: {
         ...lastValidEventValues,
-        ...(validRawValue && { formattedValue: formatDateToCurrentLocale(value) }),
+        ...(validRawValue && { formattedValue: DateHelper.formatDateToCurrentLocale(value) }),
         ...(validRawValue && { rawValue: isoFormattedValue })
       }
     };
@@ -288,12 +287,6 @@ function concatAllValidations(props) {
   if (typeof props.validations === 'function') props.validations = [props.validations];
 
   return [...props.validations, ...props.internalValidations];
-}
-
-function formatDateToCurrentLocale(value) {
-  const visibleFormat = I18n.t('date.formats.javascript', { defaultValue: defaultDateFormat }).toUpperCase();
-
-  return DateHelper.formatValue(value || DateHelper.todayFormatted(), visibleFormat);
 }
 
 function isoFormattedValueString(valueToFormat) {
