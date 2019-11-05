@@ -5,6 +5,7 @@ const setupI18n = () => {
   const match = window.location.href.match(/locale=(.[^&]*)/);
   const locale = match ? match[1] : 'en';
   I18n.locale = locale; // Allow testing locales e.g. http://localhost:8080/components/date-input?locale=fr
+  I18n.locale = 'fr';
 };
 
 export default setupI18n;
