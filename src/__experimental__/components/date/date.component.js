@@ -24,6 +24,8 @@ class BaseDateInput extends React.Component {
 
   initialVisibleValue = this.isControlled ? this.adjustedValue : this.props.defaultValue;
 
+  inputFocusedViaPicker = false;
+
   state = {
     isDatePickerOpen: false,
     /** Date object to pass to the DatePicker */
@@ -41,6 +43,7 @@ class BaseDateInput extends React.Component {
     if (this.props.autoFocus) {
       this.isAutoFocused = true;
       this.input.focus();
+      this.openDatePicker();
     }
   }
 
@@ -48,9 +51,6 @@ class BaseDateInput extends React.Component {
     if (this.isControlled && !this.inputHasFocus && this.hasValueChanged(prevProps)) {
       this.updateVisibleValue(this.props.value);
       this.updateSelectedDate(this.props.value);
-    } else if (this.isBlurBlocked && this.hasValueChanged(prevProps)) {
-      this.isBlurBlocked = false;
-      this.handleBlur();
     }
   }
 
@@ -66,10 +66,14 @@ class BaseDateInput extends React.Component {
     this.inputHasFocus = false;
     const { disabled, readOnly } = this.props;
 
-    if (disabled || readOnly || this.isBlurBlocked) return;
+    if (disabled || readOnly || this.isBlurBlocked || this.inputFocusedViaPicker) {
+      if (!this.isBlurBlocked && this.inputFocusedViaPicker) {
+        this.inputFocusedViaPicker = false;
+      }
+      return;
+    }
 
     this.reformatVisibleDate();
-
     if (this.props.onBlur && !this.state.isDatePickerOpen) {
       const dateWithSlashes = DateHelper.sanitizeDateInput(this.state.visibleValue);
       const event = this.buildCustomEvent({ target: this.input }, isoFormattedValueString(dateWithSlashes));
@@ -102,12 +106,13 @@ class BaseDateInput extends React.Component {
   };
 
   openDatePicker = () => {
-    this.isBlurBlocked = true;
     document.addEventListener('click', this.closeDatePicker);
+    if (this.inputFocusedViaPicker || this.isAutoFocused) {
+      return;
+    }
     this.updateSelectedDate(this.props.value || isoFormattedValueString(this.state.visibleValue));
     this.setState({ isDatePickerOpen: true });
   };
-
 
   updateValidEventValues = (value) => {
     this.setState({
@@ -160,12 +165,18 @@ class BaseDateInput extends React.Component {
         const event = { target: this.input };
         event.target.value = visibleValue;
         this.emitOnChangeCallback(event, date);
-        this.input.focus();
-        this.isAutoFocused = true;
-        this.closeDatePicker();
+        this.focusInput();
       }
     });
   };
+
+  focusInput = () => {
+    this.inputFocusedViaPicker = true;
+    this.isOpening = false;
+    this.closeDatePicker();
+    this.input.focus();
+    this.isBlurBlocked = false;
+  }
 
   handleVisibleInputChange = (ev) => {
     const { disabled, readOnly } = this.props;
@@ -231,18 +242,24 @@ class BaseDateInput extends React.Component {
   renderDatePicker = (dateRangeProps) => {
     if (!this.state.isDatePickerOpen) return null;
 
+    const { visibleValue, lastValidEventValues } = this.state;
+    const inputDate = DateHelper.isValidDate(visibleValue) ? visibleValue : lastValidEventValues.formattedValue;
     return (
       <DatePicker
         inputElement={ this.input && this.input.parentElement }
         selectedDate={ this.state.selectedDate }
         handleDateSelect={ this.handleDateSelect }
+        inputDate={ inputDate }
         { ...dateRangeProps }
       />
     );
   }
 
   markCurrentDatepicker = () => {
+    if (this.props.disabled || this.props.readOnly) return;
     this.isOpening = true;
+    this.inputFocusedViaPicker = false;
+    this.isBlurBlocked = true;
     this.openDatePicker();
   }
 

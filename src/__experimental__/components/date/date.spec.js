@@ -183,6 +183,14 @@ describe('Date', () => {
           expect(wrapper.find(DatePicker).exists()).toBe(true);
           expect(onBlurFn).not.toHaveBeenCalled();
         });
+
+        it('when the visibleValue is invalid it passes the previously valid value to picker', () => {
+          simulateFocusOnInput(wrapper);
+          wrapper.find(BaseDateInput).setState({ visibleValue: 'foo' });
+          const picker = wrapper.find(DatePicker);
+          expect(picker.exists()).toBe(true);
+          expect(picker.props().inputDate).toEqual(firstDate);
+        });
       });
 
       describe('and the rawValue is invalid', () => {
@@ -226,6 +234,18 @@ describe('Date', () => {
 
     it('should update the input element to reflect the passed date', () => {
       expect(wrapper.update().find('input').prop('value')).toBe(getFormattedDate(mockDate));
+    });
+
+    it('should return focus to the date input and the picker should not open', () => {
+      const instance = wrapper.find(BaseDateInput).instance();
+      expect(instance.inputFocusedViaPicker).toEqual(true);
+      instance.openDatePicker();
+      expect(
+        wrapper
+          .update()
+          .find(DatePicker)
+          .exists()
+      ).toBe(false);
     });
   });
 
@@ -331,6 +351,12 @@ describe('Date', () => {
     it('then the "onChange" prop should not have been called', () => {
       simulateChangeOnInput(wrapper, validDate);
       expect(onChangeFn).not.toHaveBeenCalled();
+    });
+
+    it('then the date picker should not open on click', () => {
+      simulateClickOnInput(wrapper);
+      expect(wrapper.find(DatePicker).exists()).toBe(false);
+      expect(onBlurFn).not.toHaveBeenCalled();
     });
   });
 
