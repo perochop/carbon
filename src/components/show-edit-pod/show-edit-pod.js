@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import I18n from 'i18n-js';
 import ReactDOM from 'react-dom';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+// import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import Pod from '../pod';
 import Form from '../../__deprecated__/components/form';
 import Link from '../link';
@@ -361,14 +361,14 @@ class ShowEditPod extends React.Component {
         tabIndex='-1'
         { ...tagComponent('show-edit-pod', this.props) }
       >
-        <CSSTransitionGroup
+        {/* <CSSTransitionGroup
           component='div'
           transitionName={ this.props.transitionName }
           transitionEnterTimeout={ 300 }
           transitionLeaveTimeout={ 50 }
         >
           { this.content }
-        </CSSTransitionGroup>
+        </CSSTransitionGroup> */}
       </Pod>
     );
   }

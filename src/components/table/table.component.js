@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+// import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import Immutable from 'immutable';
 import I18n from 'i18n-js';
 import ActionToolbar from '../action-toolbar';
@@ -515,7 +515,7 @@ class Table extends React.Component {
         highlightable={ false } hideMultiSelect
       >
         <TableCell colSpan='42' align='center'>
-          <CSSTransitionGroup
+          {/* <CSSTransitionGroup
             component='div'
             transitionName='table-loading'
             transitionEnterTimeout={ 300 }
@@ -524,7 +524,7 @@ class Table extends React.Component {
             transitionAppear
           >
             <Spinner size='small' className='table__spinner' />
-          </CSSTransitionGroup>
+          </CSSTransitionGroup> */}
         </TableCell>
       </TableRow>
     );

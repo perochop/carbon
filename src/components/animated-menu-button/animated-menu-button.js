@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Icon from '../icon';
 import tagComponent from '../../utils/helpers/tags';
 import Devices from '../../utils/helpers/devices';
@@ -281,14 +281,15 @@ class AnimatedMenuButton extends React.Component {
           iconColor='on-dark-background'
         />
 
-        <CSSTransitionGroup
-          component='div'
-          transitionEnterTimeout={ 500 }
-          transitionLeaveTimeout={ 500 }
-          transitionName='carbon-animated-menu-button'
-        >
-          { content }
-        </CSSTransitionGroup>
+        <TransitionGroup>
+          <CSSTransition
+            component='div'
+            timeout={ { enter: 500, exit: 500 } }
+            classNames='carbon-animated-menu-button'
+          >
+            { content }
+          </CSSTransition>
+        </TransitionGroup>
       </div>
     );
   }

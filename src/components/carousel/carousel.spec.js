@@ -1,6 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-dom/test-utils';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { CSSTransition } from 'react-transition-group';
 import { shallow, mount } from 'enzyme';
 import BaseCarousel, { Carousel, Slide } from './carousel.component';
 import { rootTagTest } from '../../utils/helpers/tags/tags-specs/tags-specs';
@@ -393,7 +393,7 @@ describe('BaseCarousel', () => {
     describe('when the previous button is disabled', () => {
       it('adds a padded classes', () => {
         wrapper.setProps({ enablePreviousButton: false });
-
+        console.log(wrapper.debug());
         expect(wrapper.find(Slide).props().isPadded).toBe(true);
       });
     });
@@ -535,16 +535,15 @@ describe('BaseCarousel', () => {
     });
   });
 
-  describe('transitionName', () => {
+  describe('classNames', () => {
     it('uses a custom name if supplied', () => {
       const wrapper = shallow(
         <BaseCarousel theme={ classicTheme } transition='foo'>
           <Slide />
         </BaseCarousel>
       );
-
-      const transitionGroup = wrapper.find(CSSTransitionGroup);
-      expect(transitionGroup.props().transitionName).toEqual('carousel-transition-foo');
+      const transitionGroup = wrapper.find(CSSTransition);
+      expect(transitionGroup.props().classNames).toEqual('carousel-transition-foo');
     });
   });
 });
@@ -678,7 +677,7 @@ describe('SlideStyle', () => {
   let wrapper;
 
   it('should render matched style', () => {
-    wrapper = mount(<Slide onClick={ () => {} } style={ classicTheme } />);
+    wrapper = mount(<Slide onClick={ () => { } } style={ classicTheme } />);
     assertStyleMatch({
       transition: 'all 0.2s ease-in',
       transform: 'scale(1.02)',

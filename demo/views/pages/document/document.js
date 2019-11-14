@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'carbon-state-management/lib/flux';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import marked from 'marked';
 import DocumentStore from './../../../stores/document';
 import DocumentActions from './../../../actions/document';
-import marked from 'marked';
 import InformationStyles from '../../common/information-styles';
 import Spinner from '../../../../src/__deprecated__/components/spinner';
 import Row from 'components/row';
@@ -44,26 +44,27 @@ class Document extends React.Component {
 
     if (content) {
       content = (
-        <div className="demo-document__content">
-          <Highlight innerHTML={ true }>
+        <div className='demo-document__content'>
+          <Highlight innerHTML>
             { marked(content) }
           </Highlight>
         </div>
       );
     } else {
-      spinner = <Row gutter="none"><Spinner columnAlign="center" size="small" className="demo-document__spinner"/></Row>;
+      spinner = <Row gutter='none'><Spinner columnAlign="center" size="small"
+className="demo-document__spinner" /></Row>;
     }
 
     return (
       <InformationStyles>
-        <div className="demo-document">
+        <div className='demo-document'>
           { content }
 
           <CSSTransitionGroup
             className={ this.loadingClasses() }
             component='div'
-            transitionName="demo-document__loading"
-            transitionAppear={ true }
+            transitionName='demo-document__loading'
+            transitionAppear
             transitionAppearTimeout={ 300 }
             transitionEnterTimeout={ 300 }
             transitionLeaveTimeout={ 0 }

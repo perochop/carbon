@@ -1,7 +1,7 @@
 /* eslint-disable react/sort-comp */ // Getting confusing order from sort-comp
 import React from 'react';
 import PropTypes from 'prop-types';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+// import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import Events from '../../utils/helpers/events';
 import Browser from '../../utils/helpers/browser';
 import Portal from '../portal';
@@ -141,7 +141,7 @@ class Modal extends React.Component {
           data-state={ this.state.state }
           transitionName={ this.transitionName }
         >
-          <CSSTransitionGroup
+          {/* <CSSTransitionGroup
             component='div'
             transitionName={ this.backgroundTransitionName }
             transitionAppear
@@ -160,7 +160,7 @@ class Modal extends React.Component {
             transitionLeaveTimeout={ TIMEOUT }
           >
             { modalHTML }
-          </CSSTransitionGroup>
+          </CSSTransitionGroup> */}
         </StyledModal>
       </Portal>
     );

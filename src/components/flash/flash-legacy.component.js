@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import I18n from 'i18n-js';
 import classNames from 'classnames';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { isObject, isArray, forEach } from 'lodash';
 import shouldComponentUpdate from '../../utils/helpers/should-component-update/should-component-update';
 import Portal from '../portal/portal';
@@ -264,26 +264,29 @@ class Flash extends React.Component {
         <Portal>
           <div { ...tagComponent('flash', this.props) }>
             <FlashStyle variant={ this.props.as } className={ this.classes }>
-              <CSSTransitionGroup
+              <TransitionGroup
                 component='div'
                 transitionAppear
-                transitionAppearTimeout={ 500 }
+                appear={ 500 }
+                timeout={ { enter: 600, exit: 600 } }
                 transitionName='carbon-flash__slider'
-                transitionEnterTimeout={ 600 }
-                transitionLeave
-                transitionLeaveTimeout={ 600 }
+                exit
               >
-                { sliderHTML }
-                <CSSTransitionGroup
+                <CSSTransition>
+                  { sliderHTML }
+                </CSSTransition>
+                <TransitionGroup
                   component='div'
                   transitionName='carbon-flash__content'
                   transitionEnterTimeout={ 200 }
                   transitionLeave
                   transitionLeaveTimeout={ 600 }
                 >
-                  { flashHTML }
-                </CSSTransitionGroup>
-              </CSSTransitionGroup>
+                  <CSSTransition>
+                    { flashHTML }
+                  </CSSTransition>
+                </TransitionGroup>
+              </TransitionGroup>
             </FlashStyle>
             { this.dialogs }
           </div>
