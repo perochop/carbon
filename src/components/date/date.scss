@@ -162,6 +162,8 @@ $date__picker__background-color: $white;
   /* i have to stop this being over-ridden by a prop that sets a style on the element */
   /* this does have the benefit of removing inline and filter related styles */
   width: 120px !important;
+  padding-left: 0px !important;
+  margin-left: 15px;
 }
 
 .carbon-date.common-input--with-icon .common-input__icon--error {
