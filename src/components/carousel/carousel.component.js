@@ -151,7 +151,14 @@ class BaseCarousel extends React.Component {
   visibleSlide = () => {
     let index = this.state.selectedSlideIndex;
 
-    const visibleSlide = compact(React.Children.toArray(this.props.children))[index];
+    const visibleSlide = (
+      <CSSTransition
+        className='carbon-carousel__transition'
+        classNames={ this.transitionName() }
+        timeout={ { enter: TRANSITION_TIME, exit: TRANSITION_TIME } }
+      >{compact(React.Children.toArray(this.props.children))[index]}
+      </CSSTransition>
+    );
     index = visibleSlide.props.id || index;
 
     const additionalProps = {
@@ -161,17 +168,7 @@ class BaseCarousel extends React.Component {
       key: `carbon-slide-${index}`
     };
 
-    const element = (
-      <CSSTransition
-        className='carbon-carousel__transition'
-        classNames={ this.transitionName() }
-        timeout={ { enter: TRANSITION_TIME, exit: TRANSITION_TIME } }
-      >
-        {visibleSlide}
-      </CSSTransition>
-    );
-
-    return React.cloneElement(element, assign({}, visibleSlide.props, additionalProps));
+    return React.cloneElement(visibleSlide, assign({}, visibleSlide.props, additionalProps));
   }
 
   visibleSlides() {

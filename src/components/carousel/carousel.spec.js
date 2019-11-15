@@ -373,7 +373,7 @@ describe('BaseCarousel', () => {
     let slide, wrapper;
 
     beforeEach(() => {
-      wrapper = shallow(
+      wrapper = mount(
         <BaseCarousel theme={ classicTheme }>
           <Slide />
         </BaseCarousel>
@@ -383,7 +383,7 @@ describe('BaseCarousel', () => {
     });
 
     it('returns a slide instance', () => {
-      expect(slide.type).toEqual(Slide);
+      expect(slide.type).toEqual(CSSTransition);
     });
 
     it('adds an active and a padded classes', () => {
@@ -393,7 +393,7 @@ describe('BaseCarousel', () => {
     describe('when the previous button is disabled', () => {
       it('adds a padded classes', () => {
         wrapper.setProps({ enablePreviousButton: false });
-        console.log(wrapper.debug());
+
         expect(wrapper.find(Slide).props().isPadded).toBe(true);
       });
     });
