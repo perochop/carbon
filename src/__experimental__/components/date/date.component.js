@@ -292,7 +292,7 @@ class BaseDateInput extends React.Component {
           { ...inputProps }
           inputIcon='calendar'
           value={ this.state.visibleValue }
-          rawValue={ this.state.lastValidEventValues.rawValue }
+          rawValue={ isoFormattedValueString(this.state.visibleValue) }
           inputRef={ this.assignInput }
           { ...events }
         />
