@@ -99,7 +99,7 @@ describe('Date', () => {
 
     beforeEach(() => {
       onBlurFn = jest.fn();
-      wrapper = render({ onBlur: onBlurFn });
+      wrapper = render({ onBlur: onBlurFn, value: '01/01/2012' });
     });
 
     describe('and with DatePicker opened', () => {
@@ -116,6 +116,99 @@ describe('Date', () => {
         simulateBlurOnInput(wrapper);
         expect(wrapper.find(DatePicker).exists()).toBe(false);
         expect(onBlurFn).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('when the input value is changed', () => {
+    let onChangeFn;
+    const mockTodayDate = '2019-04-11';
+    const componentName = 'abc';
+
+    beforeEach(() => {
+      jest.spyOn(DateHelper, 'todayFormatted').mockImplementation(() => mockTodayDate);
+      onChangeFn = jest.fn();
+      wrapper = render({
+        onChange: onChangeFn,
+        name: componentName,
+        value: '2019-04-11'
+      });
+    });
+
+    describe('to a valid date', () => {
+      const validDate = '1 apr 2019';
+      const isoDate = '2019-04-01';
+      const visibleDate = '01/04/2019';
+      const jsDateObject = new Date(isoDate);
+      let mockedStringToDate;
+
+      beforeAll(() => {
+        mockedStringToDate = jest.spyOn(DateHelper, 'stringToDate').mockImplementation(() => jsDateObject);
+      });
+
+      it('then the "onChange" prop should have been called', () => {
+        simulateChangeOnInput(wrapper, validDate);
+        expect(onChangeFn).toHaveBeenCalled();
+      });
+
+      it('then the "selectedDate" prop with proper Date Object should be passed to the DatePicker component', () => {
+        simulateFocusOnInput(wrapper);
+        simulateChangeOnInput(wrapper, validDate);
+        expect(wrapper.find(DatePicker).props().selectedDate).toBe(jsDateObject);
+      });
+
+      it("then the value of it's input should be changed to a locally formatted date", () => {
+        simulateChangeOnInput(wrapper, validDate);
+        simulateBlurOnInput(wrapper);
+        jest.runAllTimers();
+        wrapper.update();
+        expect(wrapper.find('input').props().value).toBe(visibleDate);
+      });
+
+      afterAll(() => {
+        mockedStringToDate.mockRestore();
+      });
+    });
+
+    describe('to an invalid date', () => {
+      const invalidDate = 'abcde';
+
+      it('then the "onChange" prop should not have been called', () => {
+        simulateChangeOnInput(wrapper, invalidDate);
+        expect(onChangeFn).not.toHaveBeenCalled();
+      });
+
+      it('then the "selectedDate" prop with JS Date set to today should be passed to the DatePicker component', () => {
+        wrapper.setProps({ value: invalidDate });
+        simulateFocusOnInput(wrapper);
+        expect(wrapper.find(DatePicker).props().selectedDate).toEqual(DateHelper.stringToDate(mockTodayDate));
+      });
+
+      it("then the value of it's input should not be changed", () => {
+        simulateChangeOnInput(wrapper, invalidDate);
+        simulateBlurOnInput(wrapper);
+        wrapper.update();
+        expect(wrapper.find('input').props().value).toBe(invalidDate);
+      });
+    });
+
+    describe('to an empty date', () => {
+      it('reformats the visiblevalue when it is an empty string', () => {
+        const initialDate = '1 apr 2019';
+        const formattedDate = '01/04/2019';
+        const emptyDate = '';
+
+        wrapper = render({
+          onChange: onChangeFn,
+          name: componentName,
+          value: initialDate
+        });
+
+        simulateChangeOnInput(wrapper, emptyDate);
+        simulateBlurOnInput(wrapper);
+        jest.runAllTimers();
+        wrapper.update();
+        expect(wrapper.find('input').props().value).toBe(formattedDate);
       });
     });
   });
@@ -226,77 +319,6 @@ describe('Date', () => {
 
     it('should update the input element to reflect the passed date', () => {
       expect(wrapper.update().find('input').prop('value')).toBe(getFormattedDate(mockDate));
-    });
-  });
-
-  describe('when the input value is changed', () => {
-    let onChangeFn;
-    const mockTodayDate = '2019-04-11';
-    const componentName = 'abc';
-
-    beforeEach(() => {
-      jest.spyOn(DateHelper, 'todayFormatted').mockImplementation(() => mockTodayDate);
-      onChangeFn = jest.fn();
-      wrapper = render({
-        onChange: onChangeFn,
-        name: componentName
-      });
-    });
-
-    describe('to a valid date', () => {
-      const validDate = '1 apr 2019';
-      const isoDate = '2019-04-01';
-      const visibleDate = '01/04/2019';
-      const jsDateObject = new Date(isoDate);
-      let mockedStringToDate;
-
-      beforeAll(() => {
-        mockedStringToDate = jest.spyOn(DateHelper, 'stringToDate').mockImplementation(() => jsDateObject);
-      });
-
-      it('then the "onChange" prop should have been called', () => {
-        simulateChangeOnInput(wrapper, validDate);
-        expect(onChangeFn).toHaveBeenCalled();
-      });
-
-      it('then the "selectedDate" prop with proper Date Object should be passed to the DatePicker component', () => {
-        simulateFocusOnInput(wrapper);
-        simulateChangeOnInput(wrapper, validDate);
-        expect(wrapper.find(DatePicker).props().selectedDate).toBe(jsDateObject);
-      });
-
-      it("then the value of it's input should be changed to a locally formatted date", () => {
-        simulateChangeOnInput(wrapper, validDate);
-        simulateBlurOnInput(wrapper);
-        wrapper.update();
-        expect(wrapper.find('input').props().value).toBe(visibleDate);
-      });
-
-      afterAll(() => {
-        mockedStringToDate.mockRestore();
-      });
-    });
-
-    describe('to an invalid date', () => {
-      const invalidDate = 'abcde';
-
-      it('then the "onChange" prop should not have been called', () => {
-        simulateChangeOnInput(wrapper, invalidDate);
-        expect(onChangeFn).not.toHaveBeenCalled();
-      });
-
-      it('then the "selectedDate" prop with JS Date set to today should be passed to the DatePicker component', () => {
-        wrapper.setProps({ value: invalidDate });
-        simulateFocusOnInput(wrapper);
-        expect(wrapper.find(DatePicker).props().selectedDate).toEqual(DateHelper.stringToDate(mockTodayDate));
-      });
-
-      it("then the value of it's input should not be changed", () => {
-        simulateChangeOnInput(wrapper, invalidDate);
-        simulateBlurOnInput(wrapper);
-        wrapper.update();
-        expect(wrapper.find('input').props().value).toBe(invalidDate);
-      });
     });
   });
 
