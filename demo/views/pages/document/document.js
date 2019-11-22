@@ -52,11 +52,12 @@ class Document extends React.Component {
       );
     } else {
       spinner = (
-        <Row gutter='none'><Spinner
-          columnAlign='center'
-          size='small'
-          className='demo-document__spinner'
-        />
+        <Row gutter='none'>
+          <Spinner
+            columnAlign='center'
+            size='small'
+            className='demo-document__spinner'
+          />
         </Row>
       );
     }

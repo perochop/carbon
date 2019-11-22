@@ -156,7 +156,8 @@ class BaseCarousel extends React.Component {
         className='carbon-carousel__transition'
         classNames={ this.transitionName() }
         timeout={ { enter: TRANSITION_TIME, exit: TRANSITION_TIME } }
-      >{compact(React.Children.toArray(this.props.children))[index]}
+      >
+        {compact(React.Children.toArray(this.props.children))[index]}
       </CSSTransition>
     );
     index = visibleSlide.props.id || index;
