@@ -130,17 +130,17 @@ class Flash extends React.Component {
 
         if (!array && !/(^base|\.base)$/.test(key)) {
           // if object, apply key to each item
-          itemValue = <span>{ key }: { text }</span>;
+          itemValue = <span>{key}: {text}</span>;
         } else {
           // otherwise just set value
           itemValue = text;
         }
 
         // add item to list
-        items.push(<li key={ key }>{ itemValue }</li>);
+        items.push(<li key={ key }>{itemValue}</li>);
       });
 
-      return <ul>{ items }</ul>;
+      return <ul>{items}</ul>;
     }
     // if just a string, pass it through the find more parser
     return this.findMore(description);
@@ -168,19 +168,19 @@ class Flash extends React.Component {
           open={ this.state.dialogs[title] || false }
           onCancel={ this.toggleDialog(title) }
         >
-          { desc }
+          {desc}
         </Alert>
       );
 
       // create text for item
       value = (
         <span>
-          { title }&nbsp;
+          {title}&nbsp;
           <FlashLink
             onClick={ this.toggleDialog(title) }
             data-element='more-info'
           >
-            { info }
+            {info}
           </FlashLink>
         </span>
       );
@@ -229,7 +229,7 @@ class Flash extends React.Component {
           key='message'
           data-element='message'
         >
-          { this.formatDescription(this.description) }
+          {this.formatDescription(this.description)}
         </FlashMessageStyle>
         {!this.props.timeout && (
           <FlashCloseStyle
@@ -239,7 +239,8 @@ class Flash extends React.Component {
             type='close'
           />
         )}
-      </FlashContentStyle>);
+      </FlashContentStyle>
+    );
   }
 
   /** Returns the computed HTML for the slider. */
@@ -264,31 +265,32 @@ class Flash extends React.Component {
         <Portal>
           <div { ...tagComponent('flash', this.props) }>
             <FlashStyle variant={ this.props.as } className={ this.classes }>
-              <TransitionGroup
-                component='div'
-                transitionAppear
-                appear={ 500 }
-                timeout={ { enter: 600, exit: 600 } }
-                transitionName='carbon-flash__slider'
-                exit
-              >
-                <CSSTransition>
-                  { sliderHTML }
-                </CSSTransition>
-                <TransitionGroup
-                  component='div'
-                  transitionName='carbon-flash__content'
-                  transitionEnterTimeout={ 200 }
-                  transitionLeave
-                  transitionLeaveTimeout={ 600 }
-                >
-                  <CSSTransition>
-                    { flashHTML }
+              <TransitionGroup>
+                {sliderHTML && (
+                  <CSSTransition
+                    key='1'
+                    appear
+                    timeout={ { appear: 500, enter: 600, exit: 600 } }
+                    classNames='carbon-flash__slider'
+                    exit
+                  >
+                    {sliderHTML}
                   </CSSTransition>
-                </TransitionGroup>
+                )}
+                {flashHTML && (
+                  <CSSTransition
+                    key='2'
+                    appear
+                    classNames='carbon-flash__content'
+                    timeout={ { enter: 700, exit: 600 } }
+                    exit
+                  >
+                    {flashHTML}
+                  </CSSTransition>
+                )}
               </TransitionGroup>
             </FlashStyle>
-            { this.dialogs }
+            {this.dialogs}
           </div>
         </Portal>
       )
