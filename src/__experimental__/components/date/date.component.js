@@ -131,7 +131,6 @@ class BaseDateInput extends React.Component {
       this.isBlurBlocked = true;
       return;
     }
-    console.log('called');
 
     this.updateSelectedDate(this.props.value || isoFormattedValueString(this.state.visibleValue));
     this.setState({ isDatePickerOpen: true });
