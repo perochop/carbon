@@ -151,18 +151,12 @@ class BaseCarousel extends React.Component {
   visibleSlide = () => {
     let index = this.state.selectedSlideIndex;
 
-    const visibleSlide = (
-      <CSSTransition
-        className='carbon-carousel__transition'
-        classNames={ this.transitionName() }
-        timeout={ { enter: TRANSITION_TIME, exit: TRANSITION_TIME } }
-      >
-        {compact(React.Children.toArray(this.props.children))[index]}
-      </CSSTransition>
-    );
+    const visibleSlide = (compact(React.Children.toArray(this.props.children))[index]);
+
     index = visibleSlide.props.id || index;
 
     const additionalProps = {
+      transitionName: this.transitionName(),
       className: visibleSlide.props.className,
       isPadded: this.props.enablePreviousButton || this.props.enableNextButton,
       'data-element': 'visible-slide',
@@ -178,6 +172,7 @@ class BaseCarousel extends React.Component {
         key: `slide-${key}`, id: key, selectedIndex: this.state.selectedSlideIndex, ...element.props
       });
     });
+
 
     return arrayWithKeys;
   }
