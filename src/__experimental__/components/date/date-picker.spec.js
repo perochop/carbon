@@ -54,6 +54,11 @@ describe('DatePicker', () => {
       const disabledDays = [{ after: moment(secondDate).toDate() }];
       expect(wrapper.find(DayPicker).props().disabledDays).toEqual(disabledDays);
     });
+
+    it('should return null if the "maxDate" is invalid', () => {
+      wrapper.setProps({ maxDate: 'foo' });
+      expect(wrapper.find(DayPicker).props().disabledDays).toEqual(null);
+    });
   });
 
   describe('when rendered with both "minDate" and "maxDate" props', () => {
@@ -67,6 +72,11 @@ describe('DatePicker', () => {
         prop containing an object with both "before" and "after" properties`, () => {
       const disabledDays = [{ before: moment(firstDate).toDate() }, { after: moment(secondDate).toDate() }];
       expect(wrapper.find(DayPicker).props().disabledDays).toEqual(disabledDays);
+    });
+
+    it('should return null if the "minDate" is invalid', () => {
+      wrapper.setProps({ minDate: 'foo' });
+      expect(wrapper.find(DayPicker).props().disabledDays).toEqual(null);
     });
   });
 
