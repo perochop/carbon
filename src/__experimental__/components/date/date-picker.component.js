@@ -110,10 +110,16 @@ function getDisabledDays(minDate, maxDate) {
   }
 
   if (minDate) {
+    if (!DateHelper.isValidDate(minDate)) {
+      return null;
+    }
     days.push({ before: DateHelper.stringToDate(minDate) });
   }
 
   if (maxDate) {
+    if (!DateHelper.isValidDate(maxDate)) {
+      return null;
+    }
     days.push({ after: DateHelper.stringToDate(maxDate) });
   }
 
