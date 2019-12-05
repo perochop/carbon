@@ -3,7 +3,7 @@ import Date from 'carbon-react/lib/__experimental__/components/date';
 import { LogConsumer } from '../log';
 
 const ControlledDate = () => {
-  const [state, setState] = useState('');
+  const [state, setState] = useState('23rd Apr 12');
   return (
     <LogConsumer>
       {(log) => {

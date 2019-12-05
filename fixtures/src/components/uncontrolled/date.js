@@ -29,7 +29,7 @@ const UncontrolledDate = () => {
                 id='uncontrolled_date_id'
                 name='uncontrolled_date_name'
                 label='Uncontrolled Date'
-                defaultValue='2012-04-23'
+                defaultValue='23rd apr 12'
               />
               <br />
               <br />
