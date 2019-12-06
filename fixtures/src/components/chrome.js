@@ -35,6 +35,11 @@ I18n.translations.en = {
   }
 };
 
+function debugPrintHistory(his, debugLabel) {
+  console.log(`%c${debugLabel} (length = ${his.length}):`, 'font-weight:bold; color:firebrick');
+  console.log('%c' + his.map(historyEntry => '  ' + JSON.stringify(historyEntry)).join('\n'), 'color:green');
+}
+
 const Chrome = ({ children }) => {
   const ref = useRef([]);
   const [history, setHistory] = useState(ref.current);
@@ -51,6 +56,10 @@ const Chrome = ({ children }) => {
       name, id, value, checked
     }
   }, obj) => {
+
+    const debugTitle = `\nChrome.log() -- ${obj.method.padEnd(8)} -- ${JSON.stringify({ name, id, value, checked })}\n `;
+    console.group(debugTitle);
+
     ref.current = [...ref.current, {
       ...obj,
       guid: guid(),
@@ -60,7 +69,11 @@ const Chrome = ({ children }) => {
       value,
       checked
     }];
+
+    debugPrintHistory(history, 'Current history');
+    debugPrintHistory(ref.current, 'New history');
     setHistory(ref.current);
+    console.groupEnd(debugTitle);
   }, [ref, setHistory]);
 
   const Nav = styled.div`

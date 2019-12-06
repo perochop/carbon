@@ -7,9 +7,17 @@ const UncontrolledSimpleColorPicker = () => {
     <LogConsumer>
       {(log) => {
         const onChange = (e) => {
+          console.log('%cUncontrolledSimpleColorPicker.onChange() -- Calling   Chrome.log() immediately', 'color:blue');
           log(e, { method: 'onChange' });
         };
-        const onBlur = e => log(e, { method: 'onBlur' });
+        const onBlur = e => {
+          console.log('%cUncontrolledSimpleColorPicker.onBlur()   -- Will call Chrome.log() in 10 seconds', 'color:blue');
+          e.persist();
+          setTimeout(
+            () => log(e, { method: 'onBlur' }),
+            10000
+          );
+        };
         return (
           <React.Fragment>
             <div id='uncontrolled_picker'>
