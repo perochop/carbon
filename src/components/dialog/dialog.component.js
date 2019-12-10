@@ -23,30 +23,71 @@ class Dialog extends Modal {
     this.onCloseIconBlur = this.onCloseIconBlur.bind(this);
     this.document = Browser.getDocument();
     this.window = Browser.getWindow();
+
+    this._innerContent = React.createRef();
+    // eslint-disable-next-line max-len
+    this.allFocusableElements = 'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])';
+    this.state = {
+      isLastItemFocused: false
+    };
   }
 
   componentDidMount() {
     super.componentDidMount();
+
     if (this.props.open) {
       this.centerDialog();
+
       if (this.props.autoFocus) {
         this.focusDialog();
       }
     }
   }
 
-  onDialogBlur(ev) { } // eslint-disable-line no-unused-vars
+  onDialogBlur(ev) { } // eslint-disable-line nso-unused-vars
 
   onCloseIconBlur(ev) {
     ev.preventDefault();
     this.focusDialog();
   }
 
+  focusFirstFocusableElement() {
+    const content = this._innerContent.current;
+
+    const fosuableElements = content.querySelectorAll(this.allFocusableElements);
+    const firstFocusableItem = fosuableElements[0];
+    const lastFocusableElement = fosuableElements[fosuableElements.length - 1];
+
+    const trapFocus = (ev) => {
+      if (this.document.activeElement === lastFocusableElement) {
+        if (ev.keyCode === 9) {
+          firstFocusableItem.focus();
+          ev.preventDefault();
+        }
+      }
+
+      if (this.document.activeElement === firstFocusableItem) {
+        if (ev.keyCode === 16) {
+          lastFocusableElement.focus();
+          ev.preventDefault();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', trapFocus);
+
+    return setTimeout(() => {
+      firstFocusableItem.focus();
+    });
+  }
+
   get onOpening() {
     this.document.documentElement.style.overflow = 'hidden';
     this.centerDialog(true);
-    ElementResize.addListener(this._innerContent, this.applyFixedBottom);
+    ElementResize.addListener(this._innerContent.current, this.applyFixedBottom);
     this.window.addEventListener('resize', this.centerDialog);
+    this.focusFirstFocusableElement();
+
 
     if (this.props.autoFocus) {
       return this.focusDialog();
@@ -59,7 +100,7 @@ class Dialog extends Modal {
     this.appliedFixedBottom = false;
     this.document.documentElement.style.overflow = '';
     this.window.removeEventListener('resize', this.centerDialog);
-    return ElementResize.removeListener(this._innerContent, this.applyFixedBottom);
+    return ElementResize.removeListener(this._innerContent.current, this.applyFixedBottom);
   }
 
   centerDialog = (animating) => {
@@ -120,7 +161,7 @@ class Dialog extends Modal {
   shouldHaveFixedBottom = () => {
     if (!this._innerContent) return false;
 
-    const contentHeight = this._innerContent.offsetHeight + this._innerContent.offsetTop,
+    const contentHeight = this._innerContent.current.offsetHeight + this._innerContent.current.offsetTop,
         windowHeight = this.window.innerHeight - this._dialog.offsetTop - 1;
 
     return contentHeight > windowHeight;
@@ -245,7 +286,7 @@ class Dialog extends Modal {
           fixedBottom={ this.appliedFixedBottom }
         >
           <DialogInnerContentStyle
-            ref={ (innerContent) => { this._innerContent = innerContent; } }
+            ref={ this._innerContent }
             height={ this.props.height }
           >
             {this.renderChildren()}
