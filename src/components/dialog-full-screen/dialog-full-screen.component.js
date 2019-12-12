@@ -7,6 +7,7 @@ import StyledDialogFullScreen from './dialog-full-screen.style';
 import StyledContent from './content.style';
 import StyledIcon from './icon.style';
 import Browser from '../../utils/helpers/browser';
+import { setFocusTrap, removeFocusTrap } from '../../utils/helpers/focus-trap';
 
 class DialogFullScreen extends Modal {
   constructor(props) {
@@ -75,6 +76,7 @@ class DialogFullScreen extends Modal {
    * Overrides the original function to disable the document's scroll.
    */
   get onOpening() {
+    setFocusTrap(this._dialog);
     this.document.documentElement.style.overflow = 'hidden';
 
     return this.document.documentElement;
@@ -84,6 +86,7 @@ class DialogFullScreen extends Modal {
    * Overrides the original function to enable the document's scroll.
    */
   get onClosing() {
+    removeFocusTrap(this._dialog);
     this.document.documentElement.style.overflow = 'auto';
 
     return this.document.documentElement;

@@ -78,6 +78,8 @@ function makeButtonStory(name, themeSelector) {
         >
           <SidebarHeader>Header Content</SidebarHeader>
           Main Content
+          <Button>Test</Button>
+          <Button>Last</Button>
         </Sidebar>
       </State>
     );
