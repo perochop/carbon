@@ -14,6 +14,7 @@ import {
   DialogInnerContentStyle
 } from './dialog.style';
 import tagComponent from '../../utils/helpers/tags';
+import { setFocusTrap, removeFocusTrap } from '../../utils/helpers/focus-trap';
 
 class Dialog extends Modal {
   constructor(args) {
@@ -26,7 +27,6 @@ class Dialog extends Modal {
 
     this._innerContent = React.createRef();
     // eslint-disable-next-line max-len
-    this.allFocusableElements = 'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])';
     this.state = {
       isLastItemFocused: false
     };
@@ -34,7 +34,6 @@ class Dialog extends Modal {
 
   componentDidMount() {
     super.componentDidMount();
-
     if (this.props.open) {
       this.centerDialog();
 
@@ -44,6 +43,10 @@ class Dialog extends Modal {
     }
   }
 
+  componentWillUnmount() {
+    // removeFocusTrap();
+  }
+
   onDialogBlur(ev) { } // eslint-disable-line nso-unused-vars
 
   onCloseIconBlur(ev) {
@@ -51,43 +54,12 @@ class Dialog extends Modal {
     this.focusDialog();
   }
 
-  focusFirstFocusableElement() {
-    const content = this._innerContent.current;
-
-    const fosuableElements = content.querySelectorAll(this.allFocusableElements);
-    const firstFocusableItem = fosuableElements[0];
-    const lastFocusableElement = fosuableElements[fosuableElements.length - 1];
-
-    const trapFocus = (ev) => {
-      if (this.document.activeElement === lastFocusableElement) {
-        if (ev.keyCode === 9) {
-          firstFocusableItem.focus();
-          ev.preventDefault();
-        }
-      }
-
-      if (this.document.activeElement === firstFocusableItem) {
-        if (ev.keyCode === 16) {
-          lastFocusableElement.focus();
-          ev.preventDefault();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', trapFocus);
-
-    return setTimeout(() => {
-      firstFocusableItem.focus();
-    });
-  }
-
   get onOpening() {
+    setFocusTrap(this._innerContent.current);
     this.document.documentElement.style.overflow = 'hidden';
     this.centerDialog(true);
     ElementResize.addListener(this._innerContent.current, this.applyFixedBottom);
     this.window.addEventListener('resize', this.centerDialog);
-    this.focusFirstFocusableElement();
-
 
     if (this.props.autoFocus) {
       return this.focusDialog();
@@ -97,6 +69,7 @@ class Dialog extends Modal {
   }
 
   get onClosing() {
+    removeFocusTrap();
     this.appliedFixedBottom = false;
     this.document.documentElement.style.overflow = '';
     this.window.removeEventListener('resize', this.centerDialog);

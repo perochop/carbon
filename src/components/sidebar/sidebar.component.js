@@ -5,6 +5,7 @@ import Icon from '../icon';
 import Modal from '../modal';
 import { SidebarStyle, SidebarCloseStyle } from './sidebar.style';
 import './sidebar.scss';
+import { setFocusTrap, removeFocusTrap } from '../../utils/helpers/focus-trap';
 
 class Sidebar extends Modal {
   /** Returns classes for the component. */
@@ -32,6 +33,14 @@ class Sidebar extends Modal {
     return null;
   }
 
+  get onOpening() {
+    return setFocusTrap(this.sideBarRef);
+  }
+
+  get onClosing() {
+    return removeFocusTrap();
+  }
+
   componentTags(props) {
     return {
       'data-component': 'sidebar',
@@ -44,6 +53,7 @@ class Sidebar extends Modal {
   get modalHTML() {
     return (
       <SidebarStyle
+        ref={ (element) => { this.sideBarRef = element; } }
         position={ this.props.position }
         size={ this.props.size }
         data-element='sidebar'
