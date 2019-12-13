@@ -183,7 +183,7 @@ describe('Dialog', () => {
 
   describe('renders children when they are not a JSX component', () => {
     it('should render matched snpashot', () => {
-      const wrapper = shallow(
+      const wrapper = mount(
         <Dialog
           onCancel={ () => { } }
           onConfirm={ () => { } }
@@ -202,7 +202,7 @@ describe('Dialog', () => {
 
   it('renders when a child is undefined', () => {
     expect(() => {
-      shallow(
+      mount(
         <Dialog
           onCancel={ () => { } }
           onConfirm={ () => { } }
@@ -221,7 +221,7 @@ describe('Dialog', () => {
 
   describe('renders children when they are a JSX component', () => {
     it('should render matched snpashot', () => {
-      const wrapper = shallow(
+      const wrapper = mount(
         <Dialog
           onCancel={ () => { } }
           onConfirm={ () => { } }
@@ -394,7 +394,7 @@ describe('Dialog', () => {
   describe('dialog headers', () => {
     describe('when a props title or subtitle is passed', () => {
       it('sets a dialog headers', () => {
-        const wrapper = shallow(
+        const wrapper = mount(
           <Dialog
             onCancel={ onCancel }
             open
@@ -409,7 +409,7 @@ describe('Dialog', () => {
 
     describe('when a props object title is passed', () => {
       it('wraps it within a div', () => {
-        const wrapper = shallow(
+        const wrapper = mount(
           <Dialog
             onCancel={ onCancel }
             open
@@ -427,7 +427,7 @@ describe('Dialog', () => {
 
     describe('when a props title is not passed', () => {
       it('defaults to null', () => {
-        const wrapper = shallow(
+        const wrapper = mount(
           <Dialog
             onCancel={ onCancel }
             showCloseIcon={ false }
@@ -444,7 +444,7 @@ describe('Dialog', () => {
       let wrapper;
 
       beforeEach(() => {
-        wrapper = shallow(
+        wrapper = mount(
           <Dialog
             open
             title='Test'
@@ -473,18 +473,18 @@ describe('Dialog', () => {
       });
 
       it('closes when the exit icon is click', () => {
-        wrapper.find('.carbon-dialog__close').simulate('click');
+        wrapper.find('.carbon-dialog__close').at(0).simulate('click');
         expect(onCancel).toHaveBeenCalled();
       });
     });
 
     describe('when dialog is closed', () => {
       it('only renders a parent div with mainClasses attached', () => {
-        const wrapper = shallow(
+        const wrapper = mount(
           <Dialog open={ false } onCancel={ onCancel } />
         );
 
-        expect(wrapper.find('.carbon-dialog').length).toEqual(1);
+        expect(wrapper.find('.carbon-dialog').at(0).length).toEqual(1);
         expect(wrapper.find('.carbon-dialog__dialog').length).toEqual(0);
       });
     });
@@ -494,7 +494,7 @@ describe('Dialog', () => {
     let wrapper;
 
     beforeEach(() => {
-      wrapper = shallow(
+      wrapper = mount(
         <Dialog
           onCancel={ () => {} }
           onConfirm={ () => {} }

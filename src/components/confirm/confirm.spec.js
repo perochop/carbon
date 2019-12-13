@@ -15,7 +15,7 @@ describe('Confirm', () => {
     onCancel = jasmine.createSpy('cancel');
     onConfirm = jasmine.createSpy('confirm');
 
-    wrapper = shallow(
+    wrapper = mount(
       <Confirm
         open
         onCancel={ onCancel }

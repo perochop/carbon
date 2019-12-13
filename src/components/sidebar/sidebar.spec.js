@@ -1,6 +1,6 @@
 import React from 'react';
 import 'jest-styled-components';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import Sidebar from './sidebar.component';
 import Textbox from '../../__deprecated__/components/textbox';
 import { SidebarStyle, SidebarCloseStyle } from './sidebar.style';
@@ -13,7 +13,7 @@ describe('Sidebar', () => {
   beforeEach(() => {
     spy = jasmine.createSpy();
 
-    wrapper = shallow(
+    wrapper = mount(
       <Sidebar
         open
         title='Test'
@@ -39,7 +39,7 @@ describe('Sidebar', () => {
 
     describe('when enableBackgroundUI is enabled', () => {
       it('sets all the correct classes', () => {
-        wrapper = shallow(
+        wrapper = mount(
           <Sidebar
             open
             enableBackgroundUI
@@ -54,7 +54,7 @@ describe('Sidebar', () => {
 
     describe('when there is no onCancel prop', () => {
       it('should not have a close button', () => {
-        wrapper = shallow(
+        wrapper = mount(
           <Sidebar
             open
           />
@@ -68,7 +68,7 @@ describe('Sidebar', () => {
     describe('clicking the close icon sidebar', () => {
       it('closes the sidebar', () => {
         const icon = wrapper.find('.carbon-sidebar__close-icon');
-        icon.simulate('click');
+        icon.at(0).simulate('click');
         expect(spy).toHaveBeenCalled();
       });
     });

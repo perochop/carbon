@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import Alert from '.';
 
 describe('Alert', () => {
@@ -7,7 +7,7 @@ describe('Alert', () => {
   const onCancel = jasmine.createSpy('cancel');
 
   beforeEach(() => {
-    wrapper = shallow(
+    wrapper = mount(
       <Alert
         open
         onCancel={ onCancel }
