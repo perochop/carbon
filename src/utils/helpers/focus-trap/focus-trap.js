@@ -1,3 +1,10 @@
+const blockTabbing = (ev) => {
+  console.log(ev);
+  if (ev.keyCode === 9 || ev.keyCode === 16) {
+    console.log('weszlo');
+    ev.preventDefault();
+  }
+};
 
 const tabbing = (ev, firstFocusableElement, lastFocusableElement) => {
   if (ev.key === 'Tab' || ev.keyCode === 9) {
@@ -19,12 +26,12 @@ const setFocusTrap = (element) => {
   const focusableElements = element.querySelectorAll(ALL_FOCUSABLE_ELEMENTS);
 
   if (focusableElements.length <= 0) {
+    document.addEventListener('keydown', blockTabbing);
     return;
   }
 
   const firstFocusableElement = focusableElements[0];
   const lastFocusableElement = focusableElements[focusableElements.length - 1];
-
 
   setTimeout(() => {
     firstFocusableElement.focus();
@@ -33,6 +40,7 @@ const setFocusTrap = (element) => {
 };
 
 const removeFocusTrap = () => {
+  document.removeEventListener('keydown', blockTabbing);
   document.removeEventListener('keydown', tabbing);
 };
 

@@ -24,8 +24,6 @@ class Dialog extends Modal {
     this.onCloseIconBlur = this.onCloseIconBlur.bind(this);
     this.document = Browser.getDocument();
     this.window = Browser.getWindow();
-
-    this._innerContent = React.createRef();
     // eslint-disable-next-line max-len
     this.state = {
       isLastItemFocused: false
@@ -43,10 +41,6 @@ class Dialog extends Modal {
     }
   }
 
-  componentWillUnmount() {
-    // removeFocusTrap();
-  }
-
   onDialogBlur(ev) { } // eslint-disable-line nso-unused-vars
 
   onCloseIconBlur(ev) {
@@ -55,10 +49,10 @@ class Dialog extends Modal {
   }
 
   get onOpening() {
-    setFocusTrap(this._innerContent.current);
+    setFocusTrap(this._innerContent);
     this.document.documentElement.style.overflow = 'hidden';
     this.centerDialog(true);
-    ElementResize.addListener(this._innerContent.current, this.applyFixedBottom);
+    ElementResize.addListener(this._innerContent, this.applyFixedBottom);
     this.window.addEventListener('resize', this.centerDialog);
 
     if (this.props.autoFocus) {
@@ -73,7 +67,7 @@ class Dialog extends Modal {
     this.appliedFixedBottom = false;
     this.document.documentElement.style.overflow = '';
     this.window.removeEventListener('resize', this.centerDialog);
-    return ElementResize.removeListener(this._innerContent.current, this.applyFixedBottom);
+    return ElementResize.removeListener(this._innerContent, this.applyFixedBottom);
   }
 
   centerDialog = (animating) => {
@@ -134,7 +128,7 @@ class Dialog extends Modal {
   shouldHaveFixedBottom = () => {
     if (!this._innerContent) return false;
 
-    const contentHeight = this._innerContent.current.offsetHeight + this._innerContent.current.offsetTop,
+    const contentHeight = this._innerContent.offsetHeight + this._innerContent.offsetTop,
         windowHeight = this.window.innerHeight - this._dialog.offsetTop - 1;
 
     return contentHeight > windowHeight;
@@ -260,7 +254,7 @@ class Dialog extends Modal {
           fixedBottom={ this.appliedFixedBottom }
         >
           <DialogInnerContentStyle
-            ref={ this._innerContent }
+            ref={ (innerContent) => { this._innerContent = innerContent; } }
             height={ this.props.height }
           >
             { this.renderChildren() }
