@@ -1,7 +1,5 @@
 const blockTabbing = (ev) => {
-  console.log(ev);
   if (ev.keyCode === 9 || ev.keyCode === 16) {
-    console.log('weszlo');
     ev.preventDefault();
   }
 };
@@ -22,6 +20,7 @@ const tabbing = (ev, firstFocusableElement, lastFocusableElement) => {
 
 const setFocusTrap = (element) => {
   // eslint-disable-next-line max-len
+
   const ALL_FOCUSABLE_ELEMENTS = 'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])';
   const focusableElements = element.querySelectorAll(ALL_FOCUSABLE_ELEMENTS);
 

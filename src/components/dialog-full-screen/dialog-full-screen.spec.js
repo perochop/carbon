@@ -23,7 +23,7 @@ describe('DialogFullScreen', () => {
   const onCancel = jasmine.createSpy('cancel');
 
   beforeEach(() => {
-    wrapper = shallow(
+    wrapper = mount(
       <DialogFullScreen
         onCancel={ onCancel }
         className='foo'
@@ -120,7 +120,7 @@ describe('DialogFullScreen', () => {
     describe('is an object', () => {
       beforeEach(() => {
         const titleHeading = <Heading title='my custom heading' />;
-        wrapper = shallow(
+        wrapper = mount(
           <DialogFullScreen
             onCancel={ onCancel }
             className='foo'
@@ -145,7 +145,7 @@ describe('DialogFullScreen', () => {
   describe('tags', () => {
     describe('on component', () => {
       it('include correct component, elements and role data tags', () => {
-        wrapper = shallow(
+        wrapper = mount(
           <DialogFullScreen
             open
             onCancel={ () => {} }
