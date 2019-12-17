@@ -71,8 +71,6 @@ class Dialog extends Modal {
   }
 
   centerDialog = (animating) => {
-    if (!this._dialog) return;
-
     const height = this._dialog.offsetHeight / 2,
         width = this._dialog.offsetWidth / 2,
         win = this.window;
@@ -121,7 +119,6 @@ class Dialog extends Modal {
   }
 
   focusDialog() {
-    if (!this._dialog) return;
     this._dialog.focus();
   }
 

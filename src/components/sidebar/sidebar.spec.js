@@ -37,6 +37,28 @@ describe('Sidebar', () => {
       });
     });
 
+    describe('when onCancel is fired', () => {
+      it('should remove focus', () => {
+        jest.useFakeTimers();
+        const tempDiv = document.createElement('div');
+        const element = document.body.appendChild(tempDiv);
+
+        wrapper = mount(
+          <Sidebar open onCancel={ jest.fn }>
+            <button type='button'>test content</button>
+          </Sidebar>, { attachTo: element }
+        );
+
+        jest.runAllTimers();
+
+        expect(document.activeElement).toMatchObject(wrapper.find('button'));
+        wrapper.setProps({ open: false });
+        expect(document.activeElement).toMatchObject(document.body);
+
+        jest.clearAllTimers();
+      });
+    });
+
     describe('when enableBackgroundUI is enabled', () => {
       it('sets all the correct classes', () => {
         wrapper = mount(
