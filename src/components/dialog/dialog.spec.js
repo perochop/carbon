@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import TestRenderer from 'react-test-renderer';
 import 'jest-styled-components';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import Browser from '../../utils/helpers/browser/browser';
 import Dialog from './dialog.component';
 import {

@@ -26,12 +26,16 @@ const store = new Store({
   open: false
 });
 
+let cachedFocusedElement;
+
 const handleCancel = (evt) => {
   store.set({ open: false });
+  cachedFocusedElement.focus();
   action('cancel')(evt);
 };
 
 const handleOpen = (evt) => {
+  cachedFocusedElement = evt.target;
   store.set({ open: true });
   action('open')(evt);
 };
