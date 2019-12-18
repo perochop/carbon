@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { mount } from 'enzyme';
 import { setFocusTrap, removeFocusTrap } from '.';
 
+// eslint-disable-next-line
 const TestComponent = ({ children }) => {
   useEffect(() => {
     setFocusTrap(document.getElementById('myComponent'));

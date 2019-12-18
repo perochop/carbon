@@ -41,7 +41,7 @@ class Dialog extends Modal {
     }
   }
 
-  onDialogBlur(ev) { } // eslint-disable-line nso-unused-vars
+  onDialogBlur(ev) { } // eslint-disable-line no-unused-vars
 
   onCloseIconBlur(ev) {
     ev.preventDefault();
