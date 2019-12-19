@@ -49,17 +49,16 @@ class Dialog extends Modal {
   }
 
   get onOpening() {
-    setFocusTrap(this._innerContent);
     this.document.documentElement.style.overflow = 'hidden';
     this.centerDialog(true);
     ElementResize.addListener(this._innerContent, this.applyFixedBottom);
     this.window.addEventListener('resize', this.centerDialog);
 
     if (this.props.autoFocus) {
-      return this.focusDialog();
+      this.focusDialog();
     }
 
-    return null;
+    return setFocusTrap(this._innerContent);
   }
 
   get onClosing() {
@@ -244,7 +243,6 @@ class Dialog extends Modal {
         onBlur={ this.onDialogBlur }
       >
         { this.dialogTitle }
-
         <DialogContentStyle
           ref={ (content) => { this._content = content; } }
           height={ this.props.height }
