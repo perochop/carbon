@@ -250,11 +250,11 @@ class Dialog extends Modal {
             ref={ (innerContent) => { this._innerContent = innerContent; } }
             height={ this.props.height }
           >
-            { this.renderChildren() }
-            { this.additionalContent() }
+            {this.renderChildren()}
+            {this.additionalContent()}
           </DialogInnerContentStyle>
         </DialogContentStyle>
-        { this.closeIcon }
+        {this.closeIcon}
       </DialogStyle>
     );
   }

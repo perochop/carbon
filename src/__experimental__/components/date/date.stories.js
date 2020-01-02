@@ -34,28 +34,36 @@ const setValue = (ev) => {
   store.set({ value: ev.target.value.rawValue });
 };
 
-function makeStory(name, themeSelector) {
-  const component = () => {
-    const autoFocus = boolean('autoFocus', true);
-    const minDate = text('minDate', '');
-    const maxDate = text('maxDate', '');
-    const allowEmptyValue = boolean('allowEmptyValue', false);
 
-    return (
-      <DateInput
-        { ...getCommonTextboxStoryProps({ inputWidthEnabled: false }) }
-        name='dateinput'
-        autoFocus={ autoFocus }
-        minDate={ minDate }
-        maxDate={ maxDate }
-        value={ store.get('value') }
-        onChange={ setValue }
-        onBlur={ ev => action('onBlur')(ev) }
-        allowEmptyValue={ allowEmptyValue }
-      />
-    );
-  };
+const dateComponent = () => {
+  const minDate = text('minDate', '');
+  const maxDate = text('maxDate', '');
+  const allowEmptyValue = boolean('allowEmptyValue', false);
+  const autoFocus = boolean('autoFocus', false);
 
+
+  return (
+    <DateInput
+      { ...getCommonTextboxStoryProps({ inputWidthEnabled: false }) }
+      name='dateinput'
+      autoFocus={ autoFocus }
+      minDate={ minDate }
+      maxDate={ maxDate }
+      value={ store.get('value') }
+      onChange={ setValue }
+      onBlur={ ev => action('onBlur')(ev) }
+      onKeyDown={ ev => action('onKeyDown')(ev) }
+      allowEmptyValue={ allowEmptyValue }
+    />
+  );
+};
+
+const autoFocusDateComponent = () => {
+  boolean('autoFocus', true);
+  return dateComponent();
+};
+
+function makeStory(name, themeSelector, component) {
   const metadata = {
     themeSelector,
     info: {
@@ -71,7 +79,6 @@ function makeStory(name, themeSelector) {
 }
 
 function makeValidationsStory(name, themeSelector) {
-  const allowEmptyValue = boolean('allowEmptyValue', false);
   const component = () => {
     return (
       <State store={ store }>
@@ -83,7 +90,7 @@ function makeValidationsStory(name, themeSelector) {
           info={ [isNotThirdApr] }
           onChange={ setValue }
           onBlur={ ev => action('onBlur')(ev) }
-          allowEmptyValue={ allowEmptyValue }
+          allowEmptyValue={ boolean('allowEmptyValue', false) }
         />
       </State>
     );
@@ -104,10 +111,11 @@ function makeValidationsStory(name, themeSelector) {
 
 storiesOf('Experimental/Date Input', module)
   .addDecorator(StateDecorator(store))
-  .add(...makeStory('default', dlsThemeSelector))
-  .add(...makeStory('classic', classicThemeSelector))
-  .add(...makeValidationsStory('validations', dlsThemeSelector))
-  .add(...makeValidationsStory('validations classic', classicThemeSelector));
+  .add(...makeStory('default', dlsThemeSelector, dateComponent))
+  .add(...makeStory('classic', classicThemeSelector, dateComponent))
+  .add(...makeValidationsStory('validations', dlsThemeSelector, dateComponent))
+  .add(...makeValidationsStory('validations classic', classicThemeSelector, dateComponent))
+  .add(...makeStory('autoFocus', dlsThemeSelector, autoFocusDateComponent));
 
 function isNotFirstApr(value) {
   return new Promise((resolve, reject) => {
