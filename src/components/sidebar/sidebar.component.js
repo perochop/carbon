@@ -34,11 +34,15 @@ class Sidebar extends Modal {
   }
 
   get onOpening() {
-    return setFocusTrap(this.sideBarRef);
+    setFocusTrap(this.sideBarRef);
+
+    return null;
   }
 
   get onClosing() {
-    return removeFocusTrap();
+    removeFocusTrap();
+
+    return null;
   }
 
   componentTags(props) {

@@ -24,10 +24,6 @@ class Dialog extends Modal {
     this.onCloseIconBlur = this.onCloseIconBlur.bind(this);
     this.document = Browser.getDocument();
     this.window = Browser.getWindow();
-    // eslint-disable-next-line max-len
-    this.state = {
-      isLastItemFocused: false
-    };
   }
 
   componentDidMount() {
@@ -58,7 +54,9 @@ class Dialog extends Modal {
       this.focusDialog();
     }
 
-    return setFocusTrap(this._innerContent);
+    setFocusTrap(this._innerContent);
+
+    return null;
   }
 
   get onClosing() {
