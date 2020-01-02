@@ -4,7 +4,7 @@ let firstFocusableElement;
 let lastFocusableElement;
 
 const blockTabbing = (ev) => {
-  if (ev.keyCode === 9 || ev.keyCode === 16) {
+  if (ev.keyCode === 9) {
     ev.preventDefault();
   }
 };
@@ -12,14 +12,14 @@ const blockTabbing = (ev) => {
 // eslint-disable-next-line max-len
 const ALL_FOCUSABLE_ELEMENTS = 'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])';
 
-const setFocusableItems = () => {
-  focusableElements = element.querySelectorAll(ALL_FOCUSABLE_ELEMENTS);
+const setFocusableItems = (focusableSelectors) => {
+  focusableElements = element.querySelectorAll(focusableSelectors);
   firstFocusableElement = focusableElements[0];
   lastFocusableElement = focusableElements[focusableElements.length - 1];
 };
 
-const tabbing = (ev) => {
-  setFocusableItems();
+const tabbing = (ev, focusableSelectors) => {
+  setFocusableItems(focusableSelectors);
   if (ev.key === 'Tab' || ev.keyCode === 9) {
     if (ev.shiftKey) /* shift + tab */ {
       if (document.activeElement === firstFocusableElement) {
@@ -33,10 +33,10 @@ const tabbing = (ev) => {
   }
 };
 
-const setFocusTrap = (el) => {
+const setFocusTrap = (el, focusableSelectors = ALL_FOCUSABLE_ELEMENTS) => {
   element = el;
 
-  setFocusableItems();
+  setFocusableItems(focusableSelectors);
 
   if (focusableElements.length <= 0) {
     document.addEventListener('keydown', blockTabbing);
@@ -44,7 +44,7 @@ const setFocusTrap = (el) => {
   }
 
   firstFocusableElement.focus();
-  document.addEventListener('keydown', ev => tabbing(ev));
+  document.addEventListener('keydown', ev => tabbing(ev, focusableSelectors));
 };
 
 const removeFocusTrap = () => {
