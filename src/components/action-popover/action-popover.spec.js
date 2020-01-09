@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import TestRenderer from 'react-test-renderer';
 import { mount as enzymeMount } from 'enzyme';
 import { simulate, assertStyleMatch } from '../../__spec_helper__/test-utils';
-import theme from '../../style/themes/small';
+import mintTheme from '../../style/themes/mint';
 import classic from '../../style/themes/classic';
 
 import { ActionPopover, ActionPopoverDivider, ActionPopoverItem } from './index';
@@ -43,7 +43,9 @@ describe('ActionPopover', () => {
         >Download PDF
         </ActionPopoverItem>,
         <ActionPopoverDivider />,
-        <ActionPopoverItem icon='csv' { ...{ onClick: onClickWrapper('csv') } }>Download CSV</ActionPopoverItem>
+        <ActionPopoverItem icon='csv' { ...{ onClick: onClickWrapper('csv') } }>Download CSV</ActionPopoverItem>,
+        null,
+        undefined
       ],
       onOpen,
       onClose,
@@ -51,7 +53,7 @@ describe('ActionPopover', () => {
     };
 
     renderer(
-      <ThemeProvider { ...{ theme } }>
+      <ThemeProvider theme={ mintTheme }>
         <React.Fragment>
           <input id='before' />
           <ActionPopover { ...defaultProps } { ...props } />
@@ -202,11 +204,12 @@ describe('ActionPopover', () => {
 
   describe('Click handlers', () => {
     describe('MenuButton', () => {
+      let stopPropagation;
       beforeEach(() => {
         render();
         const { menubutton } = getElements();
-
-        menubutton.simulate('click');
+        stopPropagation = jest.fn();
+        menubutton.simulate('click', { stopPropagation });
       });
       it('Clicking opens the menu', () => {
         const { menu } = getElements();
@@ -214,6 +217,10 @@ describe('ActionPopover', () => {
           display: 'block'
         }, menu);
         expect(onOpen).toHaveBeenCalledTimes(1);
+      });
+
+      it('Clicking on menu button does not allow for further event propagation ', () => {
+        expect(stopPropagation).toHaveBeenCalled();
       });
 
       it('Clicking focuses the first element', () => {
@@ -503,7 +510,7 @@ describe('ActionPopover', () => {
 
       simulate.keydown.pressDownArrow(menubutton);
 
-      expect(getElements().menubutton).toHaveStyleRule('background-color', theme.colors.white);
+      expect(getElements().menubutton).toHaveStyleRule('background-color', mintTheme.colors.white);
     });
 
     it('renders correctly for the "classic" theme', () => {
@@ -531,7 +538,7 @@ describe('ActionPopover', () => {
   it('validates the children prop', () => {
     jest.spyOn(global.console, 'error').mockImplementation(() => {});
     ReactDOM.render(
-      <ThemeProvider { ...{ theme } }>
+      <ThemeProvider theme={ mintTheme }>
         <ActionPopover><p>invalid children</p></ActionPopover>
       </ThemeProvider>, container.current
     );

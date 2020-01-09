@@ -13,12 +13,9 @@ import HiddenCheckableInputStyle from '../checkable-input/hidden-checkable-input
 import LabelStyle from '../label/label.style';
 import StyledSwitchSlider from './switch-slider.style';
 import guid from '../../../utils/helpers/guid';
-import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
-import baseTheme from '../../../style/themes/base';
-import classicTheme from '../../../style/themes/classic';
-import smallTheme from '../../../style/themes/small';
-import mediumTheme from '../../../style/themes/medium';
+import { assertStyleMatch, carbonThemesJestTable } from '../../../__spec_helper__/test-utils';
 import StyledValidationIcon from '../../../components/validations/validation-icon.style';
+import { baseTheme, classicTheme } from '../../../style/themes';
 
 jest.mock('../../../utils/helpers/guid');
 guid.mockImplementation(() => 'guid-12345');
@@ -121,7 +118,9 @@ describe('Switch', () => {
       const wrapper = render({ fieldHelpInline: true }).toJSON();
 
       it('applies the correct FieldHelp styles', () => {
-        assertStyleMatch({ marginRight: '32px' }, wrapper, { modifier: css`${FieldHelpStyle}` });
+        assertStyleMatch({
+          marginBottom: '10px'
+        }, wrapper, { modifier: css`${FieldHelpStyle}` });
       });
     });
 
@@ -130,8 +129,9 @@ describe('Switch', () => {
 
       it('applies the correct Label styles', () => {
         assertStyleMatch({
-          margin: '0 32px 0 0',
-          padding: '3px 0',
+          marginBottom: '0',
+          marginRight: '32px',
+          paddingTop: '4px',
           width: 'auto'
         }, wrapper, { modifier: css`${LabelStyle}` });
       });
@@ -154,8 +154,8 @@ describe('Switch', () => {
 
       it('applies the correct FieldHelp styles', () => {
         assertStyleMatch({
-          marginTop: '0',
-          padding: '3px 0'
+          marginLeft: '0',
+          marginTop: '-1px'
         }, wrapper, { modifier: css`${FieldHelpStyle}` });
       });
     });
@@ -197,7 +197,6 @@ describe('Switch', () => {
 
         it('applies the correct FieldHelp styles', () => {
           assertStyleMatch({
-            marginTop: '0',
             padding: '10px 0'
           }, wrapper, { modifier: css`${FieldHelpStyle}` });
         });
@@ -391,52 +390,17 @@ describe('Switch', () => {
     });
   });
 
-  describe('Small theme', () => {
+  describe.each(carbonThemesJestTable)('when the theme is set to %s', (themeName, theme) => {
     describe('default', () => {
-      const wrapper = renderWithTheme({}, smallTheme).toJSON();
+      const wrapper = renderWithTheme({}, theme).toJSON();
+      const expectedOutlineStyle = { outline: `solid 3px ${theme.colors.focus}` };
 
-      describe('input hover / focus styles', () => {
-        const hoverFocusStyles = { outline: `solid 3px ${smallTheme.colors.focus}` };
-
-        it('applies the correct focus styles', () => {
+      describe.each(['hover', 'focus'])('and %s is applied to the element', (selector) => {
+        it('then the correct outline should be rendered', () => {
           assertStyleMatch(
-            hoverFocusStyles,
+            expectedOutlineStyle,
             wrapper,
-            { modifier: css`${`${HiddenCheckableInputStyle}:not([disabled]):focus + ${StyledSwitchSlider}`}` }
-          );
-        });
-
-        it('applies the correct hover styles', () => {
-          assertStyleMatch(
-            hoverFocusStyles,
-            wrapper,
-            { modifier: css`${`${HiddenCheckableInputStyle}:not([disabled]):hover + ${StyledSwitchSlider}`}` }
-          );
-        });
-      });
-    });
-  });
-
-  describe('Medium theme', () => {
-    describe('default', () => {
-      const wrapper = renderWithTheme({}, mediumTheme).toJSON();
-
-      describe('input hover / focus styles', () => {
-        const hoverFocusStyles = { outline: `solid 3px ${mediumTheme.colors.focus}` };
-
-        it('applies the correct focus styles', () => {
-          assertStyleMatch(
-            hoverFocusStyles,
-            wrapper,
-            { modifier: css`${`${HiddenCheckableInputStyle}:not([disabled]):focus + ${StyledSwitchSlider}`}` }
-          );
-        });
-
-        it('applies the correct hover styles', () => {
-          assertStyleMatch(
-            hoverFocusStyles,
-            wrapper,
-            { modifier: css`${`${HiddenCheckableInputStyle}:not([disabled]):hover + ${StyledSwitchSlider}`}` }
+            { modifier: css`${`${HiddenCheckableInputStyle}:not([disabled]):${selector} + ${StyledSwitchSlider}`}` }
           );
         });
       });

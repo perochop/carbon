@@ -16,7 +16,7 @@ import { rootTagTest } from '../../utils/helpers/tags/tags-specs';
 import Pager from '../pager';
 import BaseTheme from '../../style/themes/base';
 import ClassicTheme from '../../style/themes/classic';
-import SmallTheme from '../../style/themes/small';
+import mintTheme from '../../style/themes/mint';
 import Link from '../link';
 
 describe('Table', () => {
@@ -443,7 +443,7 @@ describe('Table', () => {
 
     describe('when data has not changed', () => {
       it('does not emit on change', () => {
-        instance.componentWillReceiveProps({ filter: data });
+        instance.UNSAFE_componentWillReceiveProps({ filter: data });
         expect(instance.emitOnChangeCallback).not.toHaveBeenCalled();
       });
     });
@@ -451,7 +451,7 @@ describe('Table', () => {
     describe('when data has changed', () => {
       it('emits on change', () => {
         data = data.set('foo', 'qux');
-        instance.componentWillReceiveProps({ filter: data });
+        instance.UNSAFE_componentWillReceiveProps({ filter: data });
         expect(instance.emitOnChangeCallback).toHaveBeenCalledWith('filter', {
           currentPage: '',
           filter: { foo: 'qux' },
@@ -468,7 +468,7 @@ describe('Table', () => {
           <Table highlightable />
         );
         spyOn(instance, 'resetHighlightedRow');
-        instance.componentWillReceiveProps({ highlightable: false });
+        instance.UNSAFE_componentWillReceiveProps({ highlightable: false });
         expect(instance.resetHighlightedRow).toHaveBeenCalled();
       });
     });
@@ -482,7 +482,7 @@ describe('Table', () => {
           foo: { props: { uniqueID: 'foo' } }
         };
         spyOn(instance, 'selectRow');
-        instance.componentWillReceiveProps({ selectable: false });
+        instance.UNSAFE_componentWillReceiveProps({ selectable: false });
         expect(instance.selectRow).toHaveBeenCalledWith('foo', instance.rows.foo, false);
       });
     });
@@ -717,13 +717,13 @@ describe('Table', () => {
       const configureLink = wrapper.find(Link);
 
       expect(configureLink.length).toEqual(1);
-      configureLink.find('a').simulate('click', { preventDefault: () => {} });
+      configureLink.find('button').simulate('click', { preventDefault: () => {} });
       expect(onConfigureSpy).toHaveBeenCalled();
     });
   });
 
   describe('emitOptions', () => {
-    it('gathers all relevent props to emit', () => {
+    it('gathers all relevant props to emit', () => {
       expect(instancePager.emitOptions()).toEqual({
         currentPage: '1',
         filter: {},
@@ -1113,7 +1113,7 @@ describe('Table', () => {
           const wrapper = mount(
             <StyledTable
               isZebra
-              theme={ SmallTheme }
+              theme={ mintTheme }
               tableType={ type }
             />
           );
@@ -1142,7 +1142,7 @@ describe('Table', () => {
         const wrapper = TestRenderer.create(
           <StyledTable
             isZebra
-            theme={ SmallTheme }
+            theme={ mintTheme }
             size={ size }
           />
         );
@@ -1172,11 +1172,11 @@ describe('Table', () => {
     describe.each(['primary', 'dark', 'secondary', 'light', 'tertiary', 'transparent'])(
       'when the table type is %s',
       (type) => {
-        it(`renders to match the expected style for a small themed configurable table of ${type} type`, () => {
+        it(`renders to match the expected style for a mint themed configurable table of ${type} type`, () => {
           const wrapper = mount(
             <StyledInternalTableWrapper
               onConfigure
-              theme={ SmallTheme }
+              theme={ mintTheme }
               tableType={ type }
             />
           );

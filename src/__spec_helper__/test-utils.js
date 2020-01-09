@@ -1,3 +1,5 @@
+import { carbonThemeList } from '../style/themes';
+
 const isUpper = char => char.toUpperCase() === char;
 const humpToDash = (acc, char) => `${acc}${isUpper(char) ? `-${char.toLowerCase()}` : char}`;
 
@@ -82,14 +84,18 @@ const assertCorrectTraversal = method => expect => ({ num, nonSelectables = [] }
   const array = makeArrayKeys(num);
   const validIndexes = array.filter(isSelectableGiven(nonSelectables));
 
+
+  const selectedItem = selectedItemOf(wrapper);
   const indexesThatWereSelected = array
-    .reduce(selectedItemReducer(method)(wrapper), [])
+    .reduce(selectedItemReducer(method)(wrapper), [selectedItem])
     .filter(isUnique);
   expect(arraysEqual(validIndexes, indexesThatWereSelected)).toBeTruthy();
 };
 
 const assertKeyboardTraversal = assertCorrectTraversal(() => keyboard.pressDownArrow)(expect);
 const assertHoverTraversal = assertCorrectTraversal(wrapper => hoverList(wrapper))(expect);
+
+const carbonThemesJestTable = carbonThemeList.map(theme => [theme.name, theme]);
 
 export {
   assertStyleMatch,
@@ -103,5 +109,6 @@ export {
   assertHoverTraversal,
   listFrom,
   click,
-  simulate
+  simulate,
+  carbonThemesJestTable
 };

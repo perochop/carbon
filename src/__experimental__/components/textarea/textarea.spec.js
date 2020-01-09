@@ -10,6 +10,7 @@ import ValidationIcon from '../../../components/validations/validation-icon.comp
 import Label from '../label';
 import TextareaInput from './textarea-input.component';
 import guid from '../../../utils/helpers/guid';
+import StyledLabel from '../label/label.style';
 
 jest.mock('../../../utils/helpers/guid');
 guid.mockImplementation(() => 'guid-12345');
@@ -128,8 +129,18 @@ describe('Textarea', () => {
     wrapper = renderTextarea({ label: 'This is a Text Area' });
 
     const labelHtmlFor = wrapper.find(Label).prop('htmlFor');
-    const textAreaName = wrapper.find(TextareaInput).prop('name');
-    expect(labelHtmlFor).toEqual(textAreaName);
+    const textAreaId = wrapper.find(TextareaInput).prop('id');
+    expect(labelHtmlFor).toEqual(textAreaId);
+  });
+
+  describe('when labelInline prop is set', () => {
+    it('then the input label should accomodate for input internal padding', () => {
+      wrapper = renderTextarea({ label: 'foo', labelInline: true });
+
+      assertStyleMatch({
+        paddingTop: '8px'
+      }, wrapper, { modifier: `${StyledLabel}` });
+    });
   });
 });
 

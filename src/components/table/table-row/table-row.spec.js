@@ -12,12 +12,9 @@ import DraggableTableCell from '../draggable-table-cell';
 import StyledTable from '../table.style';
 import StyledIcon from '../../icon/icon.style';
 import { Checkbox } from '../../../__experimental__/components/checkbox';
-import BaseTheme from '../../../style/themes/base';
-import ClassicTheme from '../../../style/themes/classic';
-import SmallTheme from '../../../style/themes/small';
-import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
+import { baseTheme, classicTheme } from '../../../style/themes';
+import { assertStyleMatch, carbonThemesJestTable } from '../../../__spec_helper__/test-utils';
 import { DraggableContext, WithDrop } from '../../drag-and-drop';
-import { THEMES } from '../../../style/themes';
 import { ActionPopover, ActionPopoverItem } from '../../action-popover';
 import { MenuButton } from '../../action-popover/action-popover.style';
 
@@ -38,9 +35,6 @@ jest.mock('../draggable-table-cell', () => {
   };
   return MockDraggableTableCell;
 });
-
-const themeNames = [THEMES.classic, THEMES.small];
-const elements = ['th', 'td'];
 
 describe('TableRow', () => {
   let instance, clickableInstance, row;
@@ -120,7 +114,7 @@ describe('TableRow', () => {
           row = TestUtils.findRenderedComponentWithType(instance, TableRow);
           spyOn(row.context, 'attachToTable');
           spyOn(row.context, 'checkSelection');
-          row.componentWillMount();
+          row.UNSAFE_componentWillMount();
         });
 
         it('calls attachToTable', () => {
@@ -137,7 +131,7 @@ describe('TableRow', () => {
           instance = TestUtils.renderIntoDocument(<Table><TableRow /></Table>);
           row = TestUtils.findRenderedComponentWithType(instance, TableRow);
           spyOn(row.context, 'attachToTable');
-          row.componentWillMount();
+          row.UNSAFE_componentWillMount();
           expect(row.context.attachToTable).not.toHaveBeenCalled();
         });
       });
@@ -148,7 +142,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow selected uniqueID='foo' /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row, 'setState');
-        row.componentWillMount();
+        row.UNSAFE_componentWillMount();
         expect(row.setState).toHaveBeenCalledWith({ selected: true });
       });
     });
@@ -158,7 +152,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow highlighted uniqueID='foo' /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row, 'setState');
-        row.componentWillMount();
+        row.UNSAFE_componentWillMount();
         expect(row.setState).toHaveBeenCalledWith({ highlighted: true });
       });
     });
@@ -194,7 +188,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow uniqueID='foo' /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row.context, 'checkSelection');
-        row.componentWillReceiveProps({ uniqueID: 'bar' });
+        row.UNSAFE_componentWillReceiveProps({ uniqueID: 'bar' });
         expect(row.context.checkSelection).toHaveBeenCalled();
       });
     });
@@ -204,7 +198,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow uniqueID='foo' /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row.context, 'checkSelection');
-        row.componentWillReceiveProps({ uniqueID: 'foo' });
+        row.UNSAFE_componentWillReceiveProps({ uniqueID: 'foo' });
         expect(row.context.checkSelection).not.toHaveBeenCalled();
       });
     });
@@ -214,7 +208,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow selected /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row, 'setState');
-        row.componentWillReceiveProps({ selected: false });
+        row.UNSAFE_componentWillReceiveProps({ selected: false });
         expect(row.setState).toHaveBeenCalledWith({ selected: false });
       });
     });
@@ -224,7 +218,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow selected /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row, 'setState');
-        row.componentWillReceiveProps({ selected: true });
+        row.UNSAFE_componentWillReceiveProps({ selected: true });
         expect(row.setState).not.toHaveBeenCalled();
       });
     });
@@ -234,7 +228,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow highlighted /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row, 'setState');
-        row.componentWillReceiveProps({ highlighted: false });
+        row.UNSAFE_componentWillReceiveProps({ highlighted: false });
         expect(row.setState).toHaveBeenCalledWith({ highlighted: false });
       });
     });
@@ -244,7 +238,7 @@ describe('TableRow', () => {
         instance = TestUtils.renderIntoDocument(<Table><TableRow highlighted /></Table>);
         row = TestUtils.findRenderedComponentWithType(instance, TableRow);
         spyOn(row, 'setState');
-        row.componentWillReceiveProps({ highlighted: true });
+        row.UNSAFE_componentWillReceiveProps({ highlighted: true });
         expect(row.setState).not.toHaveBeenCalled();
       });
     });
@@ -310,7 +304,7 @@ describe('TableRow', () => {
     });
   });
 
-  describe.each(elements)(
+  describe.each(['th', 'td'])(
     'when the theme is classic',
     (element) => {
       const wrapper = mount(
@@ -327,8 +321,8 @@ describe('TableRow', () => {
 
       it(`${element} matches the expected style`, () => {
         assertStyleMatch({
-          backgroundColor: element === 'th' ? BaseTheme.table.header : BaseTheme.table.primary,
-          borderBottom: `1px solid ${BaseTheme.table.secondary}`
+          backgroundColor: element === 'th' ? baseTheme.table.header : baseTheme.table.primary,
+          borderBottom: `1px solid ${baseTheme.table.secondary}`
         }, styledElement);
       });
     }
@@ -342,25 +336,24 @@ describe('TableRow', () => {
   });
 
   describe('when selected', () => {
-    describe.each(themeNames)(
+    describe.each(carbonThemesJestTable)(
       'and the theme is %s',
-      (name) => {
+      (themeName, theme) => {
         it('renders the element to match the expected style', () => {
           instance = mount(
             <TableRow
               uniqueID='foo'
               selectable
               selected
-              theme={ name === 'classic' ? ClassicTheme : SmallTheme }
+              theme={ theme }
             >
               <TableCell />
             </TableRow>
           );
 
           assertStyleMatch({
-            backgroundColor: name === 'classic' ? '#1573E6' : '#D8E0E3',
-            borderBottomColor: name === 'classic' ? '#255BC7' : '#D8E0E3',
-            color: name === 'classic' ? '#ffffff' : undefined
+            backgroundColor: theme.table.selected,
+            borderBottomColor: theme.table.selected
           }, instance, { modifier: `&&&&:hover ${StyledTableCell}` });
         });
       }
@@ -368,22 +361,22 @@ describe('TableRow', () => {
   });
 
   describe('when highlighted', () => {
-    describe.each(themeNames)(
+    describe.each(carbonThemesJestTable)(
       'and the theme is %s',
-      (name) => {
+      (themeName, theme) => {
         it('renders the element to match the expected style', () => {
           instance = mount(
             <TableRow
               highlighted
               uniqueID='foo'
-              theme={ name === 'classic' ? ClassicTheme : SmallTheme }
+              theme={ theme }
             >
               <TableCell />
             </TableRow>
           );
           assertStyleMatch({
-            backgroundColor: name === 'classic' ? '#D0E3FA' : '#D8E0E3',
-            borderBottomColor: name === 'classic' ? '#1573E6' : '#D8E0E3'
+            backgroundColor: theme.table.selected,
+            borderBottomColor: theme.table.selected
           }, instance, { modifier: `&&&& ${StyledTableCell}` });
 
           assertStyleMatch({
@@ -542,7 +535,7 @@ describe('TableRow', () => {
     describe('if is not classic theme', () => {
       it('renders a row to match the snapshot', () => {
         const wrapper = TestRenderer.create(
-          <StyledTable theme={ SmallTheme }>
+          <StyledTable theme={ baseTheme }>
             <TableRow><TableCell /></TableRow>
           </StyledTable>
         );
@@ -608,21 +601,22 @@ describe('TableRow', () => {
         );
       });
 
-      describe('when StyledTableRow get inDeadZone and isDragged props', () => {
-        it('should render correct background color', () => {
-          wrapper = mount(
-            <StyledTableRow
-              theme={ SmallTheme }
-              isDragged
-              inDeadZone
-            />
-          );
+      describe.each(carbonThemesJestTable)('when StyledTableRow get inDeadZone and isDragged props',
+        (themeName, theme) => {
+          it(`should render correct background color for the ${themeName} theme`, () => {
+            wrapper = mount(
+              <StyledTableRow
+                theme={ theme }
+                isDragged
+                inDeadZone
+              />
+            );
 
-          assertStyleMatch({
-            backgroundColor: `${SmallTheme.table.dragging}`
-          }, wrapper, { modifier: `${StyledTableCell}` });
+            assertStyleMatch({
+              backgroundColor: `${theme.table.dragging}`
+            }, wrapper, { modifier: `${StyledTableCell}` });
+          });
         });
-      });
 
       it('renders a draggable cell', () => {
         const draggableRow = wrapper.find(TableRow);
@@ -665,7 +659,7 @@ describe('TableRow', () => {
           <TableRow
             index={ 0 }
             dragAndDropIdentifier='foo'
-            theme={ ClassicTheme }
+            theme={ classicTheme }
           >
             <TableCell>foo</TableCell>
           </TableRow>,
@@ -681,6 +675,49 @@ describe('TableRow', () => {
       });
     });
   });
+
+  describe('when the Theme is Classic', () => {
+    let wrapper;
+
+    describe('when selected', () => {
+      it('renders the element to match the expected style', () => {
+        wrapper = mount(
+          <TableRow
+            uniqueID='foo'
+            selectable
+            selected
+            theme={ classicTheme }
+          >
+            <TableCell />
+          </TableRow>
+        );
+
+        assertStyleMatch({
+          backgroundColor: '#1573E6',
+          borderBottomColor: '#255BC7',
+          color: '#ffffff'
+        }, wrapper, { modifier: `&&&&:hover ${StyledTableCell}` });
+      });
+    });
+
+    describe('when highlighted', () => {
+      it('renders the element to match the expected style', () => {
+        wrapper = mount(
+          <TableRow
+            uniqueID='foo'
+            highlighted
+            theme={ classicTheme }
+          >
+            <TableCell />
+          </TableRow>
+        );
+        assertStyleMatch({
+          backgroundColor: '#D0E3FA',
+          borderBottomColor: '#1573E6'
+        }, wrapper, { modifier: `&&&& ${StyledTableCell}` });
+      });
+    });
+  });
 });
 
 describe('TableRow', () => {
@@ -692,7 +729,7 @@ describe('TableRow', () => {
 
   function render() {
     wrapper.current = mount(
-      <ThemeProvider { ...{ theme: SmallTheme } }>
+      <ThemeProvider { ...{ theme: baseTheme } }>
         <Table>
           <TableRow>
             <TableHeader>First Name</TableHeader>
