@@ -54,7 +54,7 @@ class Dialog extends Modal {
       this.focusDialog();
     }
 
-    setFocusTrap(this._innerContent);
+    setFocusTrap(this._dialog);
 
     return null;
   }
@@ -210,7 +210,6 @@ class Dialog extends Modal {
     }
 
     const dialogProps = {
-      tabIndex: 0,
       style: {
         minHeight: height
       },
