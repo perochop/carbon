@@ -26,6 +26,7 @@ class Sidebar extends Modal {
             data-element='close'
             onClick={ this.props.onCancel }
             type='close'
+            tabIndex='0'
           />
         </SidebarCloseStyle>
       );
@@ -34,7 +35,9 @@ class Sidebar extends Modal {
   }
 
   get onOpening() {
-    setFocusTrap(this.sideBarRef);
+    if (!this.props.enableBackgroundUI) {
+      setFocusTrap(this.sideBarRef);
+    }
 
     return null;
   }
@@ -62,8 +65,8 @@ class Sidebar extends Modal {
         size={ this.props.size }
         data-element='sidebar'
       >
-        { this.closeButton }
-        { this.props.children }
+        {this.closeButton}
+        {this.props.children}
       </SidebarStyle>
     );
   }
