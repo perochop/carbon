@@ -115,6 +115,7 @@ class DialogFullScreen extends Modal {
           data-element='close'
           onClick={ this.props.onCancel }
           type='close'
+          tabIndex='0'
         />
 
         { title }
