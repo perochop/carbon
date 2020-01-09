@@ -15,6 +15,7 @@ import {
 } from './dialog.style';
 import tagComponent from '../../utils/helpers/tags';
 import { setFocusTrap, removeFocusTrap } from '../../utils/helpers/focus-trap';
+import Events from '../../utils/helpers/events/events.js';
 
 class Dialog extends Modal {
   constructor(args) {
@@ -172,6 +173,7 @@ class Dialog extends Modal {
           type='close'
           tabIndex='0'
           onBlur={ this.onCloseIconBlur }
+          onKeyPress={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
         />
       );
     }

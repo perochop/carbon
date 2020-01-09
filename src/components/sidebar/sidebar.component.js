@@ -6,6 +6,7 @@ import Modal from '../modal';
 import { SidebarStyle, SidebarCloseStyle } from './sidebar.style';
 import './sidebar.scss';
 import { setFocusTrap, removeFocusTrap } from '../../utils/helpers/focus-trap';
+import Events from '../../utils/helpers/events/events.js';
 
 class Sidebar extends Modal {
   /** Returns classes for the component. */
@@ -27,6 +28,7 @@ class Sidebar extends Modal {
             onClick={ this.props.onCancel }
             type='close'
             tabIndex='0'
+            onKeyPress={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
           />
         </SidebarCloseStyle>
       );

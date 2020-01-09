@@ -8,6 +8,7 @@ import StyledContent from './content.style';
 import StyledIcon from './icon.style';
 import Browser from '../../utils/helpers/browser';
 import { setFocusTrap, removeFocusTrap } from '../../utils/helpers/focus-trap';
+import Events from '../../utils/helpers/events/events.js';
 
 class DialogFullScreen extends Modal {
   constructor(props) {
@@ -116,6 +117,7 @@ class DialogFullScreen extends Modal {
           onClick={ this.props.onCancel }
           type='close'
           tabIndex='0'
+          onKeyPress={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
         />
 
         { title }
