@@ -44,37 +44,6 @@ describe('DialogFullScreen', () => {
     });
   });
 
-  describe('modalHTML', () => {
-    beforeEach(() => {
-      wrapper = mount(
-        <DialogFullScreen
-          open
-          className='foo'
-          title='my title'
-          onCancel={ onCancel }
-        >
-          <Button>Button</Button>
-          <Button>Button</Button>
-        </DialogFullScreen>
-      );
-      instance = wrapper.instance();
-    });
-
-    it('renders the dialog', () => {
-      expect(instance._dialog).toBeTruthy();
-    });
-
-    it('closes when the exit icon is click', () => {
-      const closeIcon = wrapper.find(Icon);
-      closeIcon.simulate('click');
-      expect(onCancel).toHaveBeenCalled();
-    });
-
-    it('renders the children passed to it', () => {
-      expect(wrapper.find(Button).length).toEqual(2);
-    });
-  });
-
   describe('onOpening', () => {
     beforeEach(() => {
       jest.useFakeTimers();
@@ -159,6 +128,57 @@ describe('DialogFullScreen', () => {
         expect(wrapper.instance().props['data-role']).toEqual('baz');
       });
     });
+  });
+});
+
+describe('modalHTML', () => {
+  let instance,
+      wrapper;
+  const onCancel = jasmine.createSpy('cancel');
+
+  beforeEach(() => {
+    wrapper = mount(
+      <DialogFullScreen
+        open
+        className='foo'
+        title='my title'
+        onCancel={ onCancel }
+      >
+        <Button>Button</Button>
+        <Button>Button</Button>
+      </DialogFullScreen>
+    );
+    instance = wrapper.instance();
+  });
+
+  it('renders the dialog', () => {
+    expect(instance._dialog).toBeTruthy();
+  });
+
+  it('closes when the exit icon is click', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.simulate('click');
+    expect(onCancel).toHaveBeenCalled();
+  });
+
+  it('closes when the exit icon is pressed with enter', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.props().onKeyDown({ which: 13 });
+    expect(onCancel).toHaveBeenCalled();
+  });
+
+  it('closes when the exit icon is pressed with enter', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.props().onKeyDown({ which: 16 });
+    expect(onCancel).not.toHaveBeenCalled();
+  });
+
+  it('renders the children passed to it', () => {
+    expect(wrapper.find(Button).length).toEqual(2);
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
   });
 });
 

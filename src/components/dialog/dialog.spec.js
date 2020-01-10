@@ -452,7 +452,7 @@ describe('Dialog', () => {
             size='small'
             className='foo'
             onCancel={ onCancel }
-            onConfirm={ () => {} }
+            onConfirm={ () => { } }
             showCloseIcon
             height='500'
             ariaRole='dialog'
@@ -476,6 +476,16 @@ describe('Dialog', () => {
         wrapper.find('.carbon-dialog__close').at(0).simulate('click');
         expect(onCancel).toHaveBeenCalled();
       });
+
+      it('closes when the exit icont is pressed with enter', () => {
+        wrapper.find('.carbon-dialog__close').at(0).props().onKeyDown({ which: 13 });
+        expect(onCancel).toHaveBeenCalled();
+      });
+
+      it('closes when the exit icont is pressed with enter', () => {
+        wrapper.find('.carbon-dialog__close').at(0).props().onKeyDown({ which: 16 });
+        expect(onCancel).not.toHaveBeenCalled();
+      });
     });
 
     describe('when dialog is closed', () => {
@@ -496,8 +506,8 @@ describe('Dialog', () => {
     beforeEach(() => {
       wrapper = mount(
         <Dialog
-          onCancel={ () => {} }
-          onConfirm={ () => {} }
+          onCancel={ () => { } }
+          onConfirm={ () => { } }
           open
           showCloseIcon
           subtitle='Test'
@@ -513,8 +523,8 @@ describe('Dialog', () => {
       an aria-describedby attribute pointing at the subtitle element`, () => {
         wrapper = mount(
           <Dialog
-            onCancel={ () => {} }
-            onConfirm={ () => {} }
+            onCancel={ () => { } }
+            onConfirm={ () => { } }
             open
             showCloseIcon
             ariaRole=''
