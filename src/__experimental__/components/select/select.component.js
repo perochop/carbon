@@ -373,7 +373,7 @@ class Select extends React.Component {
         if (!title || !title.length) return null;
 
         return (
-          <StyledSelectPillContainer>
+          <StyledSelectPillContainer key={ String(title + index) }>
             <Pill
               onDelete={ canDelete ? () => this.removeMultiItem(index) : undefined }
               title={ title }
