@@ -42,20 +42,6 @@ describe('Dialog', () => {
           instance.componentDidMount();
           expect(instance.centerDialog).toHaveBeenCalled();
         });
-
-        describe('when autoFocus is true', () => {
-          it('focuses on the dialog', () => {
-            spyOn(Dialog.prototype, 'focusDialog');
-            mount(
-              <Dialog
-                open
-                onCancel={ onCancel }
-                autoFocus
-              />
-            );
-            expect(Dialog.prototype.focusDialog).toHaveBeenCalled();
-          });
-        });
       });
 
       describe('when dialog is closed', () => {
@@ -536,44 +522,6 @@ describe('Dialog', () => {
             theme={ classicTheme }
           />
         );
-      });
-
-      describe('when autoFocus is true', () => {
-        it('focuses on the dialog when opened', () => {
-          jest.useFakeTimers();
-          wrapper.setProps({
-            open: false,
-            autoFocus: true
-          });
-          instance = wrapper.instance();
-          instance.focusDialog = jest.fn();
-
-          wrapper.setProps({
-            open: true
-          });
-          jest.runAllTimers();
-          expect(instance.focusDialog).toBeCalled();
-          jest.useRealTimers();
-        });
-      });
-
-      describe('when autoFocus is false', () => {
-        it('does not focus on the dialog when opened', () => {
-          jest.useFakeTimers();
-          wrapper.setProps({
-            open: false,
-            autoFocus: false
-          });
-          instance = wrapper.instance();
-          instance.focusDialog = jest.fn();
-
-          wrapper.setProps({
-            open: true
-          });
-          jest.runAllTimers();
-          expect(instance.focusDialog).not.toBeCalled();
-          jest.useRealTimers();
-        });
       });
 
       it('returns focus to the dialog element when focus leaves the close icon', () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
-import { l } from 'i18n-js';
 import DialogFullScreen from './dialog-full-screen.component';
 import FullScreenHeading from './full-screen-heading';
 import StyledDialogFullScreen from './dialog-full-screen.style';

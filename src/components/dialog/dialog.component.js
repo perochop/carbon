@@ -31,10 +31,6 @@ class Dialog extends Modal {
     super.componentDidMount();
     if (this.props.open) {
       this.centerDialog();
-
-      if (this.props.autoFocus) {
-        this.focusDialog();
-      }
     }
   }
 
@@ -50,10 +46,6 @@ class Dialog extends Modal {
     this.centerDialog(true);
     ElementResize.addListener(this._innerContent, this.applyFixedBottom);
     this.window.addEventListener('resize', this.centerDialog);
-
-    if (this.props.autoFocus) {
-      this.focusDialog();
-    }
 
     setFocusTrap(this._dialog);
 
@@ -276,13 +268,10 @@ Dialog.propTypes = {
   size: PropTypes.string,
   /** Determines if the close icon is shown */
   showCloseIcon: PropTypes.bool,
-  /** If true then the dialog receives focus when it opens */
-  autoFocus: PropTypes.bool,
   stickyFormFooter: PropTypes.bool
 };
 
 Dialog.defaultProps = {
-  autoFocus: true,
   size: 'medium',
   showCloseIcon: true,
   ariaRole: 'dialog'
