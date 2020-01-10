@@ -28,7 +28,7 @@ class Sidebar extends Modal {
             onClick={ this.props.onCancel }
             type='close'
             tabIndex='0'
-            onKeyPress={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
+            onKeyDown={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
           />
         </SidebarCloseStyle>
       );

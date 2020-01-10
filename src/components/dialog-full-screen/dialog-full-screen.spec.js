@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
+import { l } from 'i18n-js';
 import DialogFullScreen from './dialog-full-screen.component';
 import FullScreenHeading from './full-screen-heading';
 import StyledDialogFullScreen from './dialog-full-screen.style';
@@ -41,37 +42,6 @@ describe('DialogFullScreen', () => {
   describe('default props', () => {
     it('sets enableBackgroundUI to true', () => {
       expect(instance.props.enableBackgroundUI).toBeTruthy();
-    });
-  });
-
-  describe('modalHTML', () => {
-    beforeEach(() => {
-      wrapper = mount(
-        <DialogFullScreen
-          open
-          className='foo'
-          title='my title'
-          onCancel={ onCancel }
-        >
-          <Button>Button</Button>
-          <Button>Button</Button>
-        </DialogFullScreen>
-      );
-      instance = wrapper.instance();
-    });
-
-    it('renders the dialog', () => {
-      expect(instance._dialog).toBeTruthy();
-    });
-
-    it('closes when the exit icon is click', () => {
-      const closeIcon = wrapper.find(Icon);
-      closeIcon.simulate('click');
-      expect(onCancel).toHaveBeenCalled();
-    });
-
-    it('renders the children passed to it', () => {
-      expect(wrapper.find(Button).length).toEqual(2);
     });
   });
 
@@ -148,8 +118,8 @@ describe('DialogFullScreen', () => {
         wrapper = mount(
           <DialogFullScreen
             open
-            onCancel={ () => {} }
-            onConfirm={ () => {} }
+            onCancel={ () => { } }
+            onConfirm={ () => { } }
             title='Test'
             data-role='baz'
             data-element='bar'
@@ -159,6 +129,80 @@ describe('DialogFullScreen', () => {
         expect(wrapper.instance().props['data-role']).toEqual('baz');
       });
     });
+  });
+});
+
+describe('closeIcon', () => {
+  let wrapper;
+  let spy;
+
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    spy = jest.fn();
+
+    wrapper = mount(
+      <DialogFullScreen
+        open
+        onCancel={ spy }
+        onConfirm={ () => { } }
+        title='Test'
+        data-role='baz'
+        data-element='bar'
+      />
+    );
+  });
+
+  it('should close Icon with enter key', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.props().onKeyDown({ which: 13 });
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not close Icon with other key than enter', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.props().onKeyDown({ which: 16 });
+    expect(spy).not.toHaveBeenCalled();
+  });
+});
+
+describe('modalHTML', () => {
+  let instance,
+      wrapper;
+  const onCancel = jasmine.createSpy('cancel');
+
+  beforeEach(() => {
+    wrapper = mount(
+      <DialogFullScreen
+        open
+        className='foo'
+        title='my title'
+        onCancel={ onCancel }
+      >
+        <Button>Button</Button>
+        <Button>Button</Button>
+      </DialogFullScreen>
+    );
+    instance = wrapper.instance();
+  });
+
+  it('renders the dialog', () => {
+    expect(instance._dialog).toBeTruthy();
+  });
+
+  it('closes when the exit icon is click', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.simulate('click');
+    expect(onCancel).toHaveBeenCalled();
+  });
+
+  it('closes when the exit icon is pressed with enter', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.props().onKeyDown({ which: 13 });
+    expect(onCancel).toHaveBeenCalled();
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
   });
 });
 

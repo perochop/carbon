@@ -173,7 +173,7 @@ class Dialog extends Modal {
           type='close'
           tabIndex='0'
           onBlur={ this.onCloseIconBlur }
-          onKeyPress={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
+          onKeyDown={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
         />
       );
     }
