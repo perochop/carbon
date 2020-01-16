@@ -5,7 +5,7 @@ import Icon from '../icon';
 import Modal from '../modal';
 import { SidebarStyle, SidebarCloseStyle } from './sidebar.style';
 import './sidebar.scss';
-import { setFocusTrap, removeFocusTrap } from '../../utils/helpers/focus-trap';
+import FocusTrap from '../../utils/helpers/focus-trap';
 import Events from '../../utils/helpers/events/events.js';
 
 class Sidebar extends Modal {
@@ -36,16 +36,18 @@ class Sidebar extends Modal {
     return null;
   }
 
-  get onOpening() {
-    if (!this.props.enableBackgroundUI) {
-      setFocusTrap(this.sideBarRef);
-    }
+  onOpening() {
+    this.focusTrap = new FocusTrap(this.sideBarRef);
 
-    return null;
+    if (!this.props.enableBackgroundUI) {
+      this.focusTrap.setFocusTrap();
+    } else {
+      this.focusTrap.setFocusToFirstFocusableElement();
+    }
   }
 
   get onClosing() {
-    removeFocusTrap();
+    this.focusTrap.removeFocusTrap();
 
     return null;
   }

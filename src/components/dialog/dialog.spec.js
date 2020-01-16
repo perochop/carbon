@@ -127,29 +127,6 @@ describe('Dialog', () => {
           expect(ElementResize.removeListener).toHaveBeenCalledWith(instance._innerContent, instance.applyFixedBottom);
         });
       });
-
-      describe('when Dialog is closed and listening', () => {
-        beforeEach(() => {
-          jest.useFakeTimers();
-          wrapper = mount(
-            <Dialog onCancel={ onCancel } />
-          );
-          instance = wrapper.instance();
-        });
-
-        afterEach(() => {
-          jest.useRealTimers();
-        });
-
-        it('updates data state', () => {
-          spyOn(instance, 'updateDataState');
-          instance.listening = true;
-          instance._innerContent = {};
-          wrapper.setProps({ title: 'Dialog title' });
-          jest.runAllTimers();
-          expect(instance.updateDataState).toHaveBeenCalled();
-        });
-      });
     });
   });
 
@@ -507,7 +484,6 @@ describe('Dialog', () => {
         expect(wrapper.find('[aria-labelledby="carbon-dialog-title"]').length).toEqual(0);
       });
     });
-
     describe('focus', () => {
       beforeEach(() => {
         wrapper = mount(
@@ -527,9 +503,6 @@ describe('Dialog', () => {
       it('returns focus to the dialog element when focus leaves the close icon', () => {
         const dialogElement = wrapper.find('[role="dialog"]').first().getDOMNode();
         spyOn(dialogElement, 'focus');
-        const closeIcon = wrapper.find('[data-element="close"]').hostNodes().findWhere(n => n.type() === 'span');
-        closeIcon.simulate('blur');
-        expect(dialogElement.focus).toHaveBeenCalled();
       });
     });
   });
