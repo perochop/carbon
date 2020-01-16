@@ -52,9 +52,7 @@ describe('focusTrap', () => {
       });
 
       it('should not move if different key than TAB is pressed', () => {
-        expect(document.activeElement).toMatchObject(wrapper.find('button').at(0));
-        document.dispatchEvent(tabKey);
-        expect(document.activeElement).toMatchObject(wrapper.find('button').at(1));
+        document.querySelectorAll('button')[1].focus();
         document.dispatchEvent(otherKey);
         expect(document.activeElement).toMatchObject(wrapper.find('button').at(1));
       });
@@ -62,6 +60,18 @@ describe('focusTrap', () => {
       it('should back to the last item when use `shift + tab` on first focusable item', () => {
         expect(document.activeElement).toMatchObject(wrapper.find('button').at(0));
         document.dispatchEvent(shiftTabKey);
+        expect(document.activeElement).toMatchObject(wrapper.find('button').at(1));
+      });
+
+      it('should back to the first item when use `shift + tab`', () => {
+        document.querySelectorAll('button')[1].focus();
+        document.dispatchEvent(shiftTabKey);
+        expect(document.activeElement).toMatchObject(wrapper.find('button').at(0));
+      });
+
+      it('should go to the second item when use TAB', () => {
+        expect(document.activeElement).toMatchObject(wrapper.find('button').at(0));
+        document.dispatchEvent(tabKey);
         expect(document.activeElement).toMatchObject(wrapper.find('button').at(1));
       });
 
