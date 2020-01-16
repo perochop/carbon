@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { mount } from 'enzyme';
-import { setFocusTrap, removeFocusTrap } from '.';
+import FocusTrap from './focus-trap';
 
 // eslint-disable-next-line
 const TestComponent = ({ children }) => {
   useEffect(() => {
-    setFocusTrap(document.getElementById('myComponent'));
-    return () => removeFocusTrap();
+    const focusTrap = new FocusTrap(document.getElementById('myComponent'));
+
+    focusTrap.setFocusTrap();
+    return () => focusTrap.removeFocusTrap();
   });
 
   return (
@@ -25,13 +27,13 @@ describe('focusTrap', () => {
   const tabKey = new KeyboardEvent('keydown', { keyCode: 9 });
   const shiftKey = new KeyboardEvent('keydown', { shiftKey: true });
   const shiftTabKey = new KeyboardEvent('keydown', { keyCode: 9, shiftKey: true });
+  const otherKey = new KeyboardEvent('keydown', { keyCode: 32 });
 
   describe('when focusTrap is used to an element', () => {
     describe('and element has focusable items inside', () => {
       let wrapper;
 
       beforeEach(() => {
-        jest.useFakeTimers();
         wrapper = mount(
           <TestComponent>
             <button type='button'>Test button One</button>
@@ -39,17 +41,22 @@ describe('focusTrap', () => {
           </TestComponent>,
           { attachTo: htmlElement }
         );
-
-        jest.runAllTimers();
       });
 
       afterEach(() => {
         wrapper.unmount();
-        jest.clearAllTimers();
       });
 
       it('should focus first focusable item', () => {
         expect(document.activeElement).toMatchObject(wrapper.find('button').at(0));
+      });
+
+      it('should not move if different key than TAB is pressed', () => {
+        expect(document.activeElement).toMatchObject(wrapper.find('button').at(0));
+        document.dispatchEvent(tabKey);
+        expect(document.activeElement).toMatchObject(wrapper.find('button').at(1));
+        document.dispatchEvent(otherKey);
+        expect(document.activeElement).toMatchObject(wrapper.find('button').at(1));
       });
 
       it('should back to the last item when use `shift + tab` on first focusable item', () => {
@@ -70,16 +77,16 @@ describe('focusTrap', () => {
       let wrapper;
 
       beforeEach(() => {
-        jest.useFakeTimers();
-
         wrapper = mount(
           <TestComponent>
             <p>Test content</p>
           </TestComponent>,
           { attachTo: htmlElement }
         );
+      });
 
-        jest.runAllTimers();
+      afterEach(() => {
+        wrapper.unmount();
       });
 
       it('should block tabbing if `tab` pressed', () => {
@@ -92,11 +99,6 @@ describe('focusTrap', () => {
         document.getElementById('myComponent').focus();
         document.dispatchEvent(shiftKey);
         expect(document.activeElement).toMatchObject(wrapper);
-      });
-
-      afterEach(() => {
-        wrapper.unmount();
-        jest.clearAllTimers();
       });
     });
   });

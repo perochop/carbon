@@ -1,59 +1,62 @@
-let element;
-let focusableElements;
-let firstFocusableElement;
-let lastFocusableElement;
-
-const blockTabbing = (ev) => {
-  if (ev.keyCode === 9) {
-    ev.preventDefault();
+export default class FocusTrap {
+  constructor(element) {
+    this.element = element;
+    this.focusableElements = undefined;
+    this.firstFocusableElement = undefined;
+    this.lastFocusableElement = undefined;
+    // eslint-disable-next-line max-len
+    this.focusableSelectors = 'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])';
   }
-};
 
-// eslint-disable-next-line max-len
-const ALL_FOCUSABLE_ELEMENTS = 'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])';
-
-const setFocusableItems = (focusableSelectors) => {
-  focusableElements = element.querySelectorAll(focusableSelectors);
-  firstFocusableElement = focusableElements[0];
-  lastFocusableElement = focusableElements[focusableElements.length - 1];
-};
-
-const tabbing = (ev, focusableSelectors) => {
-  setFocusableItems(focusableSelectors);
-  if (ev.key === 'Tab' || ev.keyCode === 9) {
-    if (ev.shiftKey) /* shift + tab */ {
-      if (document.activeElement === firstFocusableElement) {
-        lastFocusableElement.focus();
-        ev.preventDefault();
-      }
-    } else if (document.activeElement === lastFocusableElement) {
-      firstFocusableElement.focus();
+  blockTabbing(ev) {
+    if (ev.keyCode === 9) {
       ev.preventDefault();
     }
   }
-};
 
-const setFocusTrap = (el, focusableSelectors = ALL_FOCUSABLE_ELEMENTS) => {
-  element = el;
-
-  setFocusableItems(focusableSelectors);
-
-  if (focusableElements.length <= 0) {
-    document.addEventListener('keydown', blockTabbing);
-    return;
+  setFocusableItems() {
+    this.focusableElements = this.element.querySelectorAll(this.focusableSelectors);
+    this.firstFocusableElement = this.focusableElements[0];
+    this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1];
   }
 
-  firstFocusableElement.focus();
-  document.addEventListener('keydown', ev => tabbing(ev, focusableSelectors));
-};
+  setFocusToFirstFocusableElement() {
+    this.focusableElements = this.element.querySelectorAll(this.focusableSelectors);
+    this.focusableElements[0].focus();
+  }
 
-const removeFocusTrap = () => {
-  document.activeElement.blur();
-  document.removeEventListener('keydown', blockTabbing);
-  document.removeEventListener('keydown', tabbing);
-};
+  focusTrap = (ev) => {
+    this.setFocusableItems();
+    if (ev.key === 'Tab' || ev.keyCode === 9) {
+      if (ev.shiftKey) /* shift + tab */ {
+        if (document.activeElement === this.firstFocusableElement) {
+          this.lastFocusableElement.focus();
+          ev.preventDefault();
+        }
+      } else if (document.activeElement === this.lastFocusableElement) {
+        this.firstFocusableElement.focus();
+        ev.preventDefault();
+      }
+    }
+  }
 
-export {
-  setFocusTrap,
-  removeFocusTrap
-};
+  setFocusTrap(focusableSelectors = this.focusableSelectors) {
+    // this.element = el;
+    this.focusableSelectors = focusableSelectors;
+
+    this.setFocusableItems();
+
+    if (this.focusableElements.length <= 0) {
+      return document.addEventListener('keydown', this.blockTabbing);
+    }
+
+    this.firstFocusableElement.focus();
+    return document.addEventListener('keydown', this.focusTrap);
+  }
+
+  removeFocusTrap() {
+    document.activeElement.blur();
+    document.removeEventListener('keydown', this.blockTabbing);
+    document.removeEventListener('keydown', this.focusTrap);
+  }
+}
