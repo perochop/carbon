@@ -6,7 +6,7 @@ import Modal from '../modal';
 import { SidebarStyle, SidebarCloseStyle } from './sidebar.style';
 import './sidebar.scss';
 import FocusTrap from '../../utils/helpers/focus-trap';
-import Events from '../../utils/helpers/events/events.js';
+import Events from '../../utils/helpers/events/events';
 
 class Sidebar extends Modal {
   /** Returns classes for the component. */

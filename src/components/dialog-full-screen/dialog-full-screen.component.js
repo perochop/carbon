@@ -7,7 +7,7 @@ import StyledDialogFullScreen from './dialog-full-screen.style';
 import StyledContent from './content.style';
 import StyledIcon from './icon.style';
 import Browser from '../../utils/helpers/browser';
-import Events from '../../utils/helpers/events/events.js';
+import Events from '../../utils/helpers/events/events';
 import FocusTrap from '../../utils/helpers/focus-trap';
 
 class DialogFullScreen extends Modal {

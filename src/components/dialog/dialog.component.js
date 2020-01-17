@@ -14,7 +14,7 @@ import {
   DialogInnerContentStyle
 } from './dialog.style';
 import tagComponent from '../../utils/helpers/tags';
-import Events from '../../utils/helpers/events/events.js';
+import Events from '../../utils/helpers/events/events';
 import FocusTrap from '../../utils/helpers/focus-trap';
 
 class Dialog extends Modal {
