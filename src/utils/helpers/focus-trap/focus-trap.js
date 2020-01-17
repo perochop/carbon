@@ -41,7 +41,6 @@ export default class FocusTrap {
   }
 
   setFocusTrap(focusableSelectors = this.focusableSelectors) {
-    // this.element = el;
     this.focusableSelectors = focusableSelectors;
 
     this.setFocusableItems();
