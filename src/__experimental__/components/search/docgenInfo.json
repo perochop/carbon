@@ -1,0 +1,53 @@
+{
+    "src/__experimental__/components/search/search.component.js": [
+      {
+        "description": "",
+        "displayName": "Search",
+        "methods": [],
+        "props": {
+          "defaultValue": {
+            "type": {
+              "name": "string"
+            },
+            "required": false,
+            "description": "defaultValue for uncontrolled component"
+          },
+          "value": {
+            "type": {
+              "name": "string"
+            },
+            "required": false,
+            "description": "value is the string that appears in the search input"
+          },
+          "onChange": {
+            "type": {
+              "name": "func"
+            },
+            "required": false,
+            "description": "Accepts a callback function which can be used to update parent state on change"
+          },
+          "onKeyDown": {
+            "type": {
+              "name": "func"
+            },
+            "required": false,
+            "description": "Fires an onKeyDown event when 'enter' key is pressed"
+          },
+          "searchButton": {
+            "type": {
+              "name": "bool"
+            },
+            "required": false,
+            "description": "Search button to appear when value is less than one character in length"
+          },
+          "onBlur": {
+            "type": {
+              "name": "func"
+            },
+            "required": false,
+            "description": "Takes focus away from the search component"
+          }
+        }
+      }
+    ]
+  }
