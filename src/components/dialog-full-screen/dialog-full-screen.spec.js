@@ -134,10 +134,12 @@ describe('DialogFullScreen', () => {
 describe('closeIcon', () => {
   let wrapper;
   let spy;
+  let preventDefault;
 
   beforeEach(() => {
     jest.restoreAllMocks();
     spy = jest.fn();
+    preventDefault = jest.fn();
 
     wrapper = mount(
       <DialogFullScreen
@@ -153,11 +155,11 @@ describe('closeIcon', () => {
 
   it('should close Icon with enter key', () => {
     const closeIcon = wrapper.find(Icon);
-    closeIcon.props().onKeyDown({ which: 13 });
+    closeIcon.props().onKeyDown({ which: 13, preventDefault });
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should not close Icon with other key than enter', () => {
+  it('should not close Icon with other key than enter or ESC', () => {
     const closeIcon = wrapper.find(Icon);
     closeIcon.props().onKeyDown({ which: 16 });
     expect(spy).not.toHaveBeenCalled();
@@ -166,10 +168,12 @@ describe('closeIcon', () => {
 
 describe('modalHTML', () => {
   let instance,
-      wrapper;
+      wrapper,
+      preventDefault;
   const onCancel = jasmine.createSpy('cancel');
 
   beforeEach(() => {
+    preventDefault = jest.fn();
     wrapper = mount(
       <DialogFullScreen
         open
@@ -196,7 +200,7 @@ describe('modalHTML', () => {
 
   it('closes when the exit icon is pressed with enter', () => {
     const closeIcon = wrapper.find(Icon);
-    closeIcon.props().onKeyDown({ which: 13 });
+    closeIcon.props().onKeyDown({ which: 13, preventDefault });
     expect(onCancel).toHaveBeenCalled();
   });
 

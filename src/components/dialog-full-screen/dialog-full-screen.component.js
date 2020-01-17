@@ -93,6 +93,15 @@ class DialogFullScreen extends Modal {
     return this.document.documentElement;
   }
 
+  onButtonKeyDown = (ev) => {
+    if (Events.isEnterKey(ev) || Events.isSpaceKey(ev)) {
+      ev.preventDefault();
+      this.props.onCancel();
+    }
+
+    return null;
+  }
+
   /**
    * Returns HTML and text for the dialog title.
    */
@@ -117,7 +126,8 @@ class DialogFullScreen extends Modal {
           onClick={ this.props.onCancel }
           type='close'
           tabIndex='0'
-          onKeyDown={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
+          role='button'
+          onKeyDown={ this.onButtonKeyDown }
         />
 
         { title }
