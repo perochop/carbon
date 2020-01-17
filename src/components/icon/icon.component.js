@@ -7,6 +7,13 @@ import StyledIcon from './icon.style';
 import OptionsHelper from '../../utils/helpers/options-helper';
 
 class Icon extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: 'message'
+    };
+  }
+
   /** Return component props */
   get componentProps() {
     return validProps(this);
@@ -42,7 +49,7 @@ class Icon extends React.Component {
         fontSize={ this.props.fontSize }
         iconColor={ this.props.iconColor }
         disabled={ this.props.disabled }
-        type={ this.type }
+        type={ this.type || this.state.type }
         key='icon'
         className={ this.props.className || null }
         { ...this.componentProps }
@@ -50,7 +57,7 @@ class Icon extends React.Component {
         ref={ (comp) => {
           this._target = comp;
         } }
-        data-element={ this.type }
+        data-element={ this.type || this.state.type }
       />,
       this.tooltipHTML
     ];
@@ -79,7 +86,7 @@ Icon.propTypes = {
 Icon.defaultProps = {
   bgSize: 'small',
   fontSize: 'small',
-  disabled: false
+  disabled: false,
 };
 
 export default TooltipDecorator(Icon);
