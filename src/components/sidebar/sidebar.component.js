@@ -17,6 +17,15 @@ class Sidebar extends Modal {
     );
   }
 
+  onButtonKeyDown = (ev) => {
+    if (Events.isEnterKey(ev) || Events.isSpaceKey(ev)) {
+      ev.preventDefault();
+      this.props.onCancel();
+    }
+
+    return null;
+  }
+
   /** Returns the markup for the close icon. */
   get closeButton() {
     if (this.props.onCancel) {
@@ -28,7 +37,7 @@ class Sidebar extends Modal {
             onClick={ this.props.onCancel }
             type='close'
             tabIndex='0'
-            onKeyDown={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
+            onKeyDown={ this.onButtonKeyDown }
           />
         </SidebarCloseStyle>
       );

@@ -8,11 +8,11 @@ import { assertStyleMatch } from '../../__spec_helper__/test-utils';
 import classicTheme from '../../style/themes/classic';
 
 describe('Sidebar', () => {
-  let wrapper, spy;
+  let wrapper, spy, preventDefault;
 
   beforeEach(() => {
     spy = jasmine.createSpy();
-
+    preventDefault = jest.fn();
     wrapper = mount(
       <Sidebar
         open
@@ -98,7 +98,7 @@ describe('Sidebar', () => {
     describe('pressing Tab key on the close icon sidebar', () => {
       it('closes the sidebar', () => {
         const icon = wrapper.find('.carbon-sidebar__close-icon');
-        icon.at(0).props().onKeyDown({ which: 13 });
+        icon.at(0).props().onKeyDown({ which: 13, preventDefault });
         expect(spy).toHaveBeenCalled();
       });
 
