@@ -391,8 +391,10 @@ describe('Dialog', () => {
   describe('render', () => {
     describe('when dialog is open', () => {
       let wrapper;
+      let preventDefault;
 
       beforeEach(() => {
+        preventDefault = jest.fn();
         wrapper = mount(
           <Dialog
             open
@@ -427,7 +429,7 @@ describe('Dialog', () => {
       });
 
       it('closes when the exit icon is pressed with enter', () => {
-        wrapper.find('.carbon-dialog__close').at(0).props().onKeyDown({ which: 13 });
+        wrapper.find('.carbon-dialog__close').at(0).props().onKeyDown({ which: 13, preventDefault });
         expect(onCancel).toHaveBeenCalled();
       });
 

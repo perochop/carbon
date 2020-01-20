@@ -52,6 +52,15 @@ class Dialog extends Modal {
     return ElementResize.removeListener(this._innerContent, this.applyFixedBottom);
   }
 
+  onButtonKeyDown = (ev) => {
+    if (Events.isEnterKey(ev) || Events.isSpaceKey(ev)) {
+      ev.preventDefault();
+      this.props.onCancel();
+    }
+
+    return null;
+  }
+
   centerDialog = (animating) => {
     const height = this._dialog.offsetHeight / 2,
         width = this._dialog.offsetWidth / 2,
@@ -152,7 +161,7 @@ class Dialog extends Modal {
          onClick={ this.props.onCancel }
          type='close'
          tabIndex='0'
-         onKeyDown={ ev => (Events.isEnterKey(ev) ? this.props.onCancel() : null) }
+         onKeyDown={ this.onButtonKeyDown }
        />
      );
    }

@@ -153,10 +153,15 @@ describe('closeIcon', () => {
     );
   });
 
-  it('should close Icon with enter key', () => {
+  it('should close Dialog if enter has been pressed on Close Icon', () => {
     const closeIcon = wrapper.find(Icon);
     closeIcon.props().onKeyDown({ which: 13, preventDefault });
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should close Dialog if ESC key has been pressed', () => {
+    const closeIcon = wrapper.find(Icon);
+    closeIcon.props().onKeyDown({ key: 'Escape' });
   });
 
   it('should not close Icon with other key than enter or ESC', () => {
