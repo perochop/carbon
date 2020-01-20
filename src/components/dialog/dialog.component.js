@@ -161,6 +161,7 @@ class Dialog extends Modal {
          onClick={ this.props.onCancel }
          type='close'
          tabIndex='0'
+         role='button'
          onKeyDown={ this.onButtonKeyDown }
        />
      );
