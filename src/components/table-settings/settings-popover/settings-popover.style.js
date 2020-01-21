@@ -6,9 +6,9 @@ const SettingsPopoverStyle = styled.div`
     background: ${theme.colors.white};
     width: 300px;
     box-shadow: ${theme.shadows.depth1};
-    padding: 8px 16px 24px;
+    padding: 16px 24px;
     position: absolute;
-    top: 20px;
+    top: 0;
     right: 0;
   `}
 `;

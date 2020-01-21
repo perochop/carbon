@@ -1,40 +1,58 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import SettingsPopoverStyle from './settings-popover.style';
-import Icon from '../../icon';
 import SettingsIcon from './settings-icon.style';
-import StyledButton from './settings-button.style';
-import SettingsPopoverHeaderStyle from './settings-popover-header.style';
-import SettingsHeaderStyle from './settings-header.style';
-import CloseIcon from './close-icon.style';
+import SettingsPopoverWrapper from './settings-popover-wrapper.style';
+import SettingsPopoverContent from './settings-popover-content.component';
+import Events from '../../../utils/helpers/events';
 
-const SettingsPopover = ({ children, type, title }) => {
+const SettingsPopover = ({
+  children, type, title
+}) => {
+  const [isOpen, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleKeyDown = (ev) => {
+    if (Events.isEnterKey(ev) || Events.isSpaceKey(ev)) {
+      ev.stopPropagation();
+      handleOpen();
+    }
+
+    return null;
+  };
+
+  const renderSettingsContent = () => (
+    <SettingsPopoverContent
+      title={ title }
+      onClose={ handleClose }
+    >
+      {children}
+    </SettingsPopoverContent>
+  );
+
   return (
-    <StyledButton>
-      <SettingsIcon type={ type } />
-      <SettingsPopoverStyle>
-        <SettingsPopoverHeaderStyle>
-          <SettingsHeaderStyle>
-            {title}
-          </SettingsHeaderStyle>
-          <CloseIcon type='close' />
-        </SettingsPopoverHeaderStyle>
-        {children}
-      </SettingsPopoverStyle>
-    </StyledButton>
-
+    <SettingsPopoverWrapper>
+      <SettingsIcon
+        tabIndex={ isOpen ? -1 : 0 }
+        type={ type }
+        onClick={ handleOpen }
+        onKeyDown={ handleKeyDown }
+      />
+      {isOpen ? renderSettingsContent() : null}
+    </SettingsPopoverWrapper>
   );
 };
 
 SettingsPopover.propTypes = {
   children: PropTypes.node,
-  title: PropTypes.title,
-  // todo: need to rewrite
+  title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired
-};
-
-SettingsPopover.propTypes = {
-
 };
 
 export default SettingsPopover;

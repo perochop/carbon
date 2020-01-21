@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import Icon from '../../icon';
 
 const SettingsIcon = styled(Icon)`
-    position: relative;
+    width: 40px;
+    height: 40px;
 `;
 
 export default SettingsIcon;
