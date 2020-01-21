@@ -1,1 +1,1 @@
-export { default } from './table-settings';
+export { default } from './table-settings.component';
