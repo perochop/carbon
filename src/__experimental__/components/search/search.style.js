@@ -16,6 +16,18 @@ const StyledSearch = styled.div`
       border-bottom-color: ${theme.search.searchActive};
     `}
   `}
+
+  ${({ isActive, searchIsActive }) => css`
+    ${isActive && !searchIsActive && css`
+    color: rgba(0, 0, 0, 0.9);
+    `}
+    ${!isActive && !searchIsActive && css`
+    color: rgba(0, 0, 0, 0.65);
+    `}
+    ${searchIsActive && css`
+    color: rgba(0, 0, 0, 0.9);
+    `}
+  `}
   display: inline-flex;
   padding: 4px;
   font-size: 14px;
@@ -30,6 +42,8 @@ const StyledSearch = styled.div`
   ${StyledIcon} {
     top: 2px;
     color: #668592;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
   }
 `;

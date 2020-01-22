@@ -17,10 +17,6 @@ const store = new Store({
   value: ''
 });
 
-const defaultStoryPropsConfig = {
-  inputWidthEnabled: true
-};
-
 function makeStory(name, themeSelector, component) {
   const metadata = {
     themeSelector,
@@ -49,6 +45,7 @@ const searchStory = () => {
     <State store={ store }>
       <Search
         placeholder={ text('placeholder', 'Search...') }
+        threshold={ text('threshold', Search.defaultProps.threshold) }
         onChange={ handleChange }
         onBlur={ handleBlur }
         value={ store.get('value') }

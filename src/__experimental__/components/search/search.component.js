@@ -6,26 +6,24 @@ import Icon from '../../../components/icon';
 import { Input } from '../input';
 
 const Search = ({
-  defaultValue, onChange, value, id, name, ...rest
+  defaultValue, onChange, value, id, name, threshold, ...rest
 }) => {
   const isControlled = value !== undefined;
   const initialValue = isControlled ? value : defaultValue;
   invariant(
     typeof initialValue === 'string',
-    'Controlled component: Mismatch between props: `enableMultiSelect` '
+    'This component has no initial value'
   );
   let inputRef = useRef(null);
   const [searchValue, setSearchValue] = useState(initialValue);
   const [isActive, setIsActive] = useState(inputRef.current === document.activeElement);
-  const [searchIsActive, setSearchIsActive] = useState(initialValue.length > 0);
+  const [searchIsActive, setSearchIsActive] = useState(initialValue.length >= threshold);
 
   const handleChange = (e) => {
     if (onChange) {
       onChange(e);
     }
-    if (!isControlled) {
-      setSearchValue(e.target.value);
-    }
+    setSearchValue(e.target.value);
   };
 
   const handleOnFocus = () => {
@@ -50,11 +48,8 @@ const Search = ({
   };
 
   useEffect(() => {
-    if (isControlled && value !== searchValue) {
-      setSearchValue(value);
-    }
-    setSearchIsActive(searchValue.length > 0);
-  }, [isControlled, value, searchIsActive, searchValue]);
+    setSearchIsActive(searchValue.length >= threshold);
+  }, [isControlled, value, searchIsActive, searchValue, threshold]);
 
   return (
     <StyledSearch
@@ -64,11 +59,12 @@ const Search = ({
       isActive={ isActive }
       searchIsActive={ searchIsActive }
       id={ id }
+      data-component='search'
       name={ name }
     >
       <Icon
         onClick={ handleIconClick }
-        type={ searchIsActive ? 'cross' : 'search' }
+        type={ searchValue.length ? 'cross' : 'search' }
       />
       <Input
         { ...rest }
@@ -101,7 +97,11 @@ Search.propTypes = {
   /** Prop for `id` events */
   id: PropTypes.string,
   /** Prop for `name` events */
-  name: PropTypes.func
+  name: PropTypes.string,
+  /** Prop for active search threshold */
+  threshold: PropTypes.number
 };
+
+Search.defaultProps = { threshold: 3 };
 
 export default Search;
