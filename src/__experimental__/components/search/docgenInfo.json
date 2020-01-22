@@ -46,6 +46,13 @@
             },
             "required": false,
             "description": "Takes focus away from the search component"
+          },
+          "threshold": {
+            "type": {
+              "name": "number"
+            },
+            "required": false,
+            "description": "Sets character threshold before the search becomes active"
           }
         }
       }
