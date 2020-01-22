@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import SettingsIcon from './settings-icon.style';
-import SettingsPopoverWrapper from './settings-popover-wrapper.style';
-import SettingsPopoverContent from './settings-popover-content.component';
+import PopoverContainerIcon from './popover-container-icon.style';
+import PopoverContainerContent from './popover-container-content.component';
 import Events from '../../utils/helpers/events/events';
+import PopoverContainerWrapperStyle from './popover-container-wrapper.style';
 
-const SettingsPopover = ({
+const PopoverContainer = ({
   children, iconType, title, position
 }) => {
   const [isOpen, setOpen] = useState(false);
@@ -27,34 +27,34 @@ const SettingsPopover = ({
     return null;
   };
 
-  const renderSettingsContent = () => (
-    <SettingsPopoverContent
+  const renderPopoverContent = () => (
+    <PopoverContainerContent
       position={ position }
       title={ title }
       onClose={ handleClose }
     >
       {children}
-    </SettingsPopoverContent>
+    </PopoverContainerContent>
   );
 
   return (
-    <SettingsPopoverWrapper>
-      <SettingsIcon
+    <PopoverContainerWrapperStyle>
+      <PopoverContainerIcon
         tabIndex={ isOpen ? -1 : 0 }
         type={ iconType }
         onClick={ handleOpen }
         onKeyDown={ handleOpenKeyDown }
       />
-      {isOpen ? renderSettingsContent() : null}
-    </SettingsPopoverWrapper>
+      {isOpen ? renderPopoverContent() : null}
+    </PopoverContainerWrapperStyle>
   );
 };
 
-SettingsPopover.propTypes = {
+PopoverContainer.propTypes = {
   children: PropTypes.node,
   position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string.isRequired,
   iconType: PropTypes.string.isRequired
 };
 
-export default SettingsPopover;
+export default PopoverContainer;

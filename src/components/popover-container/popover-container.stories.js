@@ -1,24 +1,27 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { select } from '@storybook/addon-knobs';
-import SettingsPopover from './settings-popover.component';
+import { select, text } from '@storybook/addon-knobs';
 import { dlsThemeSelector } from '../../../.storybook/theme-selectors';
 import OptionsHelper from '../../utils/helpers/options-helper/options-helper';
+import PopoverContainer from './popover-container.component';
+import Button from '../button';
 
 function makeStory(name, themeSelector) {
   const component = () => {
-    const iconType = select('icon type', [...OptionsHelper.icons], 'settings');
+    const title = text('title', 'Popover Title');
+    const iconType = select('iconType', [...OptionsHelper.icons], 'settings');
     const position = select('position', [...OptionsHelper.alignBinary], 'left');
 
     return (
       <div style={ position === 'left' ? { marginLeft: '400px' } : null }>
-        <SettingsPopover
-          title='Settings Popover'
+        <PopoverContainer
+          title={ title }
           position={ position }
           iconType={ iconType }
         >
-          <h1>Example of content</h1>
-        </SettingsPopover>
+          <p>Exercitation esse ipsum labore sunt pariatur dolore proident nostrud laboris et culpa pariatur. Pariatur fugiat id sit elit. Cillum amet irure id sint exercitation est ut.</p>
+          <Button>Button</Button>
+        </PopoverContainer>
       </div>
     );
   };
@@ -30,5 +33,5 @@ function makeStory(name, themeSelector) {
   return [name, component, metadata];
 }
 
-storiesOf('Settings Popover', module)
+storiesOf('Popover Container', module)
   .add(...makeStory('default', dlsThemeSelector));

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SettingsPopoverHeaderStyle from './settings-popover-header.style';
-import SettingsHeaderStyle from './settings-header.style';
 import CloseIcon from './close-icon.style';
-import SettingsPopoverStyle from './settings-popover.style';
+import PopoverContainerContentStyle from './popover-container-content.style';
 import Events from '../../utils/helpers/events/events';
+import PopoverContainerHeaderStyle from './popover-container-header.style';
+import Title from './title.style';
 
-const SettingsPopoverContent = ({
+const PopoverContainerContent = ({
   onClose, children, title, position
 }) => {
   const handleCloseKeyDown = (ev) => {
@@ -19,27 +19,27 @@ const SettingsPopoverContent = ({
   };
 
   return (
-    <SettingsPopoverStyle position={ position }>
-      <SettingsPopoverHeaderStyle>
-        <SettingsHeaderStyle>
+    <PopoverContainerContentStyle position={ position }>
+      <PopoverContainerHeaderStyle>
+        <Title>
           {title}
-        </SettingsHeaderStyle>
+        </Title>
         <CloseIcon
           type='close'
           tabIndex='0'
           onClick={ onClose }
           onKeyDown={ handleCloseKeyDown }
         />
-      </SettingsPopoverHeaderStyle>
+      </PopoverContainerHeaderStyle>
       {children}
-    </SettingsPopoverStyle>
+    </PopoverContainerContentStyle>
   );
 };
 
-SettingsPopoverContent.propTypes = {
+PopoverContainerContent.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node
 };
 
-export default SettingsPopoverContent;
+export default PopoverContainerContent;
