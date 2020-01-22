@@ -77,6 +77,7 @@ Feature: Build tests for classic stories
       | rainbow                          | rainbow              |
       | row                              | row                  |
       | showeditpod                      | pod                  |
+      | experimental-search              | search               |
       | settingsrow                      | settings-row         |
       | experimental-simple-color-picker | simple-color-picker  |
       | split-button                     | split-button         |
