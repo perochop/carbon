@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import SettingsIcon from './settings-icon.style';
 import SettingsPopoverWrapper from './settings-popover-wrapper.style';
 import SettingsPopoverContent from './settings-popover-content.component';
-import Events from '../../../utils/helpers/events';
+import Events from '../../utils/helpers/events/events';
 
 const SettingsPopover = ({
-  children, type, title
+  children, iconType, title, position
 }) => {
   const [isOpen, setOpen] = useState(false);
 
@@ -18,9 +18,9 @@ const SettingsPopover = ({
     setOpen(false);
   };
 
-  const handleKeyDown = (ev) => {
-    if (Events.isEnterKey(ev) || Events.isSpaceKey(ev)) {
-      ev.stopPropagation();
+  const handleOpenKeyDown = (ev) => {
+    if (Events.isEnterOrSpaceKey(ev)) {
+      ev.preventDefault();
       handleOpen();
     }
 
@@ -29,6 +29,7 @@ const SettingsPopover = ({
 
   const renderSettingsContent = () => (
     <SettingsPopoverContent
+      position={ position }
       title={ title }
       onClose={ handleClose }
     >
@@ -40,9 +41,9 @@ const SettingsPopover = ({
     <SettingsPopoverWrapper>
       <SettingsIcon
         tabIndex={ isOpen ? -1 : 0 }
-        type={ type }
+        type={ iconType }
         onClick={ handleOpen }
-        onKeyDown={ handleKeyDown }
+        onKeyDown={ handleOpenKeyDown }
       />
       {isOpen ? renderSettingsContent() : null}
     </SettingsPopoverWrapper>
@@ -51,8 +52,9 @@ const SettingsPopover = ({
 
 SettingsPopover.propTypes = {
   children: PropTypes.node,
+  position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  iconType: PropTypes.string.isRequired
 };
 
 export default SettingsPopover;

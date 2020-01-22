@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { baseTheme } from '../../../style/themes';
+import { baseTheme } from '../../style/themes';
 
 const SettingsPopoverStyle = styled.div`
   ${({ theme }) => theme && css`
@@ -9,7 +9,8 @@ const SettingsPopoverStyle = styled.div`
     padding: 16px 24px;
     position: absolute;
     top: 0;
-    right: 0;
+
+    ${({ position }) => (position === 'right' ? 'left: 0' : 'right: 0')}
   `}
 `;
 

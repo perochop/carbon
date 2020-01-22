@@ -4,12 +4,14 @@ import SettingsPopoverHeaderStyle from './settings-popover-header.style';
 import SettingsHeaderStyle from './settings-header.style';
 import CloseIcon from './close-icon.style';
 import SettingsPopoverStyle from './settings-popover.style';
-import Events from '../../../utils/helpers/events';
+import Events from '../../utils/helpers/events/events';
 
-const SettingsPopoverContent = ({ onClose, children, title }) => {
-  const handleKeyDown = (ev) => {
-    if (Events.isEnterOrSpaceKey) {
-      ev.stopPropagation();
+const SettingsPopoverContent = ({
+  onClose, children, title, position
+}) => {
+  const handleCloseKeyDown = (ev) => {
+    if (Events.isEnterOrSpaceKey(ev)) {
+      ev.preventDefault();
       onClose();
     }
 
@@ -17,7 +19,7 @@ const SettingsPopoverContent = ({ onClose, children, title }) => {
   };
 
   return (
-    <SettingsPopoverStyle>
+    <SettingsPopoverStyle position={ position }>
       <SettingsPopoverHeaderStyle>
         <SettingsHeaderStyle>
           {title}
@@ -26,7 +28,7 @@ const SettingsPopoverContent = ({ onClose, children, title }) => {
           type='close'
           tabIndex='0'
           onClick={ onClose }
-          onKeyDown={ handleKeyDown }
+          onKeyDown={ handleCloseKeyDown }
         />
       </SettingsPopoverHeaderStyle>
       {children}

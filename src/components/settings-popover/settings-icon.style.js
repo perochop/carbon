@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Icon from '../../icon';
+import Icon from '../icon';
 
 const SettingsIcon = styled(Icon)`
     width: 40px;
