@@ -133,7 +133,8 @@ export default (palette) => {
     },
 
     search: {
-      active: '#255BC7',
+      active: palette.goldTint(50),
+      button: '#255BC7',
       passive: palette.slateTint(80),
       searchActive: '#668592'
     },

@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
-import StyledSearch, { StyledSearchFilterIcon } from './search.style';
+import StyledSearch, { StyledSearchButton, StyledButtonIcon } from './search.style';
 import Icon from '../../../components/icon';
-import { Input } from '../input';
+import Textbox from '../textbox';
+import Button from '../../../components/button';
 
 const Search = ({
-  defaultValue, onChange, value, id, name, threshold, ...rest
+  defaultValue, onChange, value, id, name, threshold, searchButton, placeholder, ...rest
 }) => {
   const isControlled = value !== undefined;
   const initialValue = isControlled ? value : defaultValue;
@@ -18,6 +19,7 @@ const Search = ({
   const [searchValue, setSearchValue] = useState(initialValue);
   const [isActive, setIsActive] = useState(inputRef.current === document.activeElement);
   const [searchIsActive, setSearchIsActive] = useState(initialValue.length >= threshold);
+  const [iconType, setIconType] = useState(null);
 
   const handleChange = (e) => {
     if (onChange) {
@@ -49,37 +51,53 @@ const Search = ({
 
   useEffect(() => {
     setSearchIsActive(searchValue.length >= threshold);
-  }, [isControlled, value, searchIsActive, searchValue, threshold]);
+    if (searchValue.length > 0) {
+      setIconType('cross');
+    } else if (!searchButton) {
+      setIconType('search');
+    } else {
+      setIconType(undefined);
+    }
+  }, [searchButton, searchValue, threshold]);
 
   return (
-    <StyledSearch
-      onFocus={ handleOnFocus }
-      onBlur={ handleBlur }
-      onChange={ handleChange }
-      isActive={ isActive }
-      searchIsActive={ searchIsActive }
-      id={ id }
-      data-component='search'
-      name={ name }
-    >
-      <Icon
-        onClick={ handleIconClick }
-        type={ searchValue.length ? 'cross' : 'search' }
-      />
-      <Input
-        { ...rest }
-        value={ searchValue }
-        inputRef={ (el) => { inputRef = el; } }
-      />
-      <StyledSearchFilterIcon iconActive={ searchIsActive }>
-        <Icon
-          type='filter_new'
+    <>
+      <StyledSearch
+        onFocus={ handleOnFocus }
+        onClick={ handleOnFocus }
+        onBlur={ handleBlur }
+        onChange={ handleChange }
+        isActive={ isActive }
+        searchIsActive={ searchIsActive }
+        id={ id }
+        data-component='search'
+        name={ name }
+        searchHasValue={ searchValue && searchValue.length }
+      >
+        <Textbox
+          { ...rest }
+          placeholder={ isActive || searchIsActive ? placeholder : '' }
+          value={ searchValue }
+          inputRef={ (el) => { inputRef = el; } }
+          inputIcon={ iconType }
         />
-      Filter
-      </StyledSearchFilterIcon>
-    </StyledSearch>
+      </StyledSearch>
+      {searchButton && (
+        <StyledSearchButton>
+          <Button size='small'>
+
+            <StyledButtonIcon>
+              <Icon type='search' />
+            </StyledButtonIcon>
+
+          </Button>
+        </StyledSearchButton>
+      )}
+    </>
   );
 };
+
+// create a styledSearchIcon override margins accordingly
 
 Search.propTypes = {
   /** Prop for `uncontrolled` use */
@@ -99,7 +117,9 @@ Search.propTypes = {
   /** Prop for `name` events */
   name: PropTypes.string,
   /** Prop for active search threshold */
-  threshold: PropTypes.number
+  threshold: PropTypes.number,
+  /** Prop for placeholder */
+  placeholder: PropTypes.string
 };
 
 Search.defaultProps = { threshold: 3 };

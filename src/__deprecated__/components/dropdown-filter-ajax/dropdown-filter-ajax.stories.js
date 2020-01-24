@@ -26,7 +26,7 @@ const store = new Store({
   visibleValue: ''
 });
 
-enableMock();
+// enableMock();
 
 // Shared Props
 const onChange = (evt) => {

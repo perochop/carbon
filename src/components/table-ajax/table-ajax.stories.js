@@ -58,7 +58,7 @@ const handleChange = (data) => {
 
 function makeStory(name, themeSelector) {
   const component = () => {
-    enableMock();
+    // enableMock();
 
     const pageSize = text('pageSize', '5');
     const paginate = boolean('paginate', TableAjax.defaultProps.paginate);
