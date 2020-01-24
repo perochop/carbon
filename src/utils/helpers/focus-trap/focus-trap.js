@@ -1,3 +1,4 @@
+
 export default class FocusTrap {
   constructor(element) {
     this.element = element;
@@ -20,9 +21,21 @@ export default class FocusTrap {
     this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1];
   }
 
-  setFocusToFirstFocusableElement() {
+  setFocusToFirstFocusableElement(customElement = false) {
+    if (document.getElementById(customElement)) {
+      return document.getElementById(customElement).focus();
+    }
+
     this.focusableElements = this.element.querySelectorAll(this.focusableSelectors);
-    this.focusableElements[0].focus();
+    return this.focusableElements[0].focus();
+  }
+
+  setFocusToCustomElement(customelement = false) {
+    if (document.getElementById(customelement)) {
+      return document.getElementById(customelement).focus();
+    }
+
+    return null;
   }
 
   focusTrap = (ev) => {
@@ -49,7 +62,6 @@ export default class FocusTrap {
       return document.addEventListener('keydown', this.blockTabbing);
     }
 
-    this.firstFocusableElement.focus();
     return document.addEventListener('keydown', this.focusTrap);
   }
 
