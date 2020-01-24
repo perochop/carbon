@@ -58,6 +58,7 @@ describe('focusTrap', () => {
       });
 
       it('should back to the last item when use `shift + tab` on first focusable item', () => {
+        document.querySelectorAll('button')[0].focus();
         expect(document.activeElement).toMatchObject(wrapper.find('button').at(0));
         document.dispatchEvent(shiftTabKey);
         expect(document.activeElement).toMatchObject(wrapper.find('button').at(1));

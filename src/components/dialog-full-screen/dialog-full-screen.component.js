@@ -79,7 +79,6 @@ class DialogFullScreen extends Modal {
   onOpening() {
     this.focusTrap = new FocusTrap(this._dialog);
     this.focusTrap.setFocusTrap();
-
     this.document.documentElement.style.overflow = 'hidden';
   }
 

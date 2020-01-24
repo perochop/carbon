@@ -379,7 +379,7 @@ describe('Dialog', () => {
         const wrapper = mount(
           <Dialog
             onCancel={ onCancel }
-            showCloseIcon={ false }
+            showCloseIcon
             open
           />
         );

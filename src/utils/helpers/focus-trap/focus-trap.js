@@ -21,23 +21,6 @@ export default class FocusTrap {
     this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1];
   }
 
-  setFocusToFirstFocusableElement(customElement = false) {
-    if (document.getElementById(customElement)) {
-      return document.getElementById(customElement).focus();
-    }
-
-    this.focusableElements = this.element.querySelectorAll(this.focusableSelectors);
-    return this.focusableElements[0].focus();
-  }
-
-  setFocusToCustomElement(customelement = false) {
-    if (document.getElementById(customelement)) {
-      return document.getElementById(customelement).focus();
-    }
-
-    return null;
-  }
-
   focusTrap = (ev) => {
     this.setFocusableItems();
     if (ev.key === 'Tab' || ev.keyCode === 9) {

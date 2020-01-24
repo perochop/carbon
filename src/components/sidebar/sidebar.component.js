@@ -50,18 +50,12 @@ class Sidebar extends Modal {
     this.focusTrap = new FocusTrap(this.sideBarRef);
 
     if (!this.props.enableBackgroundUI) {
-      this.focusTrap.setFocusToFirstFocusableElement(this.props.firstFocus);
       this.focusTrap.setFocusTrap();
-    } else {
-      this.focusTrap.setFocusToFirstFocusableElement();
     }
   }
 
   get onClosing() {
     this.focusTrap.removeFocusTrap();
-    if (this.props.focusAfterClose) {
-      this.focusTrap.setFocusToCustomElement(this.props.focusAfterClose);
-    }
     return null;
   }
 
@@ -102,30 +96,14 @@ Sidebar.propTypes = {
   /** Sets the position of sidebar, either left or right. */
   position: PropTypes.string,
   /** Sets the size of the sidebar when open. */
-  size: PropTypes.string,
-  /**
-   * Allows to place focus on element when dialog opening
-   * The element should have placed string in the id field
-   * example:
-   * <element id="myCustomElement" />
-   */
-  firstFocus: PropTypes.string,
-  /**
-   * Allows to place focus on element when dialog closing
-   * The element should have placed string in the id field
-   * example:
-   * <element id="myCustomElement" />
-   */
-  focusAfterClose: PropTypes.string
+  size: PropTypes.string
 };
 
 Sidebar.defaultProps = {
   position: 'right',
   size: 'medium',
   open: false,
-  enableBackgroundUI: false,
-  firstFocus: '',
-  focusAfterClose: ''
+  enableBackgroundUI: false
 };
 
 export default Sidebar;

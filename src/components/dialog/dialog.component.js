@@ -42,7 +42,6 @@ class Dialog extends Modal {
     this.window.addEventListener('resize', this.centerDialog);
     this.focusTrap = new FocusTrap(this._dialog);
     this.focusTrap.setFocusTrap();
-    this.focusTrap.setFocusToFirstFocusableElement(this.props.firstFocus);
   }
 
   get onClosing() {
@@ -50,9 +49,6 @@ class Dialog extends Modal {
     this.appliedFixedBottom = false;
     this.document.documentElement.style.overflow = '';
     this.window.removeEventListener('resize', this.centerDialog);
-    if (this.props.focusAfterClose) {
-      this.focusTrap.setFocusToCustomElement(this.props.focusAfterClose);
-    }
     return ElementResize.removeListener(this._innerContent, this.applyFixedBottom);
   }
 
@@ -269,29 +265,13 @@ Dialog.propTypes = {
   size: PropTypes.string,
   /** Determines if the close icon is shown */
   showCloseIcon: PropTypes.bool,
-  stickyFormFooter: PropTypes.bool,
-  /**
-   * Allows to place focus on element when dialog opening
-   * The element should have placed string in the id field
-   * example:
-   * <element id="myCustomElement" />
-   */
-  firstFocus: PropTypes.string,
-  /**
-   * Allows to place focus on element when dialog closing
-   * The element should have placed string in the id field
-   * example:
-   * <element id="myCustomElement" />
-   */
-  focusAfterClose: PropTypes.string
+  stickyFormFooter: PropTypes.bool
 };
 
 Dialog.defaultProps = {
   size: 'medium',
   showCloseIcon: true,
-  ariaRole: 'dialog',
-  firstFocus: '',
-  focusAfterClose: ''
+  ariaRole: 'dialog'
 };
 
 export default Dialog;
