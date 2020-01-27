@@ -428,12 +428,12 @@ describe('Dialog', () => {
         expect(onCancel).toHaveBeenCalled();
       });
 
-      it('closes when the exit icon is pressed with enter', () => {
+      it('closes when exit icon is focused and Enter key is clicked', () => {
         wrapper.find('.carbon-dialog__close').at(0).props().onKeyDown({ which: 13, preventDefault });
         expect(onCancel).toHaveBeenCalled();
       });
 
-      it('closes when the exit icon is pressed with enter', () => {
+      it('closes when exit icon is focused and Enter key is clicked', () => {
         wrapper.find('.carbon-dialog__close').at(0).props().onKeyDown({ which: 16 });
         expect(onCancel).not.toHaveBeenCalled();
       });

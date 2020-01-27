@@ -164,7 +164,7 @@ describe('closeIcon', () => {
     closeIcon.props().onKeyDown({ key: 'Escape' });
   });
 
-  it('should not close Icon with other key than enter or ESC', () => {
+  it('should not close Dialog with any key other than Enter or ESC', () => {
     const closeIcon = wrapper.find(Icon);
     closeIcon.props().onKeyDown({ which: 16 });
     expect(onCancel).not.toHaveBeenCalled();
