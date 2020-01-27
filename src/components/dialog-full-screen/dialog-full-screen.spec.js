@@ -70,8 +70,9 @@ describe('DialogFullScreen', () => {
 
     it('removes overflow hidden from the body', () => {
       const html = wrapper.instance().document.documentElement;
+      const originalOverflow = html.style.overflow;
       wrapper.setProps({ open: false });
-      expect(html.style.overflow).not.toMatch('hidden');
+      expect(html.style.overflow).toMatch(originalOverflow);
     });
   });
 
