@@ -18,6 +18,7 @@ class DialogFullScreen extends Modal {
      * Caches a reference to the document.
      */
     this.document = Browser.getDocument();
+    this.originalOverflow = undefined;
   }
 
   static state = {
@@ -79,6 +80,7 @@ class DialogFullScreen extends Modal {
   onOpening() {
     this.focusTrap = new FocusTrap(this._dialog);
     this.focusTrap.setFocusTrap();
+    this.originalOverflow = this.document.documentElement.style.overflow;
     this.document.documentElement.style.overflow = 'hidden';
   }
 
@@ -87,7 +89,7 @@ class DialogFullScreen extends Modal {
    */
   get onClosing() {
     this.focusTrap.removeFocusTrap();
-    this.document.documentElement.style.overflow = 'auto';
+    this.document.documentElement.style.overflow = this.originalOverflow;
 
     return this.document.documentElement;
   }
