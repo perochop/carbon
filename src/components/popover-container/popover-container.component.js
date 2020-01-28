@@ -23,19 +23,7 @@ const PopoverContainer = ({
       ev.preventDefault();
       handleOpen();
     }
-
-    return null;
   };
-
-  const renderPopoverContent = () => (
-    <PopoverContainerContent
-      position={ position }
-      title={ title }
-      onClose={ handleClose }
-    >
-      {children}
-    </PopoverContainerContent>
-  );
 
   return (
     <PopoverContainerWrapperStyle>
@@ -45,7 +33,15 @@ const PopoverContainer = ({
         onClick={ handleOpen }
         onKeyDown={ handleOpenKeyDown }
       />
-      {isOpen ? renderPopoverContent() : null}
+      {isOpen && (
+        <PopoverContainerContent
+          position={ position }
+          title={ title }
+          onClose={ handleClose }
+        >
+          {children}
+        </PopoverContainerContent>
+      )}
     </PopoverContainerWrapperStyle>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from './close-icon.style';
 import PopoverContainerContentStyle from './popover-container-content.style';
@@ -7,8 +7,14 @@ import PopoverContainerHeaderStyle from './popover-container-header.style';
 import Title from './title.style';
 
 const PopoverContainerContent = ({
-  onClose, children, title, position
+  position, onClose, children, title
 }) => {
+  const closeIconRef = useRef();
+
+  useEffect(() => {
+    closeIconRef.current.getTarget().focus();
+  });
+
   const handleCloseKeyDown = (ev) => {
     if (Events.isEnterOrSpaceKey(ev)) {
       ev.preventDefault();
@@ -29,6 +35,7 @@ const PopoverContainerContent = ({
           tabIndex='0'
           onClick={ onClose }
           onKeyDown={ handleCloseKeyDown }
+          ref={ closeIconRef }
         />
       </PopoverContainerHeaderStyle>
       {children}
@@ -39,7 +46,12 @@ const PopoverContainerContent = ({
 PopoverContainerContent.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
+  position: PropTypes.oneOf(['left', 'right'])
+};
+
+PopoverContainerHeaderStyle.defaultProps = {
+  position: 'left'
 };
 
 export default PopoverContainerContent;
