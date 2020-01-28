@@ -2,7 +2,7 @@ Feature: Action Popover component
   I want to change Alert component properties
 
   Background: Open Action Popover component page
-    Given I open "Action Popover" component iframe
+    Given I open "Action Popover" component in iframe
 
   @positive
   Scenario: Open Action Popover element
@@ -30,8 +30,13 @@ Feature: Action Popover component
     Examples:
       | key       |
       | enter     |
-      | downarrow |
       | space     |
+
+  @positive
+  Scenario: Open Action Popover using downarrow keyboard key
+    When I press downarrow on focused element
+    Then focused element inner content is set to "Email Invoice"
+      And Action Popover element has golden border on focus
 
   @positive
   Scenario: Open Action Popover and verify that the first element Email Invoice is focused using Home key

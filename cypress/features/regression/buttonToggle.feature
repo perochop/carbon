@@ -15,40 +15,43 @@ Feature: Button Toggle component
       | áéíóú¿¡üñ               |
       | !@#$%^*()_+-=~[];:.,?{} |
       | ÄÖÜßäöüß                |
-      # @ignore because of FE-1447
-      # | <> |
+  # @ignore because of FE-1447
+  # | <> |
 
   @positive
   Scenario Outline: Set button icon size to <size>
     When I select buttonIcon to "arrow_left"
       And I select buttonIconSize to "<size>"
-    Then Button icon height is "<height>" and width is "<width>"
+    Then Button Toggle icon height is "<height>" and width is "<width>"
     Examples:
       | size  | height | width |
       | small | 16px   | 16px  |
       | large | 32px   | 32px  |
 
-  @positive
+  @ignore
+  # ignored untill will be written classic page suite
   Scenario Outline: Set Button Toggle size to <size>
     When I select size to "<size>"
     Then Button Toggle height is "<height>" and width is "<width>"
     Examples:
       | size  | height | width |
-      | small | 40px   | 94px  |
-      | large | 40px   | 94px  |
+      | small | 40     | 94.25 |
+      | large | 40     | 94.25 |
 
-  @positive
+  @ignore
+  # ignored untill will be written classic page suite
   Scenario Outline: Set Button Toggle size to <size> with small icon
     When I select buttonIcon to "arrow_left"
       And I select buttonIconSize to "small"
       And I select size to "<size>"
     Then Button Toggle height is "<height>" and width is "<width>"
     Examples:
-      | size  | height | width |
-      | small | 40px   | 118px |
-      | large | 40px   | 118px |
+      | size  | height | width  |
+      | small | 40     | 118.25 |
+      | large | 40     | 118.25 |
 
-  @positive
+  @ignore
+  # ignored untill will be written classic page suite
   Scenario Outline: Set Button Toggle size to <size> with large icon
     When I select buttonIcon to "arrow_left"
       And I select buttonIconSize to "large"
@@ -56,16 +59,16 @@ Feature: Button Toggle component
     Then Button Toggle height is "<height>" and width is "<width>"
     Examples:
       | size  | height | width |
-      | small | 104px  | 138px |
-      | large | 104px  | 138px |
+      | small | 104    | 138   |
+      | large | 104    | 138   |
 
   @positive
-  Scenario: Disable Button
+  Scenario: Disable Button Toggle
     When I disable Button component
     Then Button Toggle is disabled
 
   @positive
-  Scenario: Disable and enable Button
+  Scenario: Disable and enable Button Toggle
     When I disable Button component
       And I enable Button component
     Then Button Toggle is enabled
