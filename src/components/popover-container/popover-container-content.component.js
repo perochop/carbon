@@ -20,8 +20,6 @@ const PopoverContainerContent = ({
       ev.preventDefault();
       onClose();
     }
-
-    return null;
   };
 
   return (

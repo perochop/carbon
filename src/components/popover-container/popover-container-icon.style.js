@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Icon from '../icon';
+import { baseTheme } from '../../style/themes';
 
 const PopoverContainerIcon = styled(Icon)`
   width: 40px;
@@ -9,7 +10,10 @@ const PopoverContainerIcon = styled(Icon)`
   &:focus{
       outline: 2px solid ${({ theme }) => theme.colors.focus};
   }
-    
 `;
+
+PopoverContainerIcon.defaultProps = {
+  theme: baseTheme
+};
 
 export default PopoverContainerIcon;
