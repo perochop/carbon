@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { boolean, text } from '@storybook/addon-knobs';
 import { Store, State } from '@sambego/storybook-state';
 import { action } from '@storybook/addon-actions';
-import { dlsThemeSelector, classicThemeSelector } from '../../../../.storybook/theme-selectors';
+import { dlsThemeSelector } from '../../../../.storybook/theme-selectors';
 import { notes, info } from './documentation';
 import Search from '.';
 import getDocGenInfo from '../../../utils/helpers/docgen-info';
@@ -58,5 +58,4 @@ const searchStory = () => {
 };
 
 storiesOf('Experimental/Search', module)
-  .add(...makeStory('default', dlsThemeSelector, searchStory))
-  .add(...makeStory('classic', classicThemeSelector, searchStory));
+  .add(...makeStory('default', dlsThemeSelector, searchStory));
