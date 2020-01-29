@@ -32,6 +32,12 @@ const Search = ({
     setIsActive(true);
   };
 
+  const handleClick = (ev) => {
+    if (onChange) {
+      onChange(ev);
+    }
+  };
+
   const handleIconClick = () => {
     setSearchValue('');
     if (onChange) {
@@ -53,51 +59,54 @@ const Search = ({
     setSearchIsActive(searchValue.length >= threshold);
     if (searchValue.length > 0) {
       setIconType('cross');
-    } else if (!searchButton) {
-      setIconType('search');
+    } else if (searchButton && isActive) {
+      setIconType('');
     } else {
-      setIconType(undefined);
+      setIconType('search');
     }
-  }, [searchButton, searchValue, threshold]);
+  }, [isActive, searchButton, searchIsActive, searchValue, threshold]);
 
   return (
-    <>
-      <StyledSearch
-        onFocus={ handleOnFocus }
-        onClick={ handleOnFocus }
-        onBlur={ handleBlur }
-        onChange={ handleChange }
-        isActive={ isActive }
-        searchIsActive={ searchIsActive }
-        id={ id }
-        data-component='search'
-        name={ name }
-        searchHasValue={ searchValue && searchValue.length }
-      >
-        <Textbox
-          { ...rest }
-          placeholder={ isActive || searchIsActive ? placeholder : '' }
-          value={ searchValue }
-          inputRef={ (el) => { inputRef = el; } }
-          inputIcon={ iconType }
-        />
-      </StyledSearch>
-      {searchButton && (
+    <StyledSearch
+      onFocus={ handleOnFocus }
+      onClick={ handleOnFocus }
+      onBlur={ handleBlur }
+      onChange={ handleChange }
+      isActive={ isActive }
+      searchIsActive={ searchIsActive }
+      id={ id }
+      data-component='search'
+      name={ name }
+      searchHasValue={ searchValue && searchValue.length }
+      hasSearchButton={ Boolean(searchButton) }
+    >
+      <Textbox
+        { ...rest }
+        placeholder={ placeholder }
+        value={ searchValue }
+        inputRef={ (el) => { inputRef = el; } }
+        inputIcon={ iconType }
+        // iconOnClick={ handleIconClick } // Inprep for being unblocked.
+      />
+      {(searchButton && (
         <StyledSearchButton>
-          <Button size='small'>
+          {(isActive || searchIsActive) && (
+            <Button
+              size='small'
+              handleClick={ handleClick }
+            >
 
-            <StyledButtonIcon>
-              <Icon type='search' />
-            </StyledButtonIcon>
+              <StyledButtonIcon>
+                <Icon type='search' />
+              </StyledButtonIcon>
 
-          </Button>
+            </Button>
+          )}
         </StyledSearchButton>
-      )}
-    </>
+      ))}
+    </StyledSearch>
   );
 };
-
-// create a styledSearchIcon override margins accordingly
 
 Search.propTypes = {
   /** Prop for `uncontrolled` use */

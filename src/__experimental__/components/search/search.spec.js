@@ -5,8 +5,7 @@ import { Input } from '../input';
 import Search from './search.component';
 import { StyledSearchButton } from './search.style';
 import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
-import StyledInput from '../input/input.style';
-import StyledIcon from '../../../components/icon/icon.style';
+import StyledTextInput from '../input/input-presentation.style';
 import Icon from '../../../components/icon';
 import { rootTagTest } from '../../../utils/helpers/tags/tags-specs';
 
@@ -21,28 +20,29 @@ describe('Search', () => {
     )
   );
   describe('styles', () => {
-    fit('matches the expected styles', () => {
+    it('matches the expected styles', () => {
       assertStyleMatch({
-        borderBottom: '2px solid #CCD6DA',
+        borderBottom: '1px solid #CCD6DA',
         display: 'inline-flex',
         fontSize: '14px',
         fontWeight: '700'
       }, renderWrapper({ value: '' }, mount));
     });
 
-    fit('matches the expected styles when the input is focused', () => {
+    it('matches the expected styles when the input is focused', () => {
       wrapper = renderWrapper({ value: '' }, mount);
       const input = wrapper.find('input');
       input.simulate('focus');
       assertStyleMatch({
-
+        borderBottom: '1px solid transparent'
       }, wrapper);
     });
 
     it('matches the expected styles when the search is active', () => {
       wrapper = renderWrapper({ value: 'Foo' }, mount);
       assertStyleMatch({
-        // borderBottomColor: '#668592'
+        borderBottom: '1px solid transparent',
+        color: 'rgba(0,0,0,0.9)'
       }, wrapper);
     });
 
@@ -51,22 +51,15 @@ describe('Search', () => {
       assertStyleMatch({
         width: '375px',
         fontSize: '14px',
-        fontWeight: '400'
-      }, wrapper, { modifier: `${StyledInput}` });
+        fontWeight: '700'
+      }, wrapper, { modifier: `${StyledTextInput}` });
     });
 
-    it('applies the expected styling to the input', () => {
-      wrapper = renderWrapper({ value: '' }, mount);
+    it('applies the expected styling to the search button', () => {
+      wrapper = renderWrapper({ value: 'FooBar', searchButton: true }, mount).find(StyledSearchButton);
       assertStyleMatch({
-        top: '2px',
-        color: '#668592'
-      }, wrapper, { modifier: `${StyledIcon}` });
-    });
-
-    it('applies the expected styling to the input', () => {
-      wrapper = renderWrapper({ value: '' }, mount).find(StyledSearchButton);
-      assertStyleMatch({
-        color: '#255BC7'
+        display: 'inline-flex',
+        borderBottom: '1px solid transparent'
       }, wrapper);
     });
   });
@@ -87,7 +80,7 @@ describe('Search', () => {
       expect(input.props().value).toEqual('Bar');
     });
 
-    describe('clicking the left icon', () => {
+    describe('clicking the textbox icon', () => {
       it('calls the onChange', () => {
         act(() => {
           onChange = jest.fn();
@@ -149,7 +142,7 @@ describe('Search', () => {
       expect(onKeyDown).toHaveBeenCalled();
     });
 
-    describe('clicking the left icon', () => {
+    describe('clicking the textbox icon', () => {
       it('calls the onChange', () => {
         act(() => {
           const icon = wrapper.find(Icon).findWhere(n => n.props().type === 'cross').hostNodes();
