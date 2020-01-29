@@ -46,7 +46,7 @@ Feature: Deprecated Simple Color Picker component
   @deprecated
   Scenario Outline: Check the Simple Color Picker <position> element was selected
     When clear all actions in Actions Tab
-      And I pick <position> color
+      And I pick <position> color in deprecated Simple Color Picker
     Then Simple Color Picker <position> element was picked up
       And select action was called in Actions Tab
     Examples:

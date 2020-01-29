@@ -41,10 +41,6 @@ When('inputWidth on preview is {int}', (width) => {
   commonDataElementInputPreview().parent().should('have.css', 'flex').should('contain', `${width}%`);
 });
 
-Then('label align on preview is set to {string}', (labelAlign) => {
-  label().should('have.css', TEXT_ALIGN, `${labelAlign}`);
-});
-
 When('I set Decimal input to {string}', (labelInput) => {
   commonDataElementInputPreview().clear().type(labelInput);
 });

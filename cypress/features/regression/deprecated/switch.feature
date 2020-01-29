@@ -23,14 +23,14 @@ Feature: Deprecated Switch component
   @deprecated
   Scenario: Enable fieldHelpInline
     When I check fieldHelpInline checkbox
-    Then Switch component is set to fieldHelpInline
+    Then Switch deprecated component is set to fieldHelpInline
 
   @positive
   @deprecated
   Scenario: Disable fieldHelpInline
     When I check fieldHelpInline checkbox
       And I uncheck fieldHelpInline checkbox
-    Then Switch component is not set to fieldHelpInline
+    Then Switch deprecated component is not set to fieldHelpInline
 
   @positive
   @deprecated
@@ -51,14 +51,14 @@ Feature: Deprecated Switch component
   @deprecated
   Scenario: Enable labelInline property
     When I check labelInline checkbox
-    Then Switch component is set to labelInline
+    Then Switch deprecated component is set to labelInline
 
   @positive
   @deprecated
   Scenario: Disable labelInline property
     When I check labelInline checkbox
       And I uncheck labelInline checkbox
-    Then Switch component is not set to labelInline
+    Then Switch deprecated component is not set to labelInline
 
   @positive
   @deprecated
@@ -77,23 +77,23 @@ Feature: Deprecated Switch component
   Scenario: Enable reverse property
     When I uncheck reverse checkbox
       And I check reverse checkbox
-    Then Switch component is reversed
+    Then Switch deprecated component is reversed
 
   @positive
   @deprecated
   Scenario: Disable reverse property
     When I uncheck reverse checkbox
-    Then Switch component is not reversed
+    Then Switch deprecated component is not reversed
 
   @positive
   @deprecated
   Scenario: Enable loading property
     When I check loading checkbox
-    Then Switch component is loading
+    Then Switch deprecated component is loading
 
   @positive
   @deprecated
   Scenario: Disable loading property
     When I check loading checkbox
       And I uncheck loading checkbox
-    Then Switch component is not loading
+    Then Switch deprecated component is not loading

@@ -323,6 +323,10 @@ Then('{string} label Align on preview is {string}', (position, direction) => {
   }
 });
 
+Then('label align on preview is set to {string}', (labelAlign) => {
+  label().should('have.css', TEXT_ALIGN, `${labelAlign}`);
+});
+
 Then('Background UI is enabled', () => {
   backgroundUILocator().should('not.exist');
 });
