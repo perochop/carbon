@@ -10,7 +10,6 @@ const PopoverContainerWrapperStyle = styled.div`
   height: 40px;
 `;
 
-
 const PopoverContainerIcon = styled(Icon)`
   width: 40px;
   height: 40px;

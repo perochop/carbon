@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransition, Transition } from 'react-transition-group';
+import { Transition } from 'react-transition-group';
 import Events from '../../utils/helpers/events/events';
 import {
   PopoverContainerWrapperStyle,
@@ -83,8 +83,11 @@ const PopoverContainer = ({
 
 PopoverContainer.propTypes = {
   children: PropTypes.node,
+  /** Sets rendering position of dialog */
   position: PropTypes.oneOf(['left', 'right']),
+  /** Sets the popover container dialog header name */
   title: PropTypes.string.isRequired,
+  /** Sets the icon that opens dialog */
   iconType: PropTypes.string.isRequired
 };
 
