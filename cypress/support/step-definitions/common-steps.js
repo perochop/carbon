@@ -424,8 +424,8 @@ When('I uncheck {word} {word} checkbox', (checkboxName, text) => {
 });
 
 When('I uncheck group {word} {word} {word} checkbox', (groupName, checkboxName, text) => {
-  getKnobsInpuByGroup(groupName, checkboxName, text).scrollIntoView();
-  getKnobsInpuByGroup(groupName, checkboxName, text).uncheck();
+  getKnobsInputByGroup(groupName, checkboxName, text).scrollIntoView();
+  getKnobsInputByGroup(groupName, checkboxName, text).uncheck();
 });
 
 Then('inputWidth is set to {string}', (width) => {
