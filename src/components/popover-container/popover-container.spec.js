@@ -1,17 +1,21 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+import {
+  PopoverContainerIcon,
+  PopoverContainerContentStyle,
+  PopoverContainerCloseIcon
+} from './popover-container.style';
 import PopoverContainer from './popover-container.component';
-import PopoverContainerContent from './popover-container-content.component';
-import PopoverContainerIcon from './popover-container-icon.style';
-import CloseIcon from './close-icon.style';
 import { assertStyleMatch } from '../../__spec_helper__/test-utils';
-import PopoverContainerContentStyle from './popover-container-content.style';
 
 describe('PopoverContainer', () => {
+  jest.useFakeTimers();
   let wrapper,
       preventDefault;
   beforeEach(() => {
+    preventDefault = jest.fn();
+
     wrapper = mount(<PopoverContainer
       title='Popover Container Settings'
       iconType='settings'
@@ -38,14 +42,13 @@ describe('PopoverContainer', () => {
     });
 
     wrapper.update();
-    expect(wrapper.find(PopoverContainerContent).exists()).toBe(true);
+    expect(wrapper.find(PopoverContainerContentStyle).exists()).toBe(true);
   });
 
   it.each([
     ['enter', 13, true],
     ['space', 32, true]
   ])('should open the popover container if %s clicked', (keyname, keycode, expected) => {
-    preventDefault = jest.fn();
     act(() => {
       wrapper = mount(<PopoverContainer
         title='Popover Container Settings'
@@ -56,11 +59,10 @@ describe('PopoverContainer', () => {
 
     wrapper.update();
     expect(preventDefault).toHaveBeenCalled();
-    expect(wrapper.find(PopoverContainerContent).exists()).toBe(expected);
+    expect(wrapper.find(PopoverContainerContentStyle).exists()).toBe(expected);
   });
 
   it('should not open the popover container if different than Enter or Space key clicked', () => {
-    preventDefault = jest.fn();
     act(() => {
       wrapper = mount(<PopoverContainer
         title='Popover Container Settings'
@@ -72,7 +74,7 @@ describe('PopoverContainer', () => {
 
     wrapper.update();
     expect(preventDefault).not.toHaveBeenCalled();
-    expect(wrapper.find(PopoverContainerContent).exists()).toBe(false);
+    expect(wrapper.find(PopoverContainerContentStyle).exists()).toBe(false);
   });
 
   it('should close the popover popover container if close Icon clicked', () => {
@@ -88,18 +90,19 @@ describe('PopoverContainer', () => {
     wrapper.update();
 
     act(() => {
-      wrapper.find(CloseIcon).props().onClick();
+      wrapper.find(PopoverContainerCloseIcon).props().onClick();
+      jest.runAllTimers();
     });
 
     wrapper.update();
-    expect(wrapper.find(PopoverContainerContent).exists()).toBe(false);
+    expect(wrapper.find(PopoverContainerContentStyle).exists()).toBe(false);
+    jest.clearAllTimers();
   });
 
   it.each([
-    ['enter', 13, true],
-    ['space', 32, true]
+    ['enter', 13, false],
+    ['space', 32, false]
   ])('should close the popover container if %s clicked', (keyname, keycode, expected) => {
-    preventDefault = jest.fn();
     act(() => {
       wrapper = mount(<PopoverContainer
         title='Popover Container Settings'
@@ -112,33 +115,39 @@ describe('PopoverContainer', () => {
     wrapper.update();
 
     act(() => {
-      wrapper.find(CloseIcon).props().onKeyDown({ which: keycode, preventDefault });
+      wrapper.find(PopoverContainerCloseIcon).props().onKeyDown({ which: keycode, preventDefault });
+      jest.runAllTimers();
     });
 
     wrapper.update();
+
     expect(preventDefault).toHaveBeenCalled();
-    expect(wrapper.find(PopoverContainerContent).exists()).toBe(false);
+    expect(wrapper.find(PopoverContainerCloseIcon).exists()).toBe(expected);
+    jest.clearAllTimers();
   });
 
-  it('should not close the popover popover container if close Icon clicked', () => {
+  it('should not close the popover container if close Icon clicked', () => {
     act(() => {
       wrapper = mount(<PopoverContainer
         title='Popover Container Settings'
         iconType='settings'
       />);
 
+      expect(wrapper.find(PopoverContainerContentStyle).exists()).toBe(false);
       wrapper.find(PopoverContainerIcon).props().onClick();
     });
 
     wrapper.update();
 
     act(() => {
-      wrapper.find(CloseIcon).props().onKeyDown({ which: 82 /** 'r' key */, preventDefault });
+      wrapper.find(PopoverContainerCloseIcon).props().onKeyDown({ which: 82 /** 'r' key */, preventDefault });
+      jest.runAllTimers();
     });
 
     wrapper.update();
     expect(preventDefault).not.toHaveBeenCalled();
-    expect(wrapper.find(PopoverContainerContent).exists()).toBe(true);
+    expect(wrapper.find(PopoverContainerContentStyle).exists()).toBe(true);
+    jest.clearAllTimers();
   });
 });
 

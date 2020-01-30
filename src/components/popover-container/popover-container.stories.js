@@ -19,7 +19,10 @@ function makeStory(name, themeSelector) {
           position={ position }
           iconType={ iconType }
         >
-          <p>Exercitation esse ipsum labore sunt pariatur dolore proident nostrud laboris et culpa pariatur. Pariatur fugiat id sit elit. Cillum amet irure id sint exercitation est ut.</p>
+          <p>
+            Exercitation esse ipsum labore sunt pariatur dolore proident nostrud laboris et culpa pariatur.
+            Pariatur fugiat id sit elit. Cillum amet irure id sint exercitation est ut.
+          </p>
           <Button>Button</Button>
         </PopoverContainer>
       </div>
