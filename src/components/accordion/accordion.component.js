@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 
+import OptionsHelper from '../../utils/helpers/options-helper';
 import createGuid from '../../utils/helpers/guid';
 import Events from '../../utils/helpers/events';
 import {
@@ -50,18 +51,16 @@ const Accordion = ({
 
   const isExpanded = isControlled ? expanded : isExpandedInternal;
 
-  const toggleAccordion = useCallback(() => {
-    if (isControlled) {
-      onChange(!isExpanded);
-    } else {
-      setIsExpandedInternal(!isExpanded);
-    }
+  const toggleAccordion = useCallback((ev) => {
+    if (!isControlled) setIsExpandedInternal(!isExpanded);
+    if (onChange) onChange(ev, !isExpanded);
+
     setContentHeight(isExpanded ? 0 : accordionContent.current.scrollHeight);
   }, [isControlled, isExpanded, onChange]);
 
-  const handleKeyDown = useCallback((e) => {
-    if (Events.isEnterKey(e)) {
-      toggleAccordion();
+  const handleKeyDown = useCallback((ev) => {
+    if (Events.isEnterKey(ev)) {
+      toggleAccordion(ev);
     }
   }, [toggleAccordion]);
 
@@ -164,15 +163,15 @@ Accordion.propTypes = {
   /** Sets icon type - accepted values: 'chevron_down' (default), 'dropdown' */
   iconType: PropTypes.oneOf(['chevron_down', 'dropdown']),
   /** Sets icon alignment - accepted values: 'left', 'right' (default) */
-  iconAlign: PropTypes.oneOf(['left', 'right']),
+  iconAlign: PropTypes.oneOf(OptionsHelper.alignBinary),
   /** Sets icon right margin - provided number will be multiplied by 8 */
   iconRightMargin: PropTypes.number,
   /** Sets heading's font-size - accepted values: 32, 24, 20 (default), 14 */
   headingSize: PropTypes.oneOf([32, 24, 20, 14]),
-  /** Accepts a callback function which can be used to update parent state on expansion state change */
+  /** Callback fired when expansion state changes, onChange(event: object, isExpanded: boolean) */
   onChange: PropTypes.func,
   /** Sets accordion type to either primary (default), or secondary */
-  type: PropTypes.oneOf(['primary', 'secondary']),
+  type: PropTypes.oneOf(OptionsHelper.themesBinary),
   /** Sets accordion title */
   title: PropTypes.string.isRequired
 };

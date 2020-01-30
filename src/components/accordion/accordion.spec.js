@@ -41,15 +41,17 @@ describe('Accordion', () => {
     it('fires provided onChange prop when clicked on the header area', () => {
       const onChange = jest.fn();
       render({ onChange, expanded: false });
-      wrapper.find(StyledAccordionTitleContainer).prop('onClick')();
-      expect(onChange).toHaveBeenCalled();
+      const ev = {};
+      wrapper.find(StyledAccordionTitleContainer).prop('onClick')(ev);
+      expect(onChange).toHaveBeenCalledWith(ev, true);
     });
 
     it('fires provided onChange prop when enter key is pressed on the header area', () => {
       const onChange = jest.fn();
       render({ onChange, expanded: false });
-      wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 13 });
-      expect(onChange).toHaveBeenCalled();
+      const ev = { which: 13 };
+      wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')(ev);
+      expect(onChange).toHaveBeenCalledWith(ev, true);
     });
 
     it('sets content max-height to 0 when is collapsed', () => {
@@ -110,12 +112,12 @@ describe('Accordion', () => {
 
   describe('layout', () => {
     it('accordion icon is positioned on the right side by default', () => {
-      const shallowWrapper = shallow(<Accordion />);
+      const shallowWrapper = shallow(<Accordion title='Title' />);
       expect(shallowWrapper.find(StyledAccordionTitleContainer).childAt(0).is(StyledAccordionTitle)).toBe(true);
       expect(shallowWrapper.find(StyledAccordionTitleContainer).childAt(1).is(StyledAccordionIcon)).toBe(true);
     });
     it('accordion icon is positioned on the left side when iconAlign="left" prop is passed', () => {
-      const shallowWrapper = shallow(<Accordion iconAlign='left' />);
+      const shallowWrapper = shallow(<Accordion title='Title' iconAlign='left' />);
       expect(shallowWrapper.find(StyledAccordionTitleContainer).childAt(0).is(StyledAccordionIcon)).toBe(true);
       expect(shallowWrapper.find(StyledAccordionTitleContainer).childAt(1).is(StyledAccordionTitle)).toBe(true);
     });

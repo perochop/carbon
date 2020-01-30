@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, select, number } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 import { dlsThemeSelector } from '../../../.storybook/theme-selectors';
 import Textbox from '../../__experimental__/components/textbox';
 import OptionsHelper from '../../utils/helpers/options-helper';
@@ -34,7 +35,8 @@ function makeStory(name, themeSelector) {
         defaultProps.headerPadding
       ),
       headerMarginLeft: text('headerMarginLeft'),
-      headingSize: select('headingSize', [32, 24, 20, 14], defaultProps.headingSize)
+      headingSize: select('headingSize', [32, 24, 20, 14], defaultProps.headingSize),
+      onChange: action('expansion toggled')
     };
 
     return (
