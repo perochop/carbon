@@ -45,8 +45,9 @@ const PopoverContainer = ({
   };
 
   return (
-    <PopoverContainerWrapperStyle>
+    <PopoverContainerWrapperStyle data-component='popover-container'>
       <PopoverContainerIcon
+        data-element='popover-container-icon'
         tabIndex={ isOpen ? -1 : 0 }
         type={ iconType }
         onClick={ handleOpen }
@@ -60,12 +61,17 @@ const PopoverContainer = ({
         unmountOnExit
       >
         {state => (
-          <PopoverContainerContentStyle animationState={ state } position={ position }>
+          <PopoverContainerContentStyle
+            data-element='popover-container-content'
+            animationState={ state }
+            position={ position }
+          >
             <PopoverContainerHeaderStyle>
-              <PopoverContainerTitle>
+              <PopoverContainerTitle data-element='popover-container-title'>
                 {title}
               </PopoverContainerTitle>
               <PopoverContainerCloseIcon
+                data-element='popover-container-close-icon'
                 type='close'
                 tabIndex='0'
                 onClick={ handleClose }

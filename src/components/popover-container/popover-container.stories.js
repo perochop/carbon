@@ -5,6 +5,7 @@ import { dlsThemeSelector } from '../../../.storybook/theme-selectors';
 import OptionsHelper from '../../utils/helpers/options-helper/options-helper';
 import PopoverContainer from './popover-container.component';
 import Button from '../button';
+import info from './documentation/info';
 
 function makeStory(name, themeSelector) {
   const component = () => {
@@ -30,7 +31,11 @@ function makeStory(name, themeSelector) {
   };
 
   const metadata = {
-    themeSelector
+    themeSelector,
+    info: {
+      text: info,
+      propTablesExclude: [Button]
+    }
   };
 
   return [name, component, metadata];
