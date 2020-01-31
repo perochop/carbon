@@ -71,6 +71,7 @@ Feature: Build tests
       | pager                            | pager                |
       | pill                             | pill                 |
       | pod                              | pod                  |
+      | popover-container                | popover-container    |
       | portrait                         | portrait             |
       | preview                          | preview              |
       | profile                          | profile              |
