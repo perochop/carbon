@@ -15,7 +15,7 @@ import {
 } from './dialog.style';
 import tagComponent from '../../utils/helpers/tags';
 import Events from '../../utils/helpers/events/events';
-import FocusTrap from '../../utils/helpers/focus-trap';
+import focusTrap from '../../utils/helpers/focus-trap';
 
 class Dialog extends Modal {
   constructor(args) {
@@ -40,12 +40,11 @@ class Dialog extends Modal {
     this.centerDialog(true);
     ElementResize.addListener(this._innerContent, this.applyFixedBottom);
     this.window.addEventListener('resize', this.centerDialog);
-    this.focusTrap = new FocusTrap(this._dialog);
-    this.focusTrap.setFocusTrap();
+    this.removeFocusTrap = focusTrap(this._dialog);
   }
 
-  get onClosing() {
-    this.focusTrap.removeFocusTrap();
+  onClosing() {
+    this.removeFocusTrap();
     this.appliedFixedBottom = false;
     this.document.documentElement.style.overflow = '';
     this.window.removeEventListener('resize', this.centerDialog);

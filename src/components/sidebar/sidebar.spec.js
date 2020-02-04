@@ -95,13 +95,15 @@ describe('Sidebar', () => {
       });
     });
 
-    describe('pressing Tab key on the close icon sidebar', () => {
+    describe('pressing Enter key on the close icon sidebar', () => {
       it('closes the sidebar', () => {
         const icon = wrapper.find('.carbon-sidebar__close-icon');
         icon.at(0).props().onKeyDown({ which: 13, preventDefault });
         expect(spy).toHaveBeenCalled();
       });
+    });
 
+    describe('pressing other key than Enter or Space', () => {
       it('does not close the sidebar', () => {
         const icon = wrapper.find('.carbon-sidebar__close-icon');
         icon.at(0).props().onKeyDown({ which: 16 });

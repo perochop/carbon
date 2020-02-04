@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { mount } from 'enzyme';
-import FocusTrap from './focus-trap';
+import focusTrap from './focus-trap';
 
 // eslint-disable-next-line
 const TestComponent = ({ children }) => {
   useEffect(() => {
-    const focusTrap = new FocusTrap(document.getElementById('myComponent'));
+    const removeFocusTrap = focusTrap(document.getElementById('myComponent'));
 
-    focusTrap.setFocusTrap();
-    return () => focusTrap.removeFocusTrap();
+    return () => removeFocusTrap();
   });
 
   return (

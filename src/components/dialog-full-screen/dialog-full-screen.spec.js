@@ -64,15 +64,16 @@ describe('DialogFullScreen', () => {
 
   describe('onClosing', () => {
     beforeEach(() => {
-      wrapper = mount(<DialogFullScreen open={ false } />);
-      wrapper.setProps({ open: true });
+      wrapper = mount(<DialogFullScreen style={ { overflow: 'auto' } } open={ false } />);
     });
 
-    it('removes overflow hidden from the body', () => {
-      const html = wrapper.instance().document.documentElement;
-      const originalOverflow = html.style.overflow;
+    it('recovers an original overflow', () => {
+      window.document.documentElement.style.overflow = 'auto';
+      expect(window.document.documentElement.style.overflow).toBe('auto');
+      wrapper.setProps({ open: true });
+      expect(window.document.documentElement.style.overflow).toBe('hidden');
       wrapper.setProps({ open: false });
-      expect(html.style.overflow).toMatch(originalOverflow);
+      expect(window.document.documentElement.style.overflow).toBe('auto');
     });
   });
 
