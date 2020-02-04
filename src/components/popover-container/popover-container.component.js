@@ -15,7 +15,7 @@ const PopoverContainer = ({
   children, iconType, title, position
 }) => {
   const [isOpen, setOpen] = useState(false);
-
+  const iconRef = useRef();
   const closeIconRef = useRef();
 
   useEffect(() => {
@@ -28,6 +28,7 @@ const PopoverContainer = ({
 
   const handleClose = () => {
     setOpen(false);
+    iconRef.current.getTarget().focus();
   };
 
   const handleOpenKeyDown = (ev) => {
@@ -47,6 +48,7 @@ const PopoverContainer = ({
   return (
     <PopoverContainerWrapperStyle data-component='popover-container'>
       <PopoverContainerIcon
+        ref={ iconRef }
         data-element='popover-container-icon'
         tabIndex={ isOpen ? -1 : 0 }
         type={ iconType }
@@ -88,13 +90,13 @@ const PopoverContainer = ({
 };
 
 PopoverContainer.propTypes = {
-  children: PropTypes.node,
-  /** Sets rendering position of dialog */
-  position: PropTypes.oneOf(['left', 'right']),
   /** Sets the popover container dialog header name */
   title: PropTypes.string.isRequired,
   /** Sets the icon that opens dialog */
-  iconType: PropTypes.string.isRequired
+  iconType: PropTypes.string.isRequired,
+  /** Sets rendering position of dialog */
+  position: PropTypes.oneOf(['left', 'right']),
+  children: PropTypes.node
 };
 
 export default PopoverContainer;

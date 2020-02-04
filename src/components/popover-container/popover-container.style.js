@@ -34,6 +34,8 @@ const PopoverContainerContentStyle = styled.div`
     position: absolute;
     top: 0;
 
+    ${({ position }) => (position === 'left' ? 'right: 0' : 'left: 0')};
+
     ${({ animationState }) => {
     switch (animationState) {
       case 'entering':
@@ -57,14 +59,12 @@ const PopoverContainerContentStyle = styled.div`
         return 'opacity: 0';
     }
   }}
-
-    ${({ animationState }) => animationState === 'enter'}
-
-    ${({ position }) => (position === 'right' ? 'left: 0' : 'right: 0')};
 `;
 
 const PopoverContainerCloseIcon = styled(Icon)`
     margin-right: -16px;
+
+    color: ${({ theme }) => theme.colors.black};
 `;
 
 const PopoverContainerTitle = styled.div`
@@ -77,6 +77,10 @@ PopoverContainerContentStyle.defaultProps = {
 };
 
 PopoverContainerIcon.defaultProps = {
+  theme: baseTheme
+};
+
+PopoverContainerCloseIcon.defaultProps = {
   theme: baseTheme
 };
 

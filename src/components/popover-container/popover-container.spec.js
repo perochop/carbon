@@ -152,8 +152,17 @@ describe('PopoverContainer', () => {
 });
 
 describe('PopoverContainerContentStyle', () => {
-  const wrapper = mount(<PopoverContainerContentStyle position='right' />);
-  assertStyleMatch({
-    left: '0'
-  }, wrapper);
+  it('should render to the left if position is set to `left`', () => {
+    const wrapper = mount(<PopoverContainerContentStyle position='left' />);
+    assertStyleMatch({
+      right: '0'
+    }, wrapper);
+  });
+
+  it('should render to the right by default', () => {
+    const wrapper = mount(<PopoverContainerContentStyle />);
+    assertStyleMatch({
+      left: '0'
+    }, wrapper);
+  });
 });
