@@ -35,7 +35,8 @@ class Dialog extends Modal {
 
   onDialogBlur(ev) { } // eslint-disable-line no-unused-vars
 
-  onOpening() {
+  handleOpen() {
+    super.handleOpen();
     this.document.documentElement.style.overflow = 'hidden';
     this.centerDialog(true);
     ElementResize.addListener(this._innerContent, this.applyFixedBottom);
@@ -43,7 +44,8 @@ class Dialog extends Modal {
     this.removeFocusTrap = focusTrap(this._dialog);
   }
 
-  onClosing() {
+  handleClose() {
+    super.handleClose();
     this.removeFocusTrap();
     this.appliedFixedBottom = false;
     this.document.documentElement.style.overflow = '';

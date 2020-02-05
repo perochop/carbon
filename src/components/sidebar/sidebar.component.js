@@ -46,13 +46,15 @@ class Sidebar extends Modal {
     return null;
   }
 
-  onOpening() {
+  handleOpen() {
+    super.handleOpen();
     if (!this.props.enableBackgroundUI) {
       this.removeFocusTrap = focusTrap(this.sideBarRef);
     }
   }
 
-  onClosing() {
+  handleClose() {
+    super.handleClose();
     this.removeFocusTrap();
   }
 

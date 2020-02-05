@@ -77,7 +77,8 @@ class DialogFullScreen extends Modal {
   /**
    * Overrides the original function to disable the document's scroll.
    */
-  onOpening() {
+  handleOpen() {
+    super.handleOpen();
     this.removeFocusTrap = focusTrap(this._dialog);
     this.originalOverflow = this.document.documentElement.style.overflow;
     this.document.documentElement.style.overflow = 'hidden';
@@ -86,10 +87,10 @@ class DialogFullScreen extends Modal {
   /**
    * Overrides the original function to enable the document's scroll.
    */
-  onClosing() {
+  handleClose() {
+    super.handleClose();
     this.removeFocusTrap();
     this.document.documentElement.style.overflow = this.originalOverflow;
-
     return this.document.documentElement;
   }
 
