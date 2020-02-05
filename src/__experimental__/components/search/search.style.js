@@ -18,6 +18,9 @@ const StyledSearch = styled.div`
       border-bottom: 1px solid transparent;
       transition: border 0.2s ease, background 0.2s ease;
       color: rgba(0, 0, 0, 0.9);
+      :hover {
+        border-bottom: none;
+      }
     `}
   `}
 
@@ -31,7 +34,6 @@ const StyledSearch = styled.div`
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 0px;
-  transition: border 0.2s ease, background 0.2s ease;
   :hover {
     ${({ theme }) => css` 
     border-bottom-color: ${theme.search.active};`}
@@ -43,7 +45,7 @@ const StyledSearch = styled.div`
   ({ hasSearchButton, isActive, searchIsActive }) => (
     hasSearchButton && (isActive || searchIsActive) ? '335px;' : '375px;'
   )};
-  
+
     font-size: 14px;
     font-weight: 700;
     padding-bottom: 2px;
@@ -81,8 +83,8 @@ export const StyledSearchButton = styled.div`
   border-bottom: 1px solid transparent;
 
   &&& ${StyledButton} {
-    ${({ theme }) => `background-color: ${theme.search.button};`}
-    ${({ theme }) => `border-color: ${theme.search.button};`}
+    ${({ theme }) => `background-color: ${theme.colors.primary};`}
+    ${({ theme }) => `border-color: ${theme.colors.primary};`}
     width: 43px;
     height: 43px;
     margin: 0px 0px;

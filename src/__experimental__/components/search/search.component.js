@@ -7,7 +7,7 @@ import Textbox from '../textbox';
 import Button from '../../../components/button';
 
 const Search = ({
-  defaultValue, onChange, value, id, name, threshold, searchButton, placeholder, ...rest
+  defaultValue, onChange, onClick, value, id, name, threshold, searchButton, placeholder, ...rest
 }) => {
   const isControlled = value !== undefined;
   const initialValue = isControlled ? value : defaultValue;
@@ -32,11 +32,20 @@ const Search = ({
     setIsActive(true);
   };
 
-  const handleClick = (ev) => {
-    if (onChange) {
-      onChange(ev);
-    }
-  };
+  let buttonProps = {};
+  if (searchButton && onClick) {
+    buttonProps = {
+      onClick: (ev) => {
+        onClick({
+          target: {
+            name: ev.target.name,
+            id: ev.target.id,
+            value: searchValue
+          }
+        });
+      }
+    };
+  }
 
   const handleIconClick = () => {
     setSearchValue('');
@@ -86,20 +95,18 @@ const Search = ({
         value={ searchValue }
         inputRef={ (el) => { inputRef = el; } }
         inputIcon={ iconType }
-        // iconOnClick={ handleIconClick } // Inprep for being unblocked.
+        iconOnClick={ handleIconClick }
       />
       {(searchButton && (
         <StyledSearchButton>
           {(isActive || searchIsActive) && (
             <Button
               size='small'
-              handleClick={ handleClick }
+              { ...buttonProps }
             >
-
               <StyledButtonIcon>
                 <Icon type='search' />
               </StyledButtonIcon>
-
             </Button>
           )}
         </StyledSearchButton>
@@ -113,6 +120,8 @@ Search.propTypes = {
   defaultValue: PropTypes.string,
   /** Prop for `controlled` use */
   value: PropTypes.string,
+  /** Prop for `onClick` events */
+  onClick: PropTypes.func,
   /** Prop for `onChange` events */
   onChange: PropTypes.func,
   /** Prop for `onKeyDown` events */

@@ -2,6 +2,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { Input } from '../input';
+import Button from '../../../components/button';
 import Search from './search.component';
 import { StyledSearchButton } from './search.style';
 import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
@@ -10,7 +11,7 @@ import Icon from '../../../components/icon';
 import { rootTagTest } from '../../../utils/helpers/tags/tags-specs';
 
 describe('Search', () => {
-  let wrapper, onBlur, onChange, onKeyDown;
+  let wrapper, onBlur, onChange, onClick, onKeyDown;
 
   const renderWrapper = (props, render = shallow) => (
     render(
@@ -64,6 +65,21 @@ describe('Search', () => {
     });
   });
 
+  describe('When button is true and textbox is active', () => {
+    it('does not render an icon in textbox', () => {
+      wrapper = renderWrapper({
+        value: '', searchButton: true, id: 'Search', name: 'Search'
+      }, mount);
+      const icon = wrapper.find(Icon).findWhere(n => n.props().type === 'search').hostNodes();
+      act(() => {
+        const input = wrapper.find(Input);
+        input.simulate('focus');
+      });
+      wrapper.update();
+      expect(icon.props().value).toEqual(undefined);
+    });
+  });
+
   describe('supports being an uncontrolled component', () => {
     beforeEach(() => {
       onKeyDown = jest.fn();
@@ -82,15 +98,16 @@ describe('Search', () => {
 
     describe('clicking the textbox icon', () => {
       it('calls the onChange', () => {
+        onChange = jest.fn();
+        wrapper = renderWrapper({
+          defaultValue: 'Tick', onChange, id: 'Search', name: 'Search'
+        }, mount);
         act(() => {
-          onChange = jest.fn();
-          wrapper = renderWrapper({
-            defaultValue: 'Tick', onChange, id: 'Search', name: 'Search'
-          }, mount);
           const icon = wrapper.find(Icon).findWhere(n => n.props().type === 'cross').hostNodes();
-          icon.props().onClick();
-          expect(onChange).toHaveBeenCalled();
+          icon.simulate('click');
         });
+        wrapper.update();
+        expect(onChange).toHaveBeenCalled();
       });
 
       it('clears the input value', () => {
@@ -99,7 +116,7 @@ describe('Search', () => {
         }, mount);
         act(() => {
           const icon = wrapper.find(Icon).findWhere(n => n.props().type === 'cross').hostNodes();
-          icon.props().onClick();
+          icon.simulate('click');
         });
         wrapper.update();
         const input = wrapper.find(Input);
@@ -146,7 +163,7 @@ describe('Search', () => {
       it('calls the onChange', () => {
         act(() => {
           const icon = wrapper.find(Icon).findWhere(n => n.props().type === 'cross').hostNodes();
-          icon.props().onClick();
+          icon.simulate('click');
           expect(onChange).toHaveBeenCalled();
         });
       });
@@ -154,7 +171,7 @@ describe('Search', () => {
       it('clears the input value', () => {
         act(() => {
           const icon = wrapper.find(Icon).findWhere(n => n.props().type === 'cross').hostNodes();
-          icon.props().onClick();
+          icon.simulate('click');
         });
         wrapper.update();
         const input = wrapper.find(Input);
@@ -168,6 +185,21 @@ describe('Search', () => {
         input.simulate('blur');
         expect(onBlur).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('Clicking the button', () => {
+    it('calls onClick', () => {
+      onClick = jest.fn();
+      wrapper = renderWrapper({
+        value: 'FooBar', onClick, searchButton: true, id: 'Search', name: 'Search'
+      }, mount);
+      act(() => {
+        const button = wrapper.find(Button);
+        button.simulate('click');
+      });
+      wrapper.update();
+      expect(onClick).toHaveBeenCalled();
     });
   });
 

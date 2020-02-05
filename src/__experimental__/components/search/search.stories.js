@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { boolean, text } from '@storybook/addon-knobs';
+import { boolean, text, number } from '@storybook/addon-knobs';
 import { Store, State } from '@sambego/storybook-state';
 import { action } from '@storybook/addon-actions';
 import { dlsThemeSelector } from '../../../../.storybook/theme-selectors';
@@ -41,11 +41,12 @@ const searchStory = () => {
   const handleBlur = (ev) => {
     action('blur')(ev);
   };
+
   return (
     <State store={ store }>
       <Search
         placeholder={ text('placeholder', 'Search...') }
-        threshold={ text('threshold', Search.defaultProps.threshold) }
+        threshold={ number('threshold', Search.defaultProps.threshold) }
         searchButton={ boolean('searchButton', true) }
         onChange={ handleChange }
         onBlur={ handleBlur }
