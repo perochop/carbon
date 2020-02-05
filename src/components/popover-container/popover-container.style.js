@@ -27,34 +27,34 @@ const PopoverContainerHeaderStyle = styled.div`
 `;
 
 const PopoverContainerContentStyle = styled.div`
-    background: ${({ theme }) => theme.colors.white};
-    box-shadow: ${({ theme }) => theme.shadows.depth1};
-    padding: 16px 24px;
-    min-width: 300px;
-    position: absolute;
-    top: 0;
+  background: ${({ theme }) => theme.colors.white};
+  box-shadow: ${({ theme }) => theme.shadows.depth1};
+  padding: 16px 24px;
+  min-width: 300px;
+  position: absolute;
+  top: 0;
 
-    ${({ position }) => (position === 'left' ? 'right: 0' : 'left: 0')};
+  ${({ position }) => (position === 'left' ? 'right: 0' : 'left: 0')};
 
-    ${({ animationState }) => {
+  ${({ animationState }) => {
     switch (animationState) {
       case 'entering':
         return `
-          opacity: 0;
-          transform: translateY(-8px);
-        `;
+        opacity: 0;
+        transform: translateY(-8px);
+      `;
       case 'entered':
         return `
-          opacity: 1; 
-          transform: translateY(0);
-          transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1.5);
-            `;
+        opacity: 1; 
+        transform: translateY(0);
+        transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1.5);
+          `;
       case 'exiting':
         return `
-          opacity: 0; 
-          transform: translateY(-8px);
-          transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1.5);
-            `;
+        opacity: 0; 
+        transform: translateY(-8px);
+        transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1.5);
+          `;
       default:
         return 'opacity: 0';
     }
@@ -62,14 +62,14 @@ const PopoverContainerContentStyle = styled.div`
 `;
 
 const PopoverContainerCloseIcon = styled(Icon)`
-    margin-right: -16px;
+  margin-right: -16px;
 
-    color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const PopoverContainerTitle = styled.div`
-    font-size: 16px;
-    font-weight: bold;
+  font-size: 16px;
+  font-weight: bold;
 `;
 
 PopoverContainerContentStyle.defaultProps = {

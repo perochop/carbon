@@ -5,9 +5,8 @@ import { dlsThemeSelector } from '../../../.storybook/theme-selectors';
 import OptionsHelper from '../../utils/helpers/options-helper/options-helper';
 import PopoverContainer from './popover-container.component';
 import Button from '../button';
-import info from './documentation/info';
 
-function makeStory(name, themeSelector) {
+function makeStory(name) {
   const component = () => {
     const title = text('title', 'Popover Title');
     const iconType = select('iconType', [...OptionsHelper.icons], 'settings');
@@ -30,15 +29,7 @@ function makeStory(name, themeSelector) {
     );
   };
 
-  const metadata = {
-    themeSelector,
-    info: {
-      text: info,
-      propTablesExclude: [Button]
-    }
-  };
-
-  return [name, component, metadata];
+  return [name, component];
 }
 
 storiesOf('Popover Container', module)
