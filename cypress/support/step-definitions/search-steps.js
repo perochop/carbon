@@ -1,8 +1,8 @@
-import { searchComponent, searchInput, searchInnerElements } from '../../locators/search';
+import {
+  searchComponent, searchInput, searchInnerIcon, searchIcon,
+} from '../../locators/search';
 
 const FIRST_ELEMENT = 1;
-const SECOND_ELEMENT = 2;
-const THIRD_ELEMENT = 3;
 
 Then('Search component placeholder is set to {string}', (placeholder) => {
   searchInput().should('have.attr', 'placeholder', placeholder);
@@ -12,19 +12,41 @@ When('Type {string} text into search input', (text) => {
   searchInput().clear().type(text);
 });
 
-Then('Search component has {string} as input, icon and button', (iconType) => {
-  searchInnerElements(FIRST_ELEMENT).should('have.attr', 'data-element', 'input').and('be.visible');
-  searchInnerElements(SECOND_ELEMENT).should('have.attr', 'data-component', 'icon').and('be.visible');
-  searchInnerElements(SECOND_ELEMENT).should('have.attr', 'data-element', iconType).and('be.visible');
-  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'data-component', 'button').and('be.visible');
-  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'data-element', 'button').and('be.visible');
-  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'type', 'button').and('be.visible');
+Then('Search component has input and {string} as icon', (iconType) => {
+  searchInput().should('have.attr', 'data-element', 'input').and('be.visible');
+  searchInnerIcon().eq(FIRST_ELEMENT).should('have.attr', 'data-component', 'icon').and('be.visible')
+    .and('have.attr', 'data-element', iconType)
+    .and('be.visible');
 });
 
-Then('Search component input has {string} color', (color) => {
-  searchComponent().should('have.css', 'border-bottom-color', color);
+Then('Search component input has golden border', () => {
+  searchInput().parent().should('have.css', 'outline', 'rgb(255, 181, 0) solid 3px');
+});
+
+When('I click onto search icon', () => {
+  searchIcon().click({ force: true });
+});
+
+When('I click inside input', () => {
+  searchInput().click();
+});
+
+Then('search icon has golden border', () => {
+  searchIcon().should('have.css', 'outline', 'rgb(255, 181, 0) solid 3px');
+});
+
+Then('search icon as button is visible', () => {
+  searchIcon().should('exist').and('be.visible');
+});
+
+Then('search icon as button is not visible', () => {
+  searchIcon().should('not.exist');
 });
 
 When('Search component is focused', () => {
-  searchInput().focus();
+  searchComponent().trigger('mouseover');
+});
+
+When('Search has golden bottom border', () => {
+  searchComponent().should('have.css', 'border-bottom-color', 'rgb(204, 214, 218)');
 });
