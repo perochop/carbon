@@ -12,13 +12,13 @@ When('Type {string} text into search input', (text) => {
   searchInput().clear().type(text);
 });
 
-Then('Search component has {string} as icon, input and filter', (iconType) => {
-  searchInnerElements(FIRST_ELEMENT).should('have.attr', 'data-component', 'icon').and('be.visible');
-  searchInnerElements(FIRST_ELEMENT).should('have.attr', 'data-element', iconType).and('be.visible');
-  searchInnerElements(SECOND_ELEMENT).should('have.attr', 'data-element', 'input').and('be.visible');
-  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'data-component', 'icon').and('be.visible');
-  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'data-element', 'filter_new').and('be.visible');
-  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'type', 'filter_new').and('be.visible');
+Then('Search component has {string} as input, icon and button', (iconType) => {
+  searchInnerElements(FIRST_ELEMENT).should('have.attr', 'data-element', 'input').and('be.visible');
+  searchInnerElements(SECOND_ELEMENT).should('have.attr', 'data-component', 'icon').and('be.visible');
+  searchInnerElements(SECOND_ELEMENT).should('have.attr', 'data-element', iconType).and('be.visible');
+  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'data-component', 'button').and('be.visible');
+  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'data-element', 'button').and('be.visible');
+  searchInnerElements(THIRD_ELEMENT).children().should('have.attr', 'type', 'button').and('be.visible');
 });
 
 Then('Search component input has {string} color', (color) => {

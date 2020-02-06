@@ -19,13 +19,13 @@ Feature: Search component
   @positive
   Scenario: Verify inner elements in Search component
     # When I open "Experimental Search" component page
-    Then Search component has "search" as icon, input and filter
+    Then Search component has input and "search" as icon
       And Search component input has "rgb(204, 214, 218)" color
 
   @positive
   Scenario: Verify inner elements in Search component after change icon
     When Type "Search" text into search input
-    Then Search component has "cross" as icon, input and filter
+    Then Search component has input, "cross" as icon and button
       And Search component input has "rgb(37, 91, 199)" color
 
   @positive
