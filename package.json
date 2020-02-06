@@ -137,6 +137,7 @@
     "prop-types": "^15.5.8",
     "react-day-picker": "~6.1.0",
     "react-dnd": "^10.0.2",
+    "react-dnd-html5-backend": "^10.0.2",
     "react-dnd-legacy": "npm:react-dnd@^2.6.0",
     "react-dnd-touch-backend": "0.2.7",
     "react-highcharts": "^15.0.0",
