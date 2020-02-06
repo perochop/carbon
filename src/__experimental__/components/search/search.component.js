@@ -68,7 +68,7 @@ const Search = ({
     setSearchIsActive(searchValue.length >= threshold);
     if (searchValue.length > 0) {
       setIconType('cross');
-    } else if (searchButton && isActive) {
+    } else if ((searchButton && isActive) || threshold <= 0) {
       setIconType('');
     } else {
       setIconType('search');

@@ -64,7 +64,6 @@ const StyledSearch = styled.div`
   }
 
   ${StyledIcon} {
-    margin: -1px -1px;
     color: #668592;
     width: 20px;
     height: 20px;
