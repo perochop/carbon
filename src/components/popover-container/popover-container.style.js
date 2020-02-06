@@ -16,7 +16,7 @@ const PopoverContainerIcon = styled(Icon)`
   color: ${({ theme }) => theme.colors.black};
 
   &:focus{
-      outline: 2px solid ${({ theme }) => theme.colors.focus};
+    outline: 2px solid ${({ theme }) => theme.colors.focus};
   }
 `;
 
@@ -63,7 +63,6 @@ const PopoverContainerContentStyle = styled.div`
 
 const PopoverContainerCloseIcon = styled(Icon)`
   margin-right: -16px;
-
   color: ${({ theme }) => theme.colors.black};
 `;
 
