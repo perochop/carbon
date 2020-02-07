@@ -80,7 +80,6 @@ export default StyledSearch;
 export const StyledSearchButton = styled.div` 
   display: inline-flex;
   border-bottom: 1px solid transparent;
-
   &&& ${StyledButton} {
     ${({ theme }) => `background-color: ${theme.colors.primary};`}
     ${({ theme }) => `border-color: ${theme.colors.primary};`}

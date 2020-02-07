@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import StyledSearch, { StyledSearchButton, StyledButtonIcon } from './search.style';
@@ -64,13 +64,13 @@ const Search = ({
     setIsActive(false);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setSearchIsActive(searchValue.length >= threshold);
     if (searchValue.length > 0) {
       setIconType('cross');
-    } else if ((searchButton && isActive) || threshold <= 0) {
+    } else if ((searchButton && isActive) || threshold < 0) {
       setIconType('');
-    } else {
+    } else if (!isActive && !searchIsActive) {
       setIconType('search');
     }
   }, [isActive, searchButton, searchIsActive, searchValue, threshold]);
