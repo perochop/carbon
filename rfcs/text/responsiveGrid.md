@@ -5,8 +5,8 @@
 - [Summary](#summary)
 - [Motivation](#motivation)
 - [Detailed design](#detailed-design)
-  - [GridContainer](#GridContainer)
-  - [GridItem](#GridItem)
+  - [GridContainer](#grid-container)
+  - [GridItem](#grid-item)
   - [Code example](#code-example)
 - [CSS Grid Layout](#css-grid-layout)
 - [Alternatives considered](#alternatives-considered)
@@ -101,7 +101,9 @@ const App = () => {
     colStart: 1,
     colEnd: 9,
     rowStart: 2,
-    rowEnd: 2
+    rowEnd: 2,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   };
   const item1_1300 = {
     maxWidth: 1300,
@@ -109,7 +111,9 @@ const App = () => {
     colStart: 1,
     colEnd: 13,
     rowStart: 1,
-    rowEnd: 1  
+    rowEnd: 1,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'  
   };
   const item1_1500 = {
     maxWidth: 1500,
@@ -117,7 +121,9 @@ const App = () => {
     colStart: 1,
     colEnd: 7,
     rowStart: 1,
-    rowEnd: 1
+    rowEnd: 1,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   }
   const responsiveItem1Settings = [
     item1_1300,
@@ -131,7 +137,9 @@ const App = () => {
     colStart: 1,
     colEnd: 9,
     rowStart: 3,
-    rowEnd: 3
+    rowEnd: 3,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   };
   const item2_1300 = {
     maxWidth: 1300,
@@ -139,7 +147,9 @@ const App = () => {
     colStart: 1,
     colEnd: 13,
     rowStart: 2,
-    rowEnd: 2
+    rowEnd: 2,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   };
   const item2_1500 = {
     maxWidth: 1500,
@@ -147,7 +157,9 @@ const App = () => {
     colStart: 7,
     colEnd: 13,
     rowStart: 1,
-    rowEnd: 1
+    rowEnd: 1,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   };
   const responsiveItem2Settings = [
     item2_1300,   
@@ -161,7 +173,9 @@ const App = () => {
     colStart: 1,
     colEnd: 9,
     rowStart: 1,
-    rowEnd: 1
+    rowEnd: 1,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   };
   const item3_1300 = {
     maxWidth: 1300,
@@ -169,7 +183,9 @@ const App = () => {
     colStart: 1,
     colEnd: 13,
     rowStart: 3,
-    rowEnd: 3
+    rowEnd: 3,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   };
   const item3_1500 = {
     maxWidth: 1500,
@@ -177,7 +193,9 @@ const App = () => {
     colStart: 1,
     colEnd: 13,
     rowStart: 2,
-    rowEnd: 2
+    rowEnd: 2,
+    alignSelf: 'stretch',
+    justifySelf: 'stretch'
   };
   const responsiveItem3Settings = [
     item3_1300,
@@ -209,6 +227,36 @@ const App = () => {
     </ThemeProvider>
   );
 };
+```
+The [GridItem](#GridItem) component could be constructed with default props.
+
+```js
+GridItem.defaultProps = {
+  gridColumnStart: 1, 
+  gridColumnEnd: 13,
+  gridRowStart: 'auto',
+  gridRowEnd: 'auto'
+}
+
+export default GridItem;
+```
+
+This is a code fragment showing how a Styled Component would use defaults or props overides
+```js
+return css`
+    margin: 0;
+    grid-column-start: ${gridColumnStart};
+    grid-column-end: ${gridColumnEnd};
+    grid-row-start: ${gridRowStart};
+    grid-row-end: ${gridRowEnd};
+    @media screen and (max-width: ${maxWidth+maxWidthUnits}) {
+      align-self: ${alignSelf};
+      justify-self: ${justifySelf};
+      grid-column-start: ${colStart};
+      grid-column-end: ${colEnd};
+      grid-row-start: ${rowStart};
+      grid-row-end: ${rowEnd};
+    }`
 ```
 
 ## CSS Grid Layout
@@ -250,7 +298,7 @@ For an explanation of what this means in practice, see the [Mozilla CSS Grid Lay
 1. Also has the same accessibility issues around screen readers and keyboard navigation as CSS Grid.
 
 ## CSS Framework (Bootstrap or Foundation)
-A CSS framework is a library of predefined CSS styles that a ready to use out-of-the-box. The best known of these are:
+A CSS framework is a library of predefined CSS styles that are ready to use out-of-the-box. The best known of these are:
 
 [Bootstrap](https://getbootstrap.com/)  
 [Foundation](https://foundation.zurb.com/)
@@ -280,15 +328,11 @@ In order to evaluate the competing CSS styling options (Grid v Flexbox) a simple
   <div class="GridItem item3" data-start="1" data-end="13" data-row="1">3</div>
 </div>
 
-<hr/>
-
 <div class="GridContainer">
   <div class="GridItem item1" data-start="1" data-end="13" data-row="1">1</div>
   <div class="GridItem item2" data-start="1" data-end="13" data-row="2">2</div>
   <div class="GridItem item3" data-start="1" data-end="13" data-row="3">3</div>
 </div>
-
-<hr/>
 
 <div class="GridContainer">
   <div class="GridItem item1" data-start="1" data-end="13" data-row="2">1</div>
