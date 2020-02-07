@@ -6,7 +6,8 @@ import Button from '../button';
 
 export default {
   component: PopoverContainer,
-  title: 'Design System/Popover Container'
+  title: 'Design System/Popover Container',
+  parameters: { info: { disable: true } }
 };
 
 export const basic = () => {
@@ -20,13 +21,7 @@ export const basic = () => {
         title={ title }
         position={ position }
         iconType={ iconType }
-      >
-        <p>
-        Exercitation esse ipsum labore sunt pariatur dolore proident nostrud laboris et culpa pariatur.
-        Pariatur fugiat id sit elit. Cillum amet irure id sint exercitation est ut.
-        </p>
-        <Button>Button</Button>
-      </PopoverContainer>
+      />
     </div>
   );
 };
