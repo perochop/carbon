@@ -10,7 +10,7 @@ const StyledAccordionContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
-  padding:  ${({ accordionPadding, theme }) => theme.spacing * accordionPadding}px;
+  padding:  ${({ theme }) => theme.spacing * 7}px;
   background-color: ${({ type, theme }) => (type === 'primary' ? theme.colors.white : 'transparent')};
   ${({ type, theme }) => (type === 'primary' && css`border: 1px solid ${theme.accordion.border}`)};
 
@@ -19,33 +19,39 @@ const StyledAccordionContainer = styled.div`
     border-top: 1px solid ${({ theme }) => theme.accordion.border};
     border-bottom: 1px solid ${({ theme }) => theme.accordion.border};
   }
+
+  ${({ styleOverride }) => styleOverride};
 `;
 
 const StyledAccordionTitle = styled.h3`
+  font-size: 20px;
   font-weight: 900;
   line-height: 1;
-  font-size: ${({ headingSize }) => headingSize}px;
   user-select: none;
   margin: 0;
+  ${({ styleOverride }) => styleOverride};
 `;
 
 const StyledAccordionIcon = styled(Icon)`
-  font-size: 25px;
   transition: transform 0.3s;
-  margin-right: ${({ iconRightMargin, theme }) => (iconRightMargin ? theme.spacing * iconRightMargin : 0)}px;
+  margin-right: ${({ iconAlign, theme }) => (iconAlign === 'left' ? theme.spacing * 2 : 0)}px;
   ${({ isExpanded }) => isExpanded && 'transform: rotate(-180deg)'};
+  ${({ styleOverride }) => styleOverride};
 `;
 
 const StyledAccordionTitleContainer = styled.div`
-  padding: ${({ headerPadding, theme }) => theme.spacing * headerPadding}px;
+  padding: ${({ theme }) => theme.spacing * 3}px;
   display: flex;
   flex-grow: 1;
   align-items: center;
-  justify-content: ${({ iconAlign }) => (iconAlign === 'left' ? 'start' : 'space-between')};
+  justify-content: space-between;
+
+  ${({ iconAlign }) => (iconAlign === 'left' && css`
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+  `)}
+
   cursor: pointer;
-  ${({ headerPadding, headerMarginLeft, theme }) => (
-    headerMarginLeft && `margin-left: calc(${headerMarginLeft}% - ${headerPadding * theme.spacing}px)`
-  )};
   z-index: 1;
 
   &:focus {
@@ -59,6 +65,7 @@ const StyledAccordionTitleContainer = styled.div`
       text-decoration: underline;
     }
   }
+  ${({ styleOverride }) => styleOverride};
 `;
 
 const StyledAccordionContentContainer = styled.div`
@@ -69,13 +76,9 @@ const StyledAccordionContentContainer = styled.div`
   ${({ isExpanded }) => !isExpanded && 'visibility: hidden'};
 `;
 
-const getPadding = (dir, value, theme) => Number.isInteger(value) && `padding-${dir}: ${theme.spacing * value}px`;
 const StyledAccordionContent = styled.div`
-  padding: ${({ contentPadding, theme }) => theme.spacing * contentPadding}px;
-  ${({ contentPaddingLeft, theme }) => getPadding('left', contentPaddingLeft, theme)};
-  ${({ contentPaddingRight, theme }) => getPadding('right', contentPaddingRight, theme)};
-  ${({ contentPaddingTop, theme }) => getPadding('top', contentPaddingTop, theme)};
-  ${({ contentPaddingBottom, theme }) => getPadding('bottom', contentPaddingBottom, theme)};
+  padding: ${({ theme }) => theme.spacing * 3}px;
+  ${({ styleOverride }) => styleOverride};
 `;
 
 StyledAccordionContainer.defaultProps = {

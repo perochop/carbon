@@ -1,13 +1,36 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
-import Accordion from '.';
 
-<Meta title="Design System/Accordion" />
+import Accordion from '.';
+import Textbox from '../../__experimental__/components/textbox';
+
+<Meta
+  title="Design System/Accordion"
+  parameters={{ info: { disable: true }}}
+/>
 
 # Accordion
 Group, hide and show content.
 
 ## Overview
 Accordions are a good progressive disclosure technique - initially showing only top-level information, but allowing the user quick access to more on request. But, they can confuse users sometimes, so use them sparingly.
+
+## Guidance, hints and tips
+
+Don’t put accordions within accordions.
+
+Don’t hide important controls within accordions - for example, primary actions should always be outside them.
+
+Accordions expand and collapse vertically. If there are lots, or content is extensive, be careful that the user doesn’t become confused, lose their place, or have problems with discoverability. Use them sparingly for these reasons.
+
+Accordions should remain open or closed until a user interacts with them. Consider whether multiple, or only one accordion section can be open at a time.
+
+An arrow icon pointing down indicates that the accordion is closed.
+
+An arrow icon pointing up indicates that the accordion is open.
+
+The icon can animate when a transition is made.
+
+The user can click the icon directly, the text label, or the text label’s background to action the accordion.
 
 ## Quick Start
 
@@ -44,7 +67,7 @@ const MyComponent = () => (
 ### Primary
 Primary version of accordion has white background and a border.
 <Preview>
-  <Story name="primary" parameters={{ info: { disable: true }}} >
+  <Story name="primary">
     <Accordion title='Heading'>
       <p>Content</p>
       <p>Content</p>
@@ -55,7 +78,7 @@ Primary version of accordion has white background and a border.
 ### Secondary
 Secondary version is transparent and has no borders.
 <Preview>
-  <Story name="secondary" parameters={{ info: { disable: true }}} >
+  <Story name="secondary">
     <Accordion type="secondary" title='Heading'>
       <p>Content</p>
       <p>Content</p>
@@ -66,7 +89,7 @@ Secondary version is transparent and has no borders.
 ### Grouped
 Accordions borders collapse when positioned next to each other making it easy to group them.
 <Preview>
-  <Story name="grouped" parameters={{ info: { disable: true }}} >
+  <Story name="grouped">
     <>
       <Accordion title='Heading'>
         <p>Content</p>
@@ -81,6 +104,34 @@ Accordions borders collapse when positioned next to each other making it easy to
         <p>Content</p>
       </Accordion>
     </>
+  </Story>
+</Preview>
+
+### With overriden styles
+Accordion styles can be easily overriden by providing `styleOverride` prop with proper structure as defined in propTypes.
+
+<Preview>
+  <Story name="styles overriden">
+      <Accordion
+        title='Heading'
+        styleOverride={
+          {
+            headerArea: {
+              padding: '24px',
+              marginLeft: 'calc(15% - 24px)'
+            },
+            content: { paddingLeft: 0 }
+          }
+        }
+      >
+        <Textbox
+          label='Label 1'
+          labelInline
+          labelAlign='right'
+          labelWidth={ 15 }
+          inputWidth={ 85 }
+        />
+      </Accordion>
   </Story>
 </Preview>
 

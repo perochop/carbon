@@ -17,23 +17,13 @@ import {
 
 const Accordion = ({
   defaultExpanded,
-  accordionPadding,
-  contentPadding,
-  contentPaddingTop,
-  contentPaddingBottom,
-  contentPaddingLeft,
-  contentPaddingRight,
-  headerPadding,
-  headerMarginLeft,
-  headerBottomMargin,
   expanded,
   onChange,
   children,
   id,
   iconType,
   iconAlign,
-  iconRightMargin,
-  headingSize,
+  styleOverride,
   type,
   title
 }) => {
@@ -73,45 +63,33 @@ const Accordion = ({
     <StyledAccordionContainer
       id={ accordionId }
       data-component='accordion'
-      accordionPadding={ accordionPadding }
       type={ type }
+      styleOverride={ styleOverride.root }
     >
       <StyledAccordionTitleContainer
         data-element='accordion-title-container'
         id={ headerId }
         aria-expanded={ isExpanded }
         aria-controls={ contentId }
-        headerPadding={ headerPadding }
-        headerMarginLeft={ headerMarginLeft }
-        headerBottomMargin={ headerBottomMargin }
         onClick={ toggleAccordion }
         onKeyDown={ handleKeyDown }
         iconAlign={ iconAlign }
         tabIndex='0'
+        styleOverride={ styleOverride.headerArea }
       >
-        {iconAlign === 'left' && (
-          <StyledAccordionIcon
-            data-element='accordion-icon'
-            iconRightMargin={ iconRightMargin }
-            type={ iconType }
-            isExpanded={ isExpanded }
-          />
-        )}
-
         <StyledAccordionTitle
           data-element='accordion-title'
-          headingSize={ headingSize }
+          styleOverride={ styleOverride.header }
         >
           { title }
         </StyledAccordionTitle>
-
-        {iconAlign === 'right' && (
-          <StyledAccordionIcon
-            data-element='accordion-icon'
-            type={ iconType }
-            isExpanded={ isExpanded }
-          />
-        )}
+        <StyledAccordionIcon
+          data-element='accordion-icon'
+          type={ iconType }
+          isExpanded={ isExpanded }
+          iconAlign={ iconAlign }
+          styleOverride={ styleOverride.icon }
+        />
       </StyledAccordionTitleContainer>
       <StyledAccordionContentContainer
         isExpanded={ isExpanded }
@@ -121,12 +99,8 @@ const Accordion = ({
           data-element='accordion-content'
           id={ contentId }
           aria-labelledby={ headerId }
-          contentPadding={ contentPadding }
-          contentPaddingTop={ contentPaddingTop }
-          contentPaddingBottom={ contentPaddingBottom }
-          contentPaddingLeft={ contentPaddingLeft }
-          contentPaddingRight={ contentPaddingRight }
           ref={ accordionContent }
+          styleOverride={ styleOverride.content }
         >
           { children }
         </StyledAccordionContent>
@@ -138,24 +112,6 @@ const Accordion = ({
 Accordion.propTypes = {
   children: PropTypes.node,
   id: PropTypes.string,
-  /** Sets the accordion content padding - multiplies provided number by 8 */
-  contentPadding: PropTypes.number,
-  /** Sets the accordion content padding-top - multiplies provided number by 8 */
-  contentPaddingTop: PropTypes.number,
-  /** Sets the accordion content padding-bottom - multiplies provided number by 8 */
-  contentPaddingBottom: PropTypes.number,
-  /** Sets the accordion content padding-left - multiplies provided number by 8 */
-  contentPaddingLeft: PropTypes.number,
-  /** Sets the accordion content padding-right - multiplies provided number by 8 */
-  contentPaddingRight: PropTypes.number,
-  /** Sets the whole accordion container padding - multiplies provided number by 8 */
-  accordionPadding: PropTypes.number,
-  /** Sets the accordion header container padding - multiplies provided number by 8 */
-  headerPadding: PropTypes.number,
-  /** Sets the accordion header left margin in % - helps with aligning header with inlined TextBox inputs */
-  headerMarginLeft: PropTypes.number,
-  /** Sets the accordion header bottom margin -  multiplies provided number by 8 */
-  headerBottomMargin: PropTypes.number,
   /** Set the default state of expansion of the Accordion if component is meant to be used as uncontrolled */
   defaultExpanded: PropTypes.bool,
   /** Sets the expansion state of the Accordion if component is meant to be used as controlled */
@@ -164,10 +120,14 @@ Accordion.propTypes = {
   iconType: PropTypes.oneOf(['chevron_down', 'dropdown']),
   /** Sets icon alignment - accepted values: 'left', 'right' (default) */
   iconAlign: PropTypes.oneOf(OptionsHelper.alignBinary),
-  /** Sets icon right margin - provided number will be multiplied by 8 */
-  iconRightMargin: PropTypes.number,
-  /** Sets heading's font-size - accepted values: 32, 24, 20 (default), 14 */
-  headingSize: PropTypes.oneOf([32, 24, 20, 14]),
+  /** Allows to override existing component styles */
+  styleOverride: PropTypes.shape({
+    root: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    headerArea: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    icon: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    header: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    content: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+  }),
   /** Callback fired when expansion state changes, onChange(event: object, isExpanded: boolean) */
   onChange: PropTypes.func,
   /** Sets accordion type to either primary (default), or secondary */
@@ -177,15 +137,10 @@ Accordion.propTypes = {
 };
 
 Accordion.defaultProps = {
-  accordionPadding: 5,
-  contentPadding: 2,
-  headerPadding: 2,
-  headerBottomMargin: 3,
   iconType: 'chevron_down',
   iconAlign: 'right',
-  iconRightMargin: 2,
-  headingSize: 20,
-  type: 'primary'
+  type: 'primary',
+  styleOverride: {}
 };
 
 export default Accordion;
