@@ -1,14 +1,23 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
+import styled from 'styled-components';
+import { Checkbox } from '../../__experimental__/components/checkbox';
+import Icon from '../icon';
+
+const DraggableItemStyle = styled.div`
+display: flex;
+justify-content: space-between;
+border-bottom: 1px solid gray;
+`;
 
 const DraggableCheckboxItem = ({
-  id, children, findCard, moveCard
+  id, title, findCard, moveCard
 }) => {
-  const originalIndex = findCard(id).index;
+  const oIndex = findCard(id).index;
   const [, drag] = useDrag({
-    item: { type: 'card', id, originalIndex },
+    item: { type: 'card', id, oIndex },
     collect: monitor => ({
       isDragging: monitor.isDragging()
     }),
@@ -20,6 +29,7 @@ const DraggableCheckboxItem = ({
       }
     }
   });
+
   const [, drop] = useDrop({
     accept: 'card',
     canDrop: () => false,
@@ -32,9 +42,10 @@ const DraggableCheckboxItem = ({
   });
 
   return (
-    <div ref={ node => drag(drop(node)) }>
-      {children}
-    </div>
+    <DraggableItemStyle ref={ node => drag(drop(node)) }>
+      <Checkbox label={ title } />
+      <Icon type='drag' />
+    </DraggableItemStyle>
   );
 };
 
@@ -48,29 +59,41 @@ const DraggableCheckbox = ({ children }) => {
   const [cards, setCards] = useState(children);
 
   const findCard = (id) => {
-    const card = cards.filter(c => `${c.id}` === id)[0];
-    return {
-      card,
-      index: cards.indexOf(card)
-    };
+    let card;
+
+    cards.forEach((item) => {
+      if (item.props.id === id) {
+        card = {
+          item,
+          index: cards.indexOf(item)
+        };
+      }
+    });
+
+    return card;
   };
 
   const moveCard = (id, atIndex) => {
-    const { card, index } = findCard(id);
-    setCards(...cards, {
-      $splice: [
-        [index, 1],
-        [atIndex, 0, card]
-      ]
-    });
+    const { item: card, index } = findCard(id);
+    const copyCards = [...cards];
+
+    copyCards.splice(index, 1);
+    copyCards.splice(atIndex, 0, card);
+    setCards(copyCards);
   };
 
   return (
     <DndProvider backend={ Backend }>
       <DropTarget>
-        {React.Children.map(children, (child) => {
-          return React.cloneElement(child, { findCard, moveCard });
-        })}
+        {cards.map(card => (
+          <DraggableCheckboxItem
+            key={ card.props.id }
+            id={ card.props.id }
+            findCard={ findCard }
+            moveCard={ moveCard }
+            title={ card.props.title }
+          />
+        ))}
       </DropTarget>
     </DndProvider>
   );

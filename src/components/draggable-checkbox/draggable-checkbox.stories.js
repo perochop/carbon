@@ -8,9 +8,9 @@ export default {
 
 export const draggable = () => (
   <DraggableCheckbox>
-    <DraggableCheckboxItem id={ 1 }> content 1</DraggableCheckboxItem>
-    <DraggableCheckboxItem id={ 2 }> content 1</DraggableCheckboxItem>
-    <DraggableCheckboxItem id={ 3 }> content 1</DraggableCheckboxItem>
-    <DraggableCheckboxItem id={ 4 }> content 1</DraggableCheckboxItem>
+    <DraggableCheckboxItem title='title 1' id={ 1 } />
+    <DraggableCheckboxItem title='title 2' id={ 2 } />
+    <DraggableCheckboxItem title='title 3' id={ 3 } />
+    <DraggableCheckboxItem title='title 4' id={ 4 } />
   </DraggableCheckbox>
 );
