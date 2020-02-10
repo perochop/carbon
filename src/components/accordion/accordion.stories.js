@@ -23,7 +23,7 @@ export const Basic = () => {
   return (
     <Accordion
       iconType={ select('iconType', ['chevron_down', 'dropdown']) }
-      iconAlign={ (
+      iconAlign={ select(
         'iconAlign',
         OptionsHelper.alignBinary,
         defaultProps.iconAlign
