@@ -2,7 +2,7 @@ Feature: Search component
   I want to change Search component properties
 
   Background: Open Search component page
-    Given I open "Experimental Search" component page
+    Given I open "Search" component page
 
   @positive
   Scenario Outline: Set placeholder to <placeholder>
