@@ -5,18 +5,22 @@ import {
   number,
   withKnobs
 } from '@storybook/addon-knobs';
-import { Store, State } from '@sambego/storybook-state';
+import { Store } from '@sambego/storybook-state';
 import { action } from '@storybook/addon-actions';
-import { notes, info } from './documentation';
 import Search from '.';
 
 export default {
-  title: 'Experimental/Search',
+  title: 'Test/Search',
   component: Search,
-  decorators: [withKnobs]
+  decorators: [withKnobs],
+  parameters: {
+    info: {
+      disable: true
+    }
+  }
 };
 
-export const searchComponent = () => {
+export const Basic = () => {
   const store = new Store({
     value: ''
   });
@@ -42,15 +46,4 @@ export const searchComponent = () => {
       id='search_id'
     />
   );
-};
-
-searchComponent.story = {
-  name: 'default',
-  parameters: {
-    info: {
-      text: info,
-      propTablesExclude: [State]
-    },
-    notes: { markdown: notes }
-  }
 };
