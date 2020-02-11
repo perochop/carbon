@@ -78,7 +78,6 @@ Feature: Build tests
       | rainbow                          | rainbow              |
       | row                              | row                  |
       | showeditpod                      | pod                  |
-      | experimental-search              | search               |
       | settingsrow                      | settings-row         |
       | experimental-simple-color-picker | simple-color-picker  |
       | split-button                     | split-button         |
@@ -182,3 +181,11 @@ Feature: Build tests
   Scenario: Component Loader legacy spinner in iframe default page
     When I open "loader" component page legacy spinner in iframe
     Then "spinner" component is visible
+
+  @build
+  Scenario Outline: Component <component> basic default page
+    When I open "<component>" component page basic in iframe
+    Then "<data-component>" component is visible
+    Examples:
+      | component   | data-component |
+      | test-search | search         |
