@@ -19,6 +19,14 @@ Then('Search component has input and {string} as icon', (iconType) => {
     .and('be.visible');
 });
 
+Then('I click on cross icon', () => {
+  searchInnerIcon().eq(FIRST_ELEMENT).click();
+});
+
+When('search input is empty', () => {
+  searchInput().should('be.empty');
+});
+
 Then('Search component input has golden border', () => {
   searchInput().parent().should('have.css', 'outline', 'rgb(255, 181, 0) solid 3px');
 });
@@ -33,6 +41,12 @@ When('I click inside input', () => {
 
 Then('search icon has golden border', () => {
   searchIcon().should('have.css', 'outline', 'rgb(255, 181, 0) solid 3px');
+});
+
+Then('search icon has proper inner color', () => {
+  const mintColor = 'rgb(0, 128, 93)';
+  searchIcon().should('have.css', 'background-color', mintColor)
+    .and('have.css', 'border-color', mintColor);
 });
 
 Then('search icon as button is visible', () => {

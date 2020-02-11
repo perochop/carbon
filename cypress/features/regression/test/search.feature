@@ -2,7 +2,7 @@ Feature: Search component
   I want to change Search component properties
 
   Background: Open Search component page
-    Given I open "Search" component page
+    Given I open "Test Search" component page basic
 
   @positive
   Scenario Outline: Set placeholder to <placeholder>
@@ -17,7 +17,7 @@ Feature: Search component
       | <>                      |
 
   @positive
-  Scenario Outline: Set inner text to <text> and threshold to <threshold>
+  Scenario Outline: Set inner text to <text> and threshold to <threshold> and verify golden border for search icon
     Given I set threshold to "<threshold>"
       And Type "<text>" text into search input
     When I click onto search icon
@@ -52,7 +52,7 @@ Feature: Search component
       And Search component input has golden border
 
   @positive
-  Scenario: Verify golden outline for cross icon
+  Scenario: Verify golden outline for search icon
     Given Type "Sea" text into search input
     When I click onto search icon
     Then search icon has golden border
@@ -67,5 +67,17 @@ Feature: Search component
   Scenario: Check the blur function call for Search component
     Given clear all actions in Actions Tab
       And I click inside input
-    When I click outside of the component
+    When I click outside of the component in DLS directory
     Then blur action was called in Actions Tab
+
+  @positive
+  Scenario: Verify proper color for search icon button
+    Given Type "Sea" text into search input
+    When I click onto search icon
+    Then search icon has proper inner color
+
+  @positive
+  Scenario: Verify inner elements text is cleared after click on cross icon
+    Given Type "Search" text into search input
+    When I click on cross icon
+    Then search input is empty
