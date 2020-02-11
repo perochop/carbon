@@ -3,9 +3,9 @@ import {
 } from './locators';
 
 // component preview locators
-export const accordion = index => cy.iFrame(ACCORDION_PREVIEW).eq(index);
-export const accordionTitleContainer = index => accordion(index).find(ACCORDION_TITLE_CONTAINER);
-export const accordionTitle = index => accordionTitleContainer(index).find(ACCORDION_TITLE);
-export const accordionContent = index => accordion(index).find(ACCORDION_CONTENT);
-export const accordionIcon = index => accordionTitleContainer(index)
+export const accordion = () => cy.iFrame(ACCORDION_PREVIEW);
+export const accordionTitleContainer = () => accordion().find(ACCORDION_TITLE_CONTAINER);
+export const accordionTitle = () => accordionTitleContainer().find(ACCORDION_TITLE);
+export const accordionContent = () => accordion().find(ACCORDION_CONTENT);
+export const accordionIcon = () => accordionTitleContainer()
   .find('span');
