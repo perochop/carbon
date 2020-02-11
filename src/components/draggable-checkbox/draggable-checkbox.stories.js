@@ -1,5 +1,6 @@
 import React from 'react';
-import { DraggableCheckbox, DraggableCheckboxItem } from './draggable-checkbox.component';
+import DraggableCheckbox from './draggable-checkbox.component';
+import DraggableCheckboxItem from './draggable-checkbox-item.component';
 
 export default {
   component: DraggableCheckbox,
