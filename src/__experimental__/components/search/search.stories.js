@@ -16,7 +16,8 @@ export default {
   parameters: {
     info: {
       disable: true
-    }
+    },
+    knobs: { escapeHTML: false }
   }
 };
 
