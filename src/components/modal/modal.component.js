@@ -156,13 +156,16 @@ Modal.propTypes = {
   /** Determines if the Esc Key closes the modal */
   disableEscKey: PropTypes.bool,
   /** The ARIA role to be applied to the modal */
-  ariaRole: PropTypes.string // eslint-disable-line react/no-unused-prop-types
+  ariaRole: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+  /** Determines if the close icon is shown */
+  showCloseIcon: PropTypes.bool
 };
 
 Modal.defaultProps = {
   onCancel: null,
   enableBackgroundUI: false,
-  disableEscKey: false
+  disableEscKey: false,
+  showCloseIcon: true
 };
 
 export default Modal;
