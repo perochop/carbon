@@ -5,15 +5,6 @@ Feature: Accordion component
     Given I open "Test Accordion" component page basic
 
   @positive
-  Scenario Outline: Set Accordion iconAlign to <iconAlign>
-    When I select iconAlign to "<iconAlign>"
-    Then Accordion iconAlign property on preview is set to "<iconAlign>"
-    Examples:
-      | iconAlign |
-      | left      |
-      | right     |
-
-  @positive
   Scenario Outline: Set Accordion iconType to <iconType>
     When I select iconType to "<iconType>"
     Then Accordion iconType property on preview is set to "<iconType>"
@@ -21,6 +12,15 @@ Feature: Accordion component
       | iconType     |
       | chevron_down |
       | dropdown     |
+
+  @positive
+  Scenario Outline: Set Accordion iconAlign to <iconAlign>
+    When I select iconAlign to "<iconAlign>"
+    Then Accordion iconAlign property on preview is set to "<iconAlign>"
+    Examples:
+      | iconAlign |
+      | left      |
+      | right     |
 
   @positive
   Scenario Outline: Set Accordion type to <type>
@@ -42,14 +42,13 @@ Feature: Accordion component
     Then accordionRow is expanded
 
   @positive
-  Scenario: Verify color pallete for primary type Accordion
+  Scenario Outline: Verify color pallete for <type> type Accordion
     # When I open "Accordion" component page
-    Then Accordion has proper primary type color palette
-
-  @positive
-  Scenario: Verify color pallete for secondary type Accordion
-    When I select type to "secondary"
-    Then Accordion has proper secondary type color palette
+    Then Accordion has proper "<type>" type color "<color>" palette
+    Examples:
+      | type      | color              |
+      | primary   | rgb(204, 214, 218) |
+      | secondary | rgb(204, 214, 218) |
 
   @positive
   Scenario: Verify color pallete for the Accordion row on focus
@@ -60,4 +59,4 @@ Feature: Accordion component
   Scenario: Check expansion toggled event for the Accordion row on focus
     Given clear all actions in Actions Tab
     When I expand accordionRow via click
-    Then "expansion toggled" accordion action was called in Actions Tab
+    Then "expansion toggled" accordion event was called in Actions Tab

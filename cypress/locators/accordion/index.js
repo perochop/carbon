@@ -9,3 +9,5 @@ export const accordionTitle = () => accordionTitleContainer().find(ACCORDION_TIT
 export const accordionContent = () => accordion().find(ACCORDION_CONTENT);
 export const accordionIcon = () => accordionTitleContainer()
   .find('span');
+export const accordionTitleContainerByPosition = index => accordion()
+  .find(ACCORDION_TITLE_CONTAINER).eq(index).children();
