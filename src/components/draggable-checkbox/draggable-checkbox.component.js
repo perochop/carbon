@@ -10,7 +10,7 @@ const DropTarget = ({ children }) => {
   return <div ref={ drop }>{children}</div>;
 };
 
-const DraggableCheckbox = ({ children }) => {
+const DraggableCheckbox = ({ children, onUpdate }) => {
   const [cards, setCards] = useState(children);
 
   const findCard = (id) => {
@@ -31,6 +31,16 @@ const DraggableCheckbox = ({ children }) => {
     setCards(copyCards);
   };
 
+
+  const getCardsId = () => {
+    const tempArray = [];
+    cards.forEach((card) => {
+      return tempArray.push(card.props.id);
+    });
+
+    return onUpdate ? onUpdate(tempArray) : null;
+  };
+
   return (
     <DndProvider backend={ Backend }>
       <DropTarget>
@@ -41,6 +51,7 @@ const DraggableCheckbox = ({ children }) => {
             title={ card.props.title }
             findCard={ findCard }
             moveCard={ moveCard }
+            onUpdate={ getCardsId }
           />
         ))}
       </DropTarget>
