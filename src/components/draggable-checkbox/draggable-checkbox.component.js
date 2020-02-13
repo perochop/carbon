@@ -11,7 +11,7 @@ const DropTarget = ({ children }) => {
 };
 
 const DraggableCheckbox = ({ children, onUpdate }) => {
-  const [cards, setCards] = useState(children);
+  const [cards, setCards] = useState(React.Children.toArray(children));
 
   const findCard = (id) => {
     const card = cards.filter(c => `${c.props.id}` === id)[0];
@@ -33,12 +33,15 @@ const DraggableCheckbox = ({ children, onUpdate }) => {
 
 
   const getCardsId = () => {
+    if (!onUpdate) {
+      return;
+    }
     const tempArray = [];
     cards.forEach((card) => {
       return tempArray.push(card.props.id);
     });
 
-    return onUpdate ? onUpdate(tempArray) : null;
+    onUpdate(tempArray);
   };
 
   return (

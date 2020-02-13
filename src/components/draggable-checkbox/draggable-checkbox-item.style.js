@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { baseTheme } from '../../style/themes';
 
 const DraggableItemStyle = styled.div`
   display: flex;
@@ -9,5 +10,9 @@ const DraggableItemStyle = styled.div`
 
   opacity: ${({ opacity }) => opacity};
 `;
+
+DraggableItemStyle.defaultProps = {
+  theme: baseTheme
+};
 
 export default DraggableItemStyle;
