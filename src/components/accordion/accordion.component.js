@@ -31,21 +31,19 @@ const Accordion = ({
 
   const [isExpandedInternal, setIsExpandedInternal] = useState(defaultExpanded || false);
 
-  const [contentHeight, setContentHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState(undefined);
 
   const accordionContent = useRef(null);
 
-  useEffect(() => {
-    setContentHeight(!expanded ? 0 : accordionContent.current.scrollHeight);
-  }, [expanded]);
-
   const isExpanded = isControlled ? expanded : isExpandedInternal;
+
+  useEffect(() => {
+    setContentHeight(!isExpanded ? 0 : accordionContent.current.scrollHeight);
+  }, [isExpanded]);
 
   const toggleAccordion = useCallback((ev) => {
     if (!isControlled) setIsExpandedInternal(!isExpanded);
     if (onChange) onChange(ev, !isExpanded);
-
-    setContentHeight(isExpanded ? 0 : accordionContent.current.scrollHeight);
   }, [isControlled, isExpanded, onChange]);
 
   const handleKeyDown = useCallback((ev) => {
@@ -93,7 +91,7 @@ const Accordion = ({
       </StyledAccordionTitleContainer>
       <StyledAccordionContentContainer
         isExpanded={ isExpanded }
-        style={ { maxHeight: contentHeight } }
+        maxHeight={ contentHeight }
       >
         <StyledAccordionContent
           data-element='accordion-content'

@@ -16,12 +16,36 @@ import {
 
 const contentHeight = 200;
 
+const isExpanded = (wrapper) => {
+  assertStyleMatch({
+    transform: 'rotate(-180deg)'
+  }, wrapper.find(StyledAccordionIcon));
+  assertStyleMatch({
+    visibility: undefined,
+    maxHeight: `${contentHeight}px`
+  }, wrapper.find(StyledAccordionContentContainer));
+};
+
+const isCollapsed = (wrapper) => {
+  assertStyleMatch({
+    transform: undefined
+  }, wrapper.find(StyledAccordionIcon));
+  assertStyleMatch({
+    visibility: 'hidden',
+    maxHeight: '0px'
+  }, wrapper.find(StyledAccordionContentContainer));
+};
+
 describe('Accordion', () => {
   let wrapper;
 
   const render = (props) => {
     wrapper = mount(<Accordion title='Title' { ...props } />);
+    jest.spyOn(
+      wrapper.find(StyledAccordionContent).getDOMNode(), 'scrollHeight', 'get'
+    ).mockImplementation(() => contentHeight);
   };
+
 
   beforeEach(() => {
     render();
@@ -29,13 +53,14 @@ describe('Accordion', () => {
 
   describe('controlled behaviour', () => {
     it('mounts expanded when expanded prop is passed as true', () => {
-      render({ expanded: true });
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(true);
+      act(() => render({ expanded: true }));
+      wrapper.update();
+      isExpanded(wrapper);
     });
 
     it('mounts collapsed when expanded prop is passed as false', () => {
       render({ expanded: false });
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(false);
+      isCollapsed(wrapper);
     });
 
     it('fires provided onChange prop when clicked on the header area', () => {
@@ -53,60 +78,44 @@ describe('Accordion', () => {
       wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')(ev);
       expect(onChange).toHaveBeenCalledWith(ev, true);
     });
-
-    it('sets content max-height to 0 when is collapsed', () => {
-      act(() => render({ expanded: false }));
-      expect(wrapper.find(StyledAccordionContentContainer).prop('style')).toHaveProperty('maxHeight', 0);
-    });
-
-    it('sets content max-height to its real height when is expanded', () => {
-      jest.spyOn(
-        wrapper.find(StyledAccordionContent).getDOMNode(), 'scrollHeight', 'get'
-      ).mockImplementation(() => contentHeight);
-
-      act(() => {
-        wrapper.setProps({ expanded: true });
-      });
-      wrapper.update();
-      expect(wrapper.find(StyledAccordionContentContainer).prop('style')).toHaveProperty('maxHeight', contentHeight);
-    });
   });
 
   describe('uncontrolled behaviour', () => {
     it('mounts expanded when defaultExpanded prop is passed as true', () => {
-      render({ defaultExpanded: true });
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(true);
+      act(() => render({ defaultExpanded: true }));
+      wrapper.update();
+      isExpanded(wrapper);
     });
 
     it('mounts collapsed when defaultExpanded prop is not passed at all', () => {
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(false);
+      isCollapsed(wrapper);
     });
 
     it('toggles expansion state when clicking on the header area', () => {
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onClick')());
       wrapper.update();
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(true);
+      isExpanded(wrapper);
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onClick')());
       wrapper.update();
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(false);
+      isCollapsed(wrapper);
     });
 
     it('toggles expansion state when pressing enter key on the header area', () => {
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 13 }));
       wrapper.update();
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(true);
+      isExpanded(wrapper);
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 13 }));
       wrapper.update();
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(false);
+      isCollapsed(wrapper);
     });
 
     it('does not toggle expansion state when keys other than enter pressed on the header area', () => {
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 10 }));
       wrapper.update();
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(false);
+      isCollapsed(wrapper);
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 10 }));
       wrapper.update();
-      expect(wrapper.find(StyledAccordionContentContainer).prop('isExpanded')).toBe(false);
+      isCollapsed(wrapper);
     });
   });
 

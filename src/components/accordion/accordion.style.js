@@ -73,6 +73,7 @@ const StyledAccordionContentContainer = styled.div`
   box-sizing: border-box;
   overflow: hidden;
   transition: all 0.3s;
+  max-height: ${({ maxHeight }) => maxHeight}px;
   ${({ isExpanded }) => !isExpanded && 'visibility: hidden'};
 `;
 
