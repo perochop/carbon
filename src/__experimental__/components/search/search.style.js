@@ -81,8 +81,13 @@ export const StyledSearchButton = styled.div`
   display: inline-flex;
   border-bottom: 1px solid transparent;
   &&& ${StyledButton} {
-    ${({ theme }) => `background-color: ${theme.colors.primary};`}
-    ${({ theme }) => `border-color: ${theme.colors.primary};`}
+    ${({ theme }) => `
+    background-color: ${theme.colors.primary};
+    border-color: ${theme.colors.primary};
+    :hover {
+      background: ${theme.colors.secondary};
+    }
+    `}
     width: 43px;
     height: 43px;
     margin: 0px 0px;
@@ -90,7 +95,9 @@ export const StyledSearchButton = styled.div`
     transition: border 0.2s ease, background 0.2s ease;
     :focus {
      z-index: 10;
-   }
+    }
+   
+
   }`;
 
 export const StyledButtonIcon = styled.div`
