@@ -96,7 +96,8 @@ export const StyledSearchButton = styled.div`
     :focus {
      z-index: 10;
     }
-  }`;
+  }
+`;
 
 export const StyledButtonIcon = styled.div`
    &&& ${StyledIcon} {
