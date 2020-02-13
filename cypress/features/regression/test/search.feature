@@ -17,7 +17,7 @@ Feature: Search component
       | <>                      |
 
   @positive
-  Scenario Outline: Set inner text to <text> and threshold to <threshold> and verify golden border for search icon
+  Scenario Outline: Verify inner text is set to <text> and threshold to <threshold> and search icon has golden border
     Given I set threshold to "<threshold>"
       And Type "<text>" text into search input
     When I click onto search icon
@@ -58,13 +58,13 @@ Feature: Search component
     Then search icon has golden border
 
   @positive
-  Scenario: Check the change function call for Search component
+  Scenario: Check the change event for Search component
     Given clear all actions in Actions Tab
     When Type "Search" text into search input
     Then change action was called in Actions Tab
 
   @positive
-  Scenario: Check the blur function call for Search component
+  Scenario: Check the blur event for Search component
     Given clear all actions in Actions Tab
       And I click inside input
     When I click outside of the component in DLS directory
