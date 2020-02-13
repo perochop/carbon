@@ -86,13 +86,13 @@ export const StyledSearchButton = styled.div`
     border-color: ${theme.colors.primary};
     :hover {
       background: ${theme.colors.secondary};
+      border-color: ${theme.colors.secondary};
     }
     `}
     width: 43px;
     height: 43px;
     margin: 0px 0px;
     padding-bottom: 3px;
-    transition: border 0.2s ease, background 0.2s ease;
     :focus {
      z-index: 10;
     }
