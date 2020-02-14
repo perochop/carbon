@@ -11,7 +11,7 @@ function addStyleToPillIcon(padding, fontSize, margin) {
   return `
     ${StyledIcon} {
       padding: ${padding};
-      margin-top: ${margin};
+      margin-top: ${margin !== undefined ? `${margin}` : '2px'};
 
       &:before {
         font-size: ${fontSize};
