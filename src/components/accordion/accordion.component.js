@@ -15,18 +15,20 @@ import {
   StyledAccordionContent
 } from './accordion.style';
 
-const Accordion = ({
+const Accordion = React.forwardRef(({
   defaultExpanded,
   expanded,
   onChange,
   children,
+  handleKeyboardAccessibility,
   id,
+  index,
   iconType,
   iconAlign,
   styleOverride,
   type,
   title
-}) => {
+}, ref) => {
   const isControlled = expanded !== undefined;
 
   const [isExpandedInternal, setIsExpandedInternal] = useState(defaultExpanded || false);
@@ -47,10 +49,14 @@ const Accordion = ({
   }, [isControlled, isExpanded, onChange]);
 
   const handleKeyDown = useCallback((ev) => {
-    if (Events.isEnterKey(ev)) {
+    if (handleKeyboardAccessibility) {
+      handleKeyboardAccessibility(ev, index);
+    }
+
+    if (Events.isEnterKey(ev) || Events.isSpaceKey(ev)) {
       toggleAccordion(ev);
     }
-  }, [toggleAccordion]);
+  }, [handleKeyboardAccessibility, index, toggleAccordion]);
 
   const guid = useRef(createGuid());
   const accordionId = id || `Accordion_${guid.current}`;
@@ -61,7 +67,7 @@ const Accordion = ({
     <StyledAccordionContainer
       id={ accordionId }
       data-component='accordion'
-      type={ type }
+      accordionType={ type }
       styleOverride={ styleOverride.root }
     >
       <StyledAccordionTitleContainer
@@ -72,6 +78,7 @@ const Accordion = ({
         onClick={ toggleAccordion }
         onKeyDown={ handleKeyDown }
         iconAlign={ iconAlign }
+        ref={ ref }
         tabIndex='0'
         styleOverride={ styleOverride.headerArea }
       >
@@ -105,7 +112,7 @@ const Accordion = ({
       </StyledAccordionContentContainer>
     </StyledAccordionContainer>
   );
-};
+});
 
 Accordion.propTypes = {
   children: PropTypes.node,
@@ -141,4 +148,5 @@ Accordion.defaultProps = {
   styleOverride: {}
 };
 
+Accordion.displayName = 'Accordion';
 export default Accordion;

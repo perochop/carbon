@@ -11,8 +11,8 @@ const StyledAccordionContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding:  ${({ theme }) => theme.spacing * 7}px;
-  background-color: ${({ type, theme }) => (type === 'primary' ? theme.colors.white : 'transparent')};
-  ${({ type, theme }) => (type === 'primary' && css`border: 1px solid ${theme.accordion.border}`)};
+  background-color: ${({ accordionType, theme }) => (accordionType === 'primary' ? theme.colors.white : 'transparent')};
+  ${({ accordionType, theme }) => (accordionType === 'primary' && css`border: 1px solid ${theme.accordion.border}`)};
 
   & + & {
     margin-top: -1px;

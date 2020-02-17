@@ -1,10 +1,12 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
-import { assertStyleMatch } from '../../__spec_helper__/test-utils';
+
+import { simulate, assertStyleMatch } from '../../__spec_helper__/test-utils';
 import baseTheme from '../../style/themes/base';
 
-import Accordion from '.';
+import Textbox from '../../__experimental__/components/textbox';
+import { Accordion } from '.';
 import {
   StyledAccordionContainer,
   StyledAccordionTitleContainer,
@@ -13,6 +15,7 @@ import {
   StyledAccordionContent,
   StyledAccordionContentContainer
 } from './accordion.style';
+import AccordionGroup from './accordion-group.component';
 
 const contentHeight = 200;
 
@@ -71,10 +74,12 @@ describe('Accordion', () => {
       expect(onChange).toHaveBeenCalledWith(ev, true);
     });
 
-    it('fires provided onChange prop when enter key is pressed on the header area', () => {
+    it.each(
+      [['enter', 13], ['space', 32]]
+    )('fires provided onChange prop when $s key is pressed on the header area', (key, keyCode) => {
       const onChange = jest.fn();
       render({ onChange, expanded: false });
-      const ev = { which: 13 };
+      const ev = { which: keyCode };
       wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')(ev);
       expect(onChange).toHaveBeenCalledWith(ev, true);
     });
@@ -100,16 +105,18 @@ describe('Accordion', () => {
       isCollapsed(wrapper);
     });
 
-    it('toggles expansion state when pressing enter key on the header area', () => {
-      act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 13 }));
+    it.each(
+      [['enter', 13], ['space', 32]]
+    )('toggles expansion state when pressing %s key on the header area', (key, keyCode) => {
+      act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: keyCode }));
       wrapper.update();
       isExpanded(wrapper);
-      act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 13 }));
+      act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: keyCode }));
       wrapper.update();
       isCollapsed(wrapper);
     });
 
-    it('does not toggle expansion state when keys other than enter pressed on the header area', () => {
+    it('does not toggle expansion state when keys other than enter or space pressed on the header area', () => {
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 10 }));
       wrapper.update();
       isCollapsed(wrapper);
@@ -202,5 +209,74 @@ describe('Accordion', () => {
     it('renders content element with properly assigned styles', () => {
       assertStyleMatch(randomStyleObject, wrapper.find(StyledAccordionContent));
     });
+  });
+});
+
+describe('AccordionGroup', () => {
+  let wrapper;
+
+  const render = () => {
+    wrapper = mount(
+      <AccordionGroup>
+        <Accordion title='Title_1' defaultExpanded>
+          <Textbox label='Textbox in an Accordion' />
+        </Accordion>
+        <Accordion title='Title_2' defaultExpanded>
+          <Textbox label='Textbox in an Accordion' />
+        </Accordion>
+        <Accordion title='Title_3' defaultExpanded>
+          <Textbox label='Textbox in an Accordion' />
+        </Accordion>
+      </AccordionGroup>
+    );
+  };
+
+  beforeEach(() => {
+    render();
+  });
+
+  it.each(
+    [[0, 1], [1, 2], [2, 0], [0, 1]]
+  )('focuses on the next Accordion in a loop when down arrow is pressed', (focused, shouldBeFocused) => {
+    simulate.keydown.pressDownArrow(wrapper.find(StyledAccordionTitleContainer).at(focused));
+    expect(wrapper.find(StyledAccordionTitleContainer).at(shouldBeFocused)).toBeFocused();
+  });
+
+
+  it.each(
+    [[0, 2], [2, 1], [1, 0], [0, 2]]
+  )('focuses on the previous Accordion in a loop when up arrow is pressed', (focused, shouldBeFocused) => {
+    simulate.keydown.pressUpArrow(wrapper.find(StyledAccordionTitleContainer).at(focused));
+    expect(wrapper.find(StyledAccordionTitleContainer).at(shouldBeFocused)).toBeFocused();
+  });
+
+  it.each(
+    [[0, 0], [1, 0], [2, 0]]
+  )('focuses on the first Accordion when \'home\' key is pressed', (focused, shouldBeFocused) => {
+    simulate.keydown.pressHome(wrapper.find(StyledAccordionTitleContainer).at(focused));
+    expect(wrapper.find(StyledAccordionTitleContainer).at(shouldBeFocused)).toBeFocused();
+  });
+
+  it.each(
+    [[0, 2], [1, 2], [2, 2]]
+  )('focuses on the last Accordion when \'end\' key is pressed', (focused, shouldBeFocused) => {
+    simulate.keydown.pressEnd(wrapper.find(StyledAccordionTitleContainer).at(focused));
+    expect(wrapper.find(StyledAccordionTitleContainer).at(shouldBeFocused)).toBeFocused();
+  });
+
+  it('validates the incorrect children prop', () => {
+    jest.spyOn(global.console, 'error').mockImplementation(() => {});
+    const InvalidComponent = React.forwardRef(() => <div />);
+    mount(
+      <AccordionGroup>
+        <InvalidComponent />
+        <InvalidComponent />
+      </AccordionGroup>
+    );
+
+    const expected = 'Warning: Failed prop type: `AccordionGroup` only accepts children of'
+        + ' type `Accordion`.\n    in AccordionGroup';
+
+    expect(console.error).toHaveBeenCalledWith(expected); // eslint-disable-line no-console
   });
 });

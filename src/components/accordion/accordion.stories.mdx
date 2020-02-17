@@ -1,6 +1,6 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 
-import Accordion from '.';
+import { AccordionGroup, Accordion } from '.';
 import Textbox from '../../__experimental__/components/textbox';
 
 <Meta
@@ -40,7 +40,7 @@ It can be used as a controlled component where the expansion state is controlled
 in that case both `onChange` and `expanded` props are required.
 
 ```jsx
-import Accordion from "carbon-react/lib/components/accordion"
+import { Accordion } from "carbon-react/lib/components/accordion"
 
 const MyComponent = () => (
   <Accordion onChange={ onChange } expanded={ expanded } title="Title">
@@ -53,7 +53,7 @@ It can also be used as an uncontrolled component where the expansion state is co
 It is still possible to pass `onChange` to hook a callback for state changes, however to set initial expansion state `defaultExpanded` can be passed.
 
 ```jsx
-import Accordion from "carbon-react/lib/components/accordion"
+import { Accordion } from "carbon-react/lib/components/accordion"
 
 const MyComponent = () => (
   <Accordion onChange={ onChange } defaultExpanded={ true } title="Title">
@@ -69,8 +69,9 @@ Primary version of accordion has white background and a border.
 <Preview>
   <Story name="primary">
     <Accordion title='Heading'>
-      <p>Content</p>
-      <p>Content</p>
+      <div>Content</div>
+      <div>Content</div>
+      <div>Content</div>
     </Accordion>
   </Story>
 </Preview>
@@ -80,61 +81,54 @@ Secondary version is transparent and has no borders.
 <Preview>
   <Story name="secondary">
     <Accordion type="secondary" title='Heading'>
-      <p>Content</p>
-      <p>Content</p>
+      <div>Content</div>
+      <div>Content</div>
+      <div>Content</div>
     </Accordion>
   </Story>
 </Preview>
 
 ### Grouped
 Accordions borders collapse when positioned next to each other making it easy to group them.
+To achieve proper keyboard accessibility as described in `W3` sources it is required to wrap neighbouring accordions in
+`AccordionGroup`.
+
+```jsx
+import { Accordion, AccordionGroup } from "carbon-react/lib/components/accordion"
+```
+
 <Preview>
-  <Story name="grouped">
-    <>
-      <Accordion title='Heading'>
-        <p>Content</p>
-        <p>Content</p>
-      </Accordion>
-      <Accordion title='Heading'>
-        <p>Content</p>
-        <p>Content</p>
-      </Accordion>
-      <Accordion title='Heading'>
-        <p>Content</p>
-        <p>Content</p>
-      </Accordion>
-    </>
+  <Story id="test-accordion--grouped" name="grouped">
   </Story>
 </Preview>
+
 
 ### With overriden styles
 Accordion styles can be easily overriden by providing `styleOverride` prop with proper structure as defined in propTypes.
 
 <Preview>
   <Story name="styles overriden">
-      <Accordion
-        title='Heading'
-        styleOverride={
-          {
-            headerArea: {
-              padding: '24px',
-              marginLeft: 'calc(15% - 24px)'
-            },
-            content: { paddingLeft: 0 }
-          }
+    <Accordion
+      title='Heading'
+      styleOverride={
+        {
+          headerArea: {
+            padding: '24px',
+            marginLeft: 'calc(15% - 24px)'
+          },
+          content: { paddingLeft: 0 }
         }
-      >
-        <Textbox
-          label='Label 1'
-          labelInline
-          labelAlign='right'
-          labelWidth={ 15 }
-          inputWidth={ 85 }
-        />
-      </Accordion>
+      }
+    >
+      <Textbox
+        label='Label 1'
+        labelInline
+        labelAlign='right'
+        labelWidth={ 15 }
+        inputWidth={ 85 }
+      />
+    </Accordion>
   </Story>
 </Preview>
-
-
 
 <Props of={Accordion} />

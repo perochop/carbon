@@ -4,6 +4,8 @@ import { action } from '@storybook/addon-actions';
 import { dlsThemeSelector } from '../../../.storybook/theme-selectors';
 import OptionsHelper from '../../utils/helpers/options-helper';
 import Accordion from './accordion.component';
+import AccordionGroup from './accordion-group.component';
+import Textbox from '../../__experimental__/components/textbox';
 
 export default {
   title: 'Test/Accordion',
@@ -36,9 +38,34 @@ export const Basic = () => {
       title={ text('Title', 'Title') }
       onChange={ action('expansion toggled') }
     >
-      <h4 style={ { margin: 0 } }>
-        Accordion Content
-      </h4>
+      <div>Content</div>
+      <div>Content</div>
+      <div>Content</div>
     </Accordion>
   );
 };
+
+export const Grouped = () => (
+  <AccordionGroup>
+    <Accordion
+      title='First Accordion'
+      onChange={ action('expansion toggled') }
+    >
+      <Textbox label='Textbox in an Accordion' />
+    </Accordion>
+    <Accordion
+      title='Second Accordion'
+      onChange={ action('expansion toggled') }
+    >
+      <Textbox label='Textbox in an Accordion' />
+    </Accordion>
+    <Accordion
+      title='Third Accordion'
+      onChange={ action('expansion toggled') }
+    >
+      <div>Content</div>
+      <div>Content</div>
+      <div>Content</div>
+    </Accordion>
+  </AccordionGroup>
+);
