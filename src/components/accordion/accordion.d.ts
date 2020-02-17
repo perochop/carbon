@@ -15,11 +15,11 @@ export interface AccordionProps {
   iconAlign?: AlignBinaryType
   /** Allows to override existing component styles */
   styleOverride?: {
-   root?: function | object;
-   headerArea?: function | object;
-   icon?: function | object;
-   header?: function | object;
-   content?: function | object;
+   root?: () => object | object;
+   headerArea?: () => object | object;
+   icon?: () => object | object;
+   header?: () => object | object;
+   content?: () => object | object;
   };
   /** Callback fired when expansion state changes, onChange(event: object, isExpanded: boolean) */
   onChange?: (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, isExpanded: boolean) => void;
