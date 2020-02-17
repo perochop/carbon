@@ -1,12 +1,10 @@
 import React from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
-import { Checkbox } from '../../__experimental__/components/checkbox';
-import Icon from '../icon';
-import DraggableItemStyle from './draggable-checkbox-item.style';
+import { StyledDraggableItem } from './draggable-item.style';
 
-const DraggableCheckboxItem = ({
-  id, title, findCard, moveCard, onUpdate
+const DraggableItem = ({
+  id, findCard, moveCard, onUpdate, children
 }) => {
   const oIndex = findCard(id).index;
   const [{ isDragging }, drag] = useDrag({
@@ -39,23 +37,22 @@ const DraggableCheckboxItem = ({
   const opacity = isDragging ? 0 : 1;
 
   return (
-    <DraggableItemStyle
+    <StyledDraggableItem
       opacity={ opacity }
       ref={ node => drag(drop(node)) }
     >
-      <Checkbox label={ title } />
-      <Icon type='drag' />
-    </DraggableItemStyle>
+      {children}
+    </StyledDraggableItem>
   );
 };
 
-DraggableCheckboxItem.propTypes = {
+DraggableItem.propTypes = {
   id: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
   ]).isRequired,
-  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   onUpdate: PropTypes.func
 };
 
-export default DraggableCheckboxItem;
+export default DraggableItem;

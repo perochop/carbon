@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { DndProvider, useDrop } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
-import DraggableCheckboxItem from './draggable-checkbox-item.component';
+import DraggableItem from './draggable-item.component';
+import { StyledIcon } from './draggable-item.style';
 
 const DropTarget = ({ children }) => {
   const [, drop] = useDrop({ accept: 'card' });
@@ -10,11 +11,13 @@ const DropTarget = ({ children }) => {
   return <div ref={ drop }>{children}</div>;
 };
 
-const DraggableCheckbox = ({ children, onUpdate }) => {
+const DraggableContainer = ({ children, onUpdate }) => {
   const [cards, setCards] = useState(React.Children.toArray(children));
 
   const findCard = (id) => {
-    const card = cards.filter(c => `${c.props.id}` === id)[0];
+    const card = cards.filter((c) => {
+      return `${c.props.id}` === id;
+    })[0];
 
     return {
       card,
@@ -30,7 +33,6 @@ const DraggableCheckbox = ({ children, onUpdate }) => {
     copyCards.splice(atIndex, 0, card);
     setCards(copyCards);
   };
-
 
   const getCardsId = () => {
     if (!onUpdate) {
@@ -48,18 +50,21 @@ const DraggableCheckbox = ({ children, onUpdate }) => {
     <DndProvider backend={ Backend }>
       <DropTarget>
         {cards.map(card => (
-          <DraggableCheckboxItem
+          <DraggableItem
             key={ card.props.id }
             id={ `${card.props.id}` }
             title={ card.props.title }
             findCard={ findCard }
             moveCard={ moveCard }
             onUpdate={ getCardsId }
-          />
+          >
+            {card.props.children}
+            <StyledIcon type='drag' />
+          </DraggableItem>
         ))}
       </DropTarget>
     </DndProvider>
   );
 };
 
-export default DraggableCheckbox;
+export default DraggableContainer;

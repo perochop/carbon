@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { baseTheme } from '../../style/themes';
+import Icon from '../icon';
 
-const DraggableItemStyle = styled.div`
+const StyledDraggableItem = styled.div`
   display: flex;
-  justify-content: space-between;
   border-bottom: 1px solid ${({ theme }) => theme.draggableCheckbox.border};
   padding: 8px 0;
   cursor: move;
@@ -11,8 +11,12 @@ const DraggableItemStyle = styled.div`
   opacity: ${({ opacity }) => opacity};
 `;
 
-DraggableItemStyle.defaultProps = {
+const StyledIcon = styled(Icon)`
+  margin-left: auto;
+`;
+
+StyledDraggableItem.defaultProps = {
   theme: baseTheme
 };
 
-export default DraggableItemStyle;
+export { StyledDraggableItem, StyledIcon };
