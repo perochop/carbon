@@ -36,7 +36,7 @@ export const Basic = () => {
         defaultProps.type
       ) }
       title={ text('Title', 'Title') }
-      onChange={ action('expansion toggled') }
+      onChange={ action('expansionToggled') }
     >
       <div>Content</div>
       <div>Content</div>
@@ -49,19 +49,19 @@ export const Grouped = () => (
   <AccordionGroup>
     <Accordion
       title='First Accordion'
-      onChange={ action('expansion toggled') }
+      onChange={ action('expansionToggled') }
     >
       <Textbox label='Textbox in an Accordion' />
     </Accordion>
     <Accordion
       title='Second Accordion'
-      onChange={ action('expansion toggled') }
+      onChange={ action('expansionToggled') }
     >
       <Textbox label='Textbox in an Accordion' />
     </Accordion>
     <Accordion
       title='Third Accordion'
-      onChange={ action('expansion toggled') }
+      onChange={ action('expansionToggled') }
     >
       <div>Content</div>
       <div>Content</div>

@@ -120,9 +120,6 @@ describe('Accordion', () => {
       act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 10 }));
       wrapper.update();
       isCollapsed(wrapper);
-      act(() => wrapper.find(StyledAccordionTitleContainer).prop('onKeyDown')({ which: 10 }));
-      wrapper.update();
-      isCollapsed(wrapper);
     });
   });
 
