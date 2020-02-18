@@ -3,7 +3,7 @@ import {
 } from '../helper';
 import {
   commonButtonPreview, labelPreview, helpIcon, helpIconByPosition, inputWidthSlider,
-  fieldHelpPreview, labelWidthSlider, labelWidthSliderByGroup, backgroundUILocator,
+  fieldHelpPreview, labelWidthSlider, backgroundUILocator,
   closeIconButton, tooltipPreview, getKnobsInput, getKnobsInputWithName, getKnobsInputByGroup,
   icon, inputWidthPreview, label, eventInAction, getDataElementByNameAndValue, storyRoot,
   precisionSlider, storyRootNoIframe, tooltipPreviewNoIframe, getDataElementByValueNoIframe,
@@ -12,6 +12,7 @@ import {
 import { dialogTitle, dialogSubtitle } from '../../locators/dialog';
 import { DEBUG_FLAG } from '..';
 import { getElementNoIframe, commonButtonPreviewNoIframe } from '../../locators/build';
+import { pagerSummary } from '../../locators/pager';
 
 const LABEL_INPUT_INLINE_CLASS = 'common-input__label--inline';
 const FIRST_ELEMENT = 0;
@@ -53,6 +54,10 @@ Given('I open {string} basic classic component page in iframe', (component) => {
 
 Given('I open {string} component page with button', (component) => {
   visitComponentUrl(component, 'with_button');
+});
+
+Given('I open {string} component page with inputs', (component) => {
+  visitComponentUrl(component, 'default_with_inputs');
 });
 
 Given('I open {string} component with button classic page', (component) => {
@@ -165,6 +170,10 @@ Given('I open {string} component page autoFocus in iframe', (component) => {
 
 Given('I open {string} component page autoFocus multiple in iframe', (component) => {
   visitComponentUrl(component, 'autofocus_multiple', true);
+});
+
+Given('I open {string} component page with sticky footer', (component) => {
+  visitComponentUrl(component, 'with_sticky_footer');
 });
 
 When('I open {word} tab', (text) => {
@@ -537,4 +546,8 @@ When('I press keyboard {string} key times {int}', (key, times) => {
 
 When('I click on outside dialog in iFrame', () => {
   cy.get('#story-root').click({ force: true });
+});
+
+Then('totalRecords is set to {string} {word}', (totalRecords, element) => {
+  pagerSummary().invoke('text').should('contain', `${totalRecords}  ${element}`);
 });

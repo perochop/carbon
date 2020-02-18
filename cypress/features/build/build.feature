@@ -187,5 +187,6 @@ Feature: Build tests
     When I open basic Test "<component>" component page in noIframe
     Then "<data-component>" component is visible
     Examples:
-      | component | data-component |
-      | Accordion | accordion      |
+      | component  | data-component |
+      | Accordion  | accordion      |
+      | Flat Table | flat-table     |
