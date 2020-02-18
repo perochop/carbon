@@ -10,6 +10,7 @@
   height: 40px;
   padding: 0px 24px;
   position: relative;
+  cursor: pointer;
 
   .carbon-portrait {
     top: -1px;
@@ -23,7 +24,15 @@
   .carbon-menu--primary &:hover {
     background-color: $white;
     color: $grey-dark-blue;
-    text-decoration: none;
+
+    a {
+      color: $grey-dark-blue;
+      text-decoration: none;
+
+      &:focus {
+        background-color: transparent;
+      }
+    }
 
     [data-component='icon'] {
       color: $grey-dark-blue;
@@ -81,6 +90,12 @@
     background-color: $grey-dark-blue;
     color: $white;
 
+    a {
+      text-decoration: none;
+      color: $white;
+      background-color: transparent;
+    }
+
     [data-component='icon'] {
       color: $white;
     }
@@ -111,6 +126,7 @@
 
   a:hover {
     text-decoration: none;
+    color: $white;
   }
 
   .carbon-menu-item:after {
@@ -120,12 +136,9 @@
   &.carbon-menu-item--has-submenu {
     .carbon-menu-item__submenu-title {
       background-color: transparent;
-      &:not(.carbon-menu-item--has-link) {
-        cursor: default;
-
-        .carbon-link__content {
-          cursor: text;
-        }
+      a {
+        text-decoration: none;
+        background-color: transparent;
       }
     }
   }
@@ -167,7 +180,7 @@
   padding: 0;
   position: absolute;
   z-index: $z-dropdown-list;
-  
+
   [data-component='icon'] {
     line-height: 16px;
     margin: 0 10px 0 0;
@@ -190,11 +203,28 @@
   .carbon-menu--primary & {
     background-color: $white;
 
+    .carbon-menu-item {
+      &:hover {
+        color: $white;
+        a {
+          color: $white;
+        }
+      }
+
+      a {
+        text-decoration: none;
+
+        &:hover {
+          color: $white;
+        }
+      }
+    }
+
     .carbon-menu-item--selected {
       color: $green-bright-dull;
     }
   }
- 
+
   .carbon-menu--secondary & {
     background-color: $grey-dark-plus;
 
@@ -230,6 +260,7 @@
     height: 40px;
     line-height: 40px;
     white-space: nowrap;
+    cursor: pointer;
 
     .carbon-menu--primary & {
       background-color: $white;
@@ -289,5 +320,3 @@
     }
   }
 }
-
-
