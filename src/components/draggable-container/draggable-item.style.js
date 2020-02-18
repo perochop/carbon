@@ -8,7 +8,7 @@ const StyledDraggableItem = styled.div`
   padding: 8px 0;
   cursor: move;
 
-  opacity: ${({ opacity }) => opacity};
+  opacity: ${({ isDragging }) => (isDragging ? '0' : '1')};
 `;
 
 const StyledIcon = styled(Icon)`

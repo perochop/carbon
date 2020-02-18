@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { StyledDraggableItem } from './draggable-item.style';
 
 const DraggableItem = ({
-  id, findCard, moveCard, onUpdate, children
+  id, findItem, moveItem, onUpdate, children
 }) => {
-  const oIndex = findCard(id).index;
+  const oIndex = findItem(id).index;
   const [{ isDragging }, drag] = useDrag({
-    item: { type: 'card', id, oIndex },
+    item: { type: 'draggableItem', id, oIndex },
     collect: monitor => ({
       isDragging: monitor.isDragging()
     }),
@@ -16,7 +16,7 @@ const DraggableItem = ({
       const { id: droppedId, originalIndex } = monitor.getItem();
       const didDrop = monitor.didDrop();
       if (!didDrop) {
-        moveCard(droppedId, originalIndex);
+        moveItem(droppedId, originalIndex);
       }
 
       onUpdate();
@@ -24,21 +24,20 @@ const DraggableItem = ({
   });
 
   const [, drop] = useDrop({
-    accept: 'card',
+    accept: 'draggableItem',
     canDrop: () => false,
     hover({ id: draggedId }) {
       if (draggedId !== id) {
-        const { index: overIndex } = findCard(id);
-        moveCard(draggedId, overIndex);
+        const { index: overIndex } = findItem(id);
+        moveItem(draggedId, overIndex);
       }
     }
   });
 
-  const opacity = isDragging ? 0 : 1;
-
   return (
     <StyledDraggableItem
-      opacity={ opacity }
+      data-element='draggable'
+      isDragging={ isDragging }
       ref={ node => drag(drop(node)) }
     >
       {children}

@@ -6,41 +6,41 @@ import DraggableItem from './draggable-item.component';
 import { StyledIcon } from './draggable-item.style';
 
 const DropTarget = ({ children }) => {
-  const [, drop] = useDrop({ accept: 'card' });
+  const [, drop] = useDrop({ accept: 'draggableItem' });
 
   return <div ref={ drop }>{children}</div>;
 };
 
 const DraggableContainer = ({ children, onUpdate }) => {
-  const [cards, setCards] = useState(React.Children.toArray(children));
+  const [draggableItems, setDraggableItems] = useState(React.Children.toArray(children));
 
-  const findCard = (id) => {
-    const card = cards.filter((c) => {
-      return `${c.props.id}` === id;
+  const findItem = (id) => {
+    const draggableItem = draggableItems.filter((item) => {
+      return `${item.props.id}` === id;
     })[0];
 
     return {
-      card,
-      index: cards.indexOf(card)
+      draggableItem,
+      index: draggableItems.indexOf(draggableItem)
     };
   };
 
-  const moveCard = (id, atIndex) => {
-    const { card, index } = findCard(id);
-    const copyCards = [...cards];
+  const moveItem = (id, atIndex) => {
+    const { draggableItem, index } = findItem(id);
+    const copyOfDraggableItems = [...draggableItems];
 
-    copyCards.splice(index, 1);
-    copyCards.splice(atIndex, 0, card);
-    setCards(copyCards);
+    copyOfDraggableItems.splice(index, 1);
+    copyOfDraggableItems.splice(atIndex, 0, draggableItem);
+    setDraggableItems(copyOfDraggableItems);
   };
 
-  const getCardsId = () => {
+  const getItemsId = () => {
     if (!onUpdate) {
       return;
     }
     const tempArray = [];
-    cards.forEach((card) => {
-      return tempArray.push(card.props.id);
+    draggableItems.forEach((draggableItem) => {
+      return tempArray.push(draggableItem.props.id);
     });
 
     onUpdate(tempArray);
@@ -49,16 +49,16 @@ const DraggableContainer = ({ children, onUpdate }) => {
   return (
     <DndProvider backend={ Backend }>
       <DropTarget>
-        {cards.map(card => (
+        {draggableItems.map(item => (
           <DraggableItem
-            key={ card.props.id }
-            id={ `${card.props.id}` }
-            title={ card.props.title }
-            findCard={ findCard }
-            moveCard={ moveCard }
-            onUpdate={ getCardsId }
+            key={ item.props.id }
+            id={ `${item.props.id}` }
+            title={ item.props.title }
+            findItem={ findItem }
+            moveItem={ moveItem }
+            onUpdate={ getItemsId }
           >
-            {card.props.children}
+            {item.props.children}
             <StyledIcon type='drag' />
           </DraggableItem>
         ))}
