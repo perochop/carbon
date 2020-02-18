@@ -6,7 +6,7 @@ import { baseTheme } from '../../../style/themes';
 import StyledFormField from '../form-field/form-field.style';
 
 const StyledSearch = styled.div`
-  ${({ theme }) => `border-bottom: 1px solid ${theme.search.passive};`}
+  ${({ theme }) => `border-bottom: 2px solid ${theme.search.passive};`}
   ${({ isActive, searchHasValue }) => css`
     ${!isActive && !searchHasValue && css`
       ${StyledInputPresentation} {
@@ -15,7 +15,7 @@ const StyledSearch = styled.div`
       }
     `}
     ${(isActive || searchHasValue) && css`
-      border-bottom: 1px solid transparent;
+      border-bottom: 2px solid transparent;
       transition: border 0.2s ease, background 0.2s ease;
       color: rgba(0, 0, 0, 0.9);
       :hover {
@@ -42,8 +42,10 @@ const StyledSearch = styled.div`
 
   ${StyledInputPresentation} {
     width: ${
-  ({ hasSearchButton, isActive, searchIsActive }) => (
-    hasSearchButton && (isActive || searchIsActive) ? '335px;' : '375px;'
+  ({
+    hasSearchButton, isActive, searchIsActive, searchHasValue
+  }) => (
+    hasSearchButton && (isActive || searchIsActive || searchHasValue) ? '335px;' : '375px;'
   )};
 
     font-size: 14px;
@@ -79,7 +81,7 @@ export default StyledSearch;
 
 export const StyledSearchButton = styled.div` 
   display: inline-flex;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   &&& ${StyledButton} {
     ${({ theme }) => `
     background-color: ${theme.colors.primary};
