@@ -184,7 +184,7 @@ Feature: Build tests
 
   @build
   Scenario Outline: Component <component> basic default page
-    When I open basic Test "<component>" component page
+    When I open basic Test "<component>" component page in noIframe
     Then "<data-component>" component is visible
     Examples:
       | component | data-component |
