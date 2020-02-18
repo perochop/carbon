@@ -2,7 +2,7 @@ Feature: Accordion component
   I want to change Accordion component properties
 
   Background: Open Accordion component page
-    Given I open "Test Accordion" component page basic
+    Given I open basic Test "Accordion" component page
 
   @positive
   Scenario Outline: Set Accordion iconType to <iconType>
@@ -59,4 +59,4 @@ Feature: Accordion component
   Scenario: Check expansion toggled event for the Accordion row on focus
     Given clear all actions in Actions Tab
     When I expand accordionRow via click
-    Then "expansion toggled" accordion event was called in Actions Tab
+    Then expansionToggled action was called in Actions Tab

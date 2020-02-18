@@ -1,9 +1,10 @@
 import {
   accordionTitleContainer, accordionIcon, accordion, accordionTitleContainerByPosition,
+  accordionTitleContainerNoIFrame, accordionTitleContainerByPositionNoIFrame,
 } from '../../locators/accordion';
-import { eventInAction } from '../../locators';
 
 const FIRST_ELEMENT = 0;
+const THIRD_ELEMENT = 2;
 
 Then('Accordion iconAlign property on preview is set to {string}', (iconAlign) => {
   accordionTitleContainerByPosition(FIRST_ELEMENT).first()
@@ -43,6 +44,10 @@ When('I expand accordionRow via click', () => {
   accordionTitleContainer().click();
 });
 
+When('I expand accordionRow via click in no iFrame', () => {
+  accordionTitleContainerNoIFrame().parent().eq(0).click();
+});
+
 When('I expand accordionRow using enter key', () => {
   accordionTitleContainer().trigger('keydown', { keyCode: 13, which: 13 });
 });
@@ -76,6 +81,29 @@ When('I focus accordionRow', () => {
   accordionTitleContainer(FIRST_ELEMENT).focus();
 });
 
-Then('{string} accordion event was called in Actions Tab', (event) => {
-  eventInAction(event);
+Then('Accordion {int} row is focused', (index) => {
+  accordionTitleContainerByPositionNoIFrame(index).parent().should('have.css', 'outline', 'rgb(255, 181, 0) solid 2px')
+    .and('be.visible');
+});
+
+When('I focus {word} accordionRow', (position) => {
+  switch (position) {
+    case 'first':
+      accordionTitleContainerNoIFrame(FIRST_ELEMENT).first().focus({ force: true });
+      break;
+    case 'last':
+      accordionTitleContainerNoIFrame(THIRD_ELEMENT).last().focus({ force: true });
+      break;
+    default: throw new Error('Could be possible to choose only first or second');
+  }
+});
+
+When('I press keyboard downarrow key {int} times', (times) => {
+  for (let i = 0; i < times; i++) {
+    cy.focused().trigger('keydown', { keyCode: 40, which: 40 });
+  }
+});
+
+Then('Accordion inner element is focused', () => {
+  cy.focused().should('have.attr', 'data-element', 'input');
 });
