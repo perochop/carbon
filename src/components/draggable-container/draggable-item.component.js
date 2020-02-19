@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { StyledDraggableItem } from './draggable-item.style';
 
 const DraggableItem = ({
-  id, findItem, moveItem, onUpdate, children
+  id, findItem, moveItem, onUpdate, children, key
 }) => {
   const oIndex = findItem(id).index;
   const [{ isDragging }, drag] = useDrag({

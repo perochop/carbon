@@ -6,7 +6,10 @@ import { Checkbox } from '../../__experimental__/components/checkbox';
 
 export default {
   component: DraggableContainer,
-  title: 'Drag and Drop'
+  title: 'Drag and Drop',
+  parameters: {
+    info: { disable: true }
+  }
 };
 
 export const draggable = () => {
@@ -16,16 +19,16 @@ export const draggable = () => {
 
   return (
     <DraggableContainer onUpdate={ handleUpdate }>
-      <DraggableItem title='title 1' id={ 1 }>
+      <DraggableItem key='1' id={ 1 }>
         <Checkbox label='Draggable Label One' />
       </DraggableItem>
-      <DraggableItem title='title 1' id={ 2 }>
+      <DraggableItem key='2' id={ 2 }>
         <Checkbox label='Draggable Label Two' />
       </DraggableItem>
-      <DraggableItem title='title 1' id={ 3 }>
+      <DraggableItem key='3' id={ 3 }>
         <Checkbox label='Draggable Label Three' />
       </DraggableItem>
-      <DraggableItem title='title 1' id={ 4 }>
+      <DraggableItem key='4' id={ 4 }>
         <Checkbox label='Draggable Label Four' />
       </DraggableItem>
     </DraggableContainer>

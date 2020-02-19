@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { DndProvider, useDrop } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
@@ -50,21 +49,39 @@ const DraggableContainer = ({ children, onUpdate }) => {
     <DndProvider backend={ Backend }>
       <DropTarget>
         {draggableItems.map(item => (
-          <DraggableItem
-            key={ item.props.id }
-            id={ `${item.props.id}` }
-            title={ item.props.title }
-            findItem={ findItem }
-            moveItem={ moveItem }
-            onUpdate={ getItemsId }
-          >
-            {item.props.children}
-            <StyledIcon type='drag' />
-          </DraggableItem>
+          React.cloneElement(
+            item,
+            {
+              id: `${item.props.id}`,
+              findItem,
+              moveItem,
+              onUpdate: getItemsId
+            },
+            [
+              item.props.children,
+              <StyledIcon key={ item.props.id } type='drag' />
+            ]
+          )
         ))}
       </DropTarget>
     </DndProvider>
   );
+};
+
+DraggableContainer.propTypes = {
+  children: (props, propName, componentName) => {
+    let error;
+
+    const prop = props[propName];
+
+    React.Children.forEach(prop, (child) => {
+      if (DraggableItem.displayName !== child.type.displayName) {
+        error = new Error(`\`${componentName}\` only accepts children of type \`${DraggableContainer.displayName}\`.`);
+      }
+    });
+
+    return error;
+  }
 };
 
 export default DraggableContainer;

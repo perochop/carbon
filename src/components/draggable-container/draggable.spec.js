@@ -17,14 +17,12 @@ describe('Draggable Checkbox', () => {
   beforeEach(() => {
     wrapper = mount(
       <DraggableContainer>
-        <DraggableItem
-          title='title one'
-          id={ 1 }
-        />
-        <DraggableItem
-          title='title two'
-          id={ 2 }
-        />
+        <DraggableItem key='1' id={ 1 }>
+          simple content
+        </DraggableItem>
+        <DraggableItem key='2' id={ 2 }>
+          simple content
+        </DraggableItem>
       </DraggableContainer>
     );
   });
@@ -64,13 +62,13 @@ describe('Draggable Checkbox', () => {
     const onUpdate = jest.fn();
     const component = (
       <DraggableContainer onUpdate={ onUpdate }>
-        <DraggableItem title='title 1' id={ 1 }>
+        <DraggableItem key='1' id={ 1 }>
           <Checkbox name='one' label='Draggable Label One' />
         </DraggableItem>
-        <DraggableItem title='title 1' id={ 2 }>
+        <DraggableItem key='2' id={ 2 }>
           <Checkbox name='two' label='Draggable Label Two' />
         </DraggableItem>
-        <DraggableItem title='title 1' id={ 3 }>
+        <DraggableItem key='3' id={ 3 }>
           <Checkbox name='three' label='Draggable Label Three' />
         </DraggableItem>
       </DraggableContainer>
