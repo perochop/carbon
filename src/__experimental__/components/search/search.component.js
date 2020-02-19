@@ -68,9 +68,9 @@ const Search = ({
     setSearchIsActive(searchValue.length >= threshold);
     if (searchValue.length > 0) {
       setIconType('cross');
-    } else if ((searchButton && isActive) || threshold < 0) {
+    } else if ((searchButton && isActive)) {
       setIconType('');
-    } else if (!isActive && !searchIsActive) {
+    } else if ((!isActive && !searchIsActive) || threshold === 0) {
       setIconType('search');
     }
   }, [isActive, searchButton, searchIsActive, searchValue, threshold]);
@@ -99,7 +99,7 @@ const Search = ({
       />
       {(searchButton && (
         <StyledSearchButton>
-          {(isActive || searchIsActive) && (
+          {Boolean(isActive || searchValue.length) && (
             <Button
               size='small'
               { ...buttonProps }
@@ -134,8 +134,14 @@ Search.propTypes = {
   id: PropTypes.string,
   /** Prop for `name` events */
   name: PropTypes.string,
-  /** Prop for active search threshold */
-  threshold: PropTypes.number,
+  /** Prop for active search threshold. This must be a positive number. */
+  threshold (props, propName) {
+    let error;
+    if (props[propName] && typeof props[propName] === 'number' && props[propName] < 0) {
+      error = new Error('Threshold must be a positive number.');
+    }
+    return error;
+  },
   /** Prop for placeholder */
   placeholder: PropTypes.string
 };

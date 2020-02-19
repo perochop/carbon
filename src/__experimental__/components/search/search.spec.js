@@ -23,7 +23,7 @@ describe('Search', () => {
   describe('styles', () => {
     it('matches the expected styles', () => {
       assertStyleMatch({
-        borderBottom: '1px solid #CCD6DA',
+        borderBottom: '2px solid #CCD6DA',
         display: 'inline-flex',
         fontSize: '14px',
         fontWeight: '700'
@@ -35,14 +35,14 @@ describe('Search', () => {
       const input = wrapper.find('input');
       input.simulate('focus');
       assertStyleMatch({
-        borderBottom: '1px solid transparent'
+        borderBottom: '2px solid transparent'
       }, wrapper);
     });
 
     it('matches the expected styles when the search is active', () => {
       wrapper = renderWrapper({ value: 'Foo' }, mount);
       assertStyleMatch({
-        borderBottom: '1px solid transparent',
+        borderBottom: '2px solid transparent',
         color: 'rgba(0,0,0,0.9)'
       }, wrapper);
     });
@@ -60,7 +60,7 @@ describe('Search', () => {
       wrapper = renderWrapper({ value: 'FooBar', searchButton: true }, mount).find(StyledSearchButton);
       assertStyleMatch({
         display: 'inline-flex',
-        borderBottom: '1px solid transparent'
+        borderBottom: '2px solid transparent'
       }, wrapper);
     });
   });
@@ -200,6 +200,19 @@ describe('Search', () => {
       });
       wrapper.update();
       expect(onClick).toHaveBeenCalled();
+    });
+  });
+
+  describe('Prop Types', () => {
+    it('validates children prop types', () => {
+      jest.spyOn(global.console, 'error').mockImplementation(() => {});
+      mount(
+        <Search value='Foo' threshold={ -4 } />
+      );
+      expect(console.error).toHaveBeenCalledWith(
+        'Warning: Failed prop type: Threshold must be a positive number.\n    in Search'
+      );
+      global.console.error.mockReset();
     });
   });
 
