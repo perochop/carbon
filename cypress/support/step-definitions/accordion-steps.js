@@ -44,10 +44,6 @@ When('I expand accordionRow via click', () => {
   accordionTitleContainer().click();
 });
 
-When('I expand accordionRow via click in no iFrame', () => {
-  accordionTitleContainerNoIFrame().parent().eq(0).click();
-});
-
 When('I expand accordionRow using enter key', () => {
   accordionTitleContainer().trigger('keydown', { keyCode: 13, which: 13 });
 });
@@ -94,7 +90,7 @@ When('I focus {word} accordionRow', (position) => {
     case 'last':
       accordionTitleContainerNoIFrame(THIRD_ELEMENT).last().focus({ force: true });
       break;
-    default: throw new Error('Could be possible to choose only first or second');
+    default: throw new Error('Could be possible to choose only first or last');
   }
 });
 
