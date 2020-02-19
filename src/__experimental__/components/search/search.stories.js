@@ -35,6 +35,10 @@ export const Basic = () => {
     action('blur')(ev);
   };
 
+  const handleClick = (ev) => {
+    action('click')(ev);
+  };
+
   return (
     <Search
       placeholder={ text('placeholder', 'Search...') }
@@ -42,6 +46,7 @@ export const Basic = () => {
       searchButton={ boolean('searchButton', true) }
       onChange={ handleChange }
       onBlur={ handleBlur }
+      onClick={ handleClick }
       value={ store.get('value') }
       name='search_name'
       id='search_id'
