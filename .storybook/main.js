@@ -13,22 +13,11 @@ module.exports = {
     path.resolve(__dirname, 'theme-selector/register'),
   ],
   webpackFinal: async (config, { configType }) => {
-    const fileLoaderRule = config.module.rules.find(rule => rule.test.test('.svg'));
-    fileLoaderRule.exclude = /\.svg$/;
-
     config.module.rules.push(
       {
         test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader']
       }
     );
-
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: [{
-        loader: 'file-loader'
-      }],
-    });
-  
     config.resolve = {
       alias: {
         helpers: path.resolve(__dirname, '__helpers__/')

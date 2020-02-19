@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Heading from '../components-demo/component-heading/component-heading.style';
 
 export const HeadingBackgroundWrapper = styled.div`
   background: linear-gradient(80deg,#2f355a,#343f80);
@@ -25,7 +24,7 @@ export const HeadingContentWrapper = styled.div`
     max-width: 1000px;
   }
 
-  .carbon-heading__subheader.carbon-heading__subheader {
+  h2 {
     font-weight: 700;
     font-size: 22px;
     line-height: normal;

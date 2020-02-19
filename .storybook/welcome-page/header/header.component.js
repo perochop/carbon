@@ -1,7 +1,6 @@
 import React from 'react';
 import I18n from 'i18n-js';
 import Button from '../../../src/components/button';
-import Heading from '../../../src/components/heading/heading';
 import {
   Wrapper
 } from '../common.style';
@@ -16,11 +15,10 @@ const Header = () => (
   <HeadingBackgroundWrapper>
     <Wrapper>
       <HeadingContentWrapper>
-        <Heading
-          title={ I18n.t('homepage.page_header_large.heading1') }
-          divider={ false }
-          subheader={ I18n.t('homepage.page_header_large.heading2') }
-        />
+        <div>
+          <h1>{ I18n.t('homepage.page_header_large.heading1') }</h1>
+          <h2>{ I18n.t('homepage.page_header_large.heading2') }</h2>
+        </div>
         <CodeButtonWrapper>
           <Button 
             buttonType='darkBackground'
